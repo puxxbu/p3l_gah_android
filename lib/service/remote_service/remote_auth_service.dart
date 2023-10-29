@@ -1,23 +1,37 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:p3l_gah_android/model/registerData.dart';
 
 class RemoteAuthService {
   var client = http.Client();
 
-  // Future<dynamic> signUp({
-  //   required String email,
-  //   required String password,
-  // }) async {
-  //   var body = {"username": email, "email": email, "password": password};
-  //   var response = await client.post(
-  //     Uri.parse('http://10.0.2.2:3000/api/users'),
-  //     headers: {"Content-Type": "application/json"},
-  //     body: jsonEncode(body),
-  //   );
-  //   return response;
-  // }
-  //
+  Future<dynamic> signUp({
+    required UserData userData,
+  }) async {
+    var body = {
+      "akun": {
+        "username": userData.username,
+        "password": userData.password,
+        "id_role": 2001
+      },
+      "customer": {
+        "nama": userData.nama,
+        "jenis_customer": "Personal",
+        "nomor_identitas": userData.nomorIdentitas,
+        "nomor_telepon": userData.nomorTelepon,
+        "email": userData.email,
+        "alamat": userData.alamat
+      }
+    };
+    var response = await client.post(
+      Uri.parse('http://10.0.2.2:3000/api/users'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(body),
+    );
+    return response;
+  }
+
   // Future<dynamic> createProfile({
   //   required String fullName,
   //   required String token,

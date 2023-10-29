@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:p3l_gah_android/model/registerData.dart';
 // import 'package:commerce_app/service/local_service/local_auth_service.dart';
 import 'package:p3l_gah_android/service/remote_service/remote_auth_service.dart';
+import 'package:p3l_gah_android/view/account/auth/sign_in_screen.dart';
 
 import '../model/user.dart';
 import '../service/local_service/local_auth_service.dart';
@@ -22,41 +24,27 @@ class AuthController extends GetxController {
     super.onInit();
   }
 
-  // void signUp(
-  //     {required String fullName,
-  //     required String email,
-  //     required String password}) async {
-  //   try {
-  //     EasyLoading.show(
-  //       status: 'Loading...',
-  //       dismissOnTap: false,
-  //     );
-  //     var result = await RemoteAuthService().signUp(
-  //       email: email,
-  //       password: password,
-  //     );
-  //     if (result.statusCode == 200) {
-  //       String token = json.decode(result.body)['jwt'];
-  //       var userResult = await RemoteAuthService()
-  //           .createProfile(fullName: fullName, token: token);
-  //       if (userResult.statusCode == 200) {
-  //         user.value = userFromJson(userResult.body);
-  //         await _localAuthService.addToken(token: token);
-  //         await _localAuthService.addUser(user: user.value!);
-  //         EasyLoading.showSuccess("Welcome to MyGrocery!");
-  //         Navigator.of(Get.overlayContext!).pop();
-  //       } else {
-  //         EasyLoading.showError('Something wrong. Try again!');
-  //       }
-  //     } else {
-  //       EasyLoading.showError('Something wrong. Try again!');
-  //     }
-  //   } catch (e) {
-  //     EasyLoading.showError('Something wrong. Try again!');
-  //   } finally {
-  //     EasyLoading.dismiss();
-  //   }
-  // }
+  void signUp({required UserData userData}) async {
+    try {
+      EasyLoading.show(
+        status: 'Loading...',
+        dismissOnTap: false,
+      );
+      var result = await RemoteAuthService().signUp(
+        userData: userData,
+      );
+      if (result.statusCode == 200) {
+        EasyLoading.showSuccess("Registrasi Berhasil");
+        Get.offAllNamed('/login');
+      } else {
+        EasyLoading.showError(result.body);
+      }
+    } catch (e) {
+      EasyLoading.showError('Something wrong. Try again!');
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
 
   void signIn({required String username, required String password}) async {
     try {

@@ -42,18 +42,45 @@ class AccountScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 50),
-          buildAccountCard(
-              title: "Profile Info",
-              onClick: () {
-                Navigator.push(
+          Obx(() {
+            if (authController.user.value?.data?.role?.namaRole == "Customer") {
+              return Column(
+                children: [
+                  buildAccountCard(
+                    title: "Profile Info",
+                    onClick: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignInScreen()),
+                      );
+                    },
+                  ),
+                  buildAccountCard(
+                    title: "Riwayat transaksi",
+                    onClick: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignInScreen()),
+                      );
+                    },
+                  ),
+                ],
+              );
+            } else {
+              return buildAccountCard(
+                title: "Admin Info",
+                onClick: () {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SignInScreen()));
-              }),
-          buildAccountCard(title: "Notification", onClick: () {}),
-          buildAccountCard(title: "Settings", onClick: () {}),
-          buildAccountCard(title: "About Us", onClick: () {}),
-          buildAccountCard(title: "Terms of Service", onClick: () {}),
+                        builder: (context) => const SignInScreen()),
+                  );
+                },
+              );
+            }
+          }),
           Obx(() => buildAccountCard(
               title: authController.user.value == null ? "Sign In" : "Sign Out",
               onClick: () {

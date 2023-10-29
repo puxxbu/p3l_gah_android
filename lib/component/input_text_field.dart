@@ -75,7 +75,7 @@ class _InputTextFieldState extends State<InputTextField> {
         onEditingComplete: widget.onEditComplete,
         obscureText: _isVisible,
         style:
-            const TextStyle(fontSize: 12.0, height: 2.0, color: Colors.black),
+            const TextStyle(fontSize: 16.0, height: 2.0, color: Colors.black),
         textAlign: widget.textAlign,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(

@@ -40,6 +40,11 @@ extension ExtString on String {
     return passwordRegExp.hasMatch(this);
   }
 
+  bool get isNumeric {
+    final numericRegExp = RegExp(r'^-?[0-9]+$');
+    return numericRegExp.hasMatch(this);
+  }
+
   bool get isValidPhone {
     final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
     return phoneRegExp.hasMatch(this);
