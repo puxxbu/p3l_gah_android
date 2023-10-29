@@ -14,6 +14,8 @@ Future<void> main() async {
   await Hive.initFlutter();
 
   Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter(DataAdapter());
+  Hive.registerAdapter(RoleAdapter());
 
   configLoading();
   runApp(const MyApp());

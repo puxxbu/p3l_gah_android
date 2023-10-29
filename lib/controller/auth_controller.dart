@@ -73,11 +73,17 @@ class AuthController extends GetxController {
         print(token);
         var userResult = await RemoteAuthService().getProfile(token: token);
         print(userResult.statusCode);
+        print(userFromJson(userResult.body).data?.role?.namaRole);
+        print("user code  aman 200");
         if (userResult.statusCode == 200) {
           print(userFromJson(userResult.body));
           user.value = userFromJson(userResult.body);
+          print(userFromJson(userResult.body));
           await _localAuthService.addToken(token: token);
+          print('token aman');
           await _localAuthService.addUser(user: user.value!);
+          print('user aman');
+
           EasyLoading.showSuccess("Welcome to MyGrocery!");
           String? namaRole =
               await _localAuthService.getUser()?.data?.role?.namaRole;
