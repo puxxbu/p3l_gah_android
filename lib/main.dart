@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:p3l_gah_android/model/customer.dart';
 import 'package:p3l_gah_android/model/user.dart';
 import 'package:p3l_gah_android/routes/app_page.dart';
 import 'package:p3l_gah_android/routes/app_route.dart';
@@ -16,6 +17,7 @@ Future<void> main() async {
   Hive.registerAdapter(UserAdapter());
   Hive.registerAdapter(DataAdapter());
   Hive.registerAdapter(RoleAdapter());
+  Hive.registerAdapter(CustomerAdapter());
 
   configLoading();
   runApp(const MyApp());

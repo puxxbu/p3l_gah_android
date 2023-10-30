@@ -1,6 +1,12 @@
+import 'package:intl/intl.dart';
+
 extension ExtString on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  }
+
+  String formatDate() {
+    return DateFormat('dd MMMM yyyy').format(DateTime.parse(this));
   }
 
   bool get isValidEmail {

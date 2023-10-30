@@ -73,4 +73,17 @@ class RemoteAuthService {
     );
     return response;
   }
+
+  Future<dynamic> getCustomerData({
+    required String token,
+  }) async {
+    var response = await client.get(
+      Uri.parse('http://10.0.2.2:3000/api/customer/current'),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      },
+    );
+    return response;
+  }
 }

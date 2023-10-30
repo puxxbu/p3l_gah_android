@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
+import 'package:p3l_gah_android/view/account/book/book_history_screen.dart';
 
 import '../../service/local_service/local_auth_service.dart';
 import 'auth/sign_in_screen.dart';
@@ -31,11 +32,17 @@ class AccountScreen extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      authController.user.value?.data?.role?.namaRole ??
+                      authController.customer.value?.nama ??
                           "Sign in your account",
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.w500),
-                    )
+                    ),
+                    if (authController.user.value?.data?.role?.namaRole != null)
+                      Text(
+                        "(${authController.user.value?.data?.role?.namaRole})",
+                        style: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w500),
+                      )
                   ],
                 )
               ],
@@ -59,11 +66,12 @@ class AccountScreen extends StatelessWidget {
                   buildAccountCard(
                     title: "Riwayat transaksi",
                     onClick: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SignInScreen()),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const BookingHistoryScreen()),
+                      // );
+                      Get.toNamed('/history-booking');
                     },
                   ),
                 ],
