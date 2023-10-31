@@ -5,20 +5,21 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:p3l_gah_android/model/booking.dart';
 import 'package:p3l_gah_android/util/string_extention.dart';
 
-import '../../../component/input_outline_button.dart';
 import '../../../controller/controllers.dart';
 
-class BookingHistoryScreen extends StatefulWidget {
-  const BookingHistoryScreen({super.key});
+class DetailBookingScreen extends StatefulWidget {
+  const DetailBookingScreen({super.key});
 
   @override
-  State<BookingHistoryScreen> createState() => _BookingHistoryScreenState();
+  State<DetailBookingScreen> createState() => _DetailBookingScreenState();
 }
 
-class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
+class _DetailBookingScreenState extends State<DetailBookingScreen> {
   @override
   void initState() {
     super.initState();
+
+    String idBooking = Get.arguments;
     bookingController.refreshData();
     print('initState');
   }
@@ -57,8 +58,8 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                         dataBooking: bookingController.bookingHistory[index],
                         onClick: () {
                           Get.toNamed('/booking/detail',
-                              arguments: bookingController
-                                  .bookingHistory[index].idBooking);
+                              arguments:
+                                  bookingController.bookingHistory[index]);
                         });
                   } else {
                     return const Padding(

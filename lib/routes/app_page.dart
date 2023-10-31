@@ -7,6 +7,8 @@ import 'package:p3l_gah_android/view/account/auth/sign_in_screen.dart';
 import 'package:p3l_gah_android/view/account/book/book_history_screen.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_binding.dart';
 
+import '../view/account/book/book_detail_screen.dart';
+
 class AppPage {
   static var list = [
     GetPage(
@@ -20,6 +22,10 @@ class AppPage {
     GetPage(
         name: AppRoute.historyBooking,
         page: () => const BookingHistoryScreen(),
+        binding: DashboardBinding()),
+    GetPage(
+        name: AppRoute.bookingDetail,
+        page: () => const DetailBookingScreen(),
         binding: DashboardBinding()),
   ];
 }

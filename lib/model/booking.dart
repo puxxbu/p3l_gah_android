@@ -1,3 +1,5 @@
+import 'customer.dart';
+
 class BookingHistory {
   String idBooking;
   Pegawai? pegawai1;
@@ -51,5 +53,74 @@ class Pegawai {
       idAkun: json['id_akun'],
       namaPegawai: json['nama_pegawai'],
     );
+  }
+}
+
+class BookingResponse {
+  late BookingData data;
+
+  BookingResponse.fromJson(Map<String, dynamic> json) {
+    data = BookingData.fromJson(json['data']);
+  }
+}
+
+class BookingData {
+  late String idBooking;
+  late Customer customer;
+  late DateTime tanggalCheckIn;
+  late DateTime tanggalCheckOut;
+  late int tamuDewasa;
+  late int tamuAnak;
+  late DateTime tanggalPembayaran;
+  late List<DetailBookingKamar> detailBookingKamar;
+  late List<Invoice> invoice;
+
+  BookingData.fromJson(Map<String, dynamic> json) {
+    idBooking = json['id_booking'];
+    customer = Customer.fromJson(json['customer']);
+    tanggalCheckIn = DateTime.parse(json['tanggal_check_in']);
+    tanggalCheckOut = DateTime.parse(json['tanggal_check_out']);
+    tamuDewasa = json['tamu_dewasa'];
+    tamuAnak = json['tamu_anak'];
+    tanggalPembayaran = DateTime.parse(json['tanggal_pembayaran']);
+    detailBookingKamar = List<DetailBookingKamar>.from(
+        json['detail_booking_kamar']
+            .map((x) => DetailBookingKamar.fromJson(x)));
+    invoice =
+        List<Invoice>.from(json['invoice'].map((x) => Invoice.fromJson(x)));
+  }
+}
+
+class DetailBookingKamar {
+  late JenisKamar jenisKamar;
+  late int subTotal;
+
+  DetailBookingKamar.fromJson(Map<String, dynamic> json) {
+    jenisKamar = JenisKamar.fromJson(json['jenis_kamar']);
+    subTotal = json['sub_total'];
+  }
+}
+
+class JenisKamar {
+  late int idJenisKamar;
+  late String jenisKamar;
+  late String jenisBed;
+  late int kapasitas;
+  late int jumlahKasur;
+
+  JenisKamar.fromJson(Map<String, dynamic> json) {
+    idJenisKamar = json['id_jenis_kamar'];
+    jenisKamar = json['jenis_kamar'];
+    jenisBed = json['jenis_bed'];
+    kapasitas = json['kapasitas'];
+    jumlahKasur = json['jumlah_kasur'];
+  }
+}
+
+class Invoice {
+  late int totalPembayaran;
+
+  Invoice.fromJson(Map<String, dynamic> json) {
+    totalPembayaran = json['total_pembayaran'];
   }
 }

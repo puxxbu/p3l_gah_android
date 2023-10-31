@@ -24,4 +24,16 @@ class BookingService extends GetConnect {
       throw Exception('Failed to load booking history');
     }
   }
+
+  Future<BookingResponse> getDetailBooking(String id, String token) async {
+    final response = await get(
+      'http://10.0.2.2:3000/api/api/customer/booking/$id',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      },
+    );
+
+    return BookingResponse.fromJson(response.body);
+  }
 }
