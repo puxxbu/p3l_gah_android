@@ -66,6 +66,8 @@ class BookingResponse {
 
 class BookingData {
   late String idBooking;
+  late Pegawai? pegawai1;
+  late Pegawai? pegawai2;
   late CustomerBooking customer;
   late DateTime tanggalCheckIn;
   late DateTime tanggalCheckOut;
@@ -76,21 +78,44 @@ class BookingData {
   late List<Layanan> detailBookingLayanan;
   late List<Invoice> invoice;
 
-  BookingData.fromJson(Map<String, dynamic> json) {
-    idBooking = json['id_booking'];
-    customer = CustomerBooking.fromJson(json['customer']);
-    tanggalCheckIn = DateTime.parse(json['tanggal_check_in']);
-    tanggalCheckOut = DateTime.parse(json['tanggal_check_out']);
-    tamuDewasa = json['tamu_dewasa'];
-    tamuAnak = json['tamu_anak'];
-    tanggalPembayaran = DateTime.parse(json['tanggal_pembayaran']);
-    detailBookingKamar = List<DetailBookingKamar>.from(
-        json['detail_booking_kamar']
-            .map((x) => DetailBookingKamar.fromJson(x)));
-    detailBookingLayanan = List<Layanan>.from(
-        json['detail_booking_layanan'].map((x) => Layanan.fromJson(x)));
-    invoice =
-        List<Invoice>.from(json['invoice'].map((x) => Invoice.fromJson(x)));
+  BookingData({
+    required this.idBooking,
+    this.pegawai1,
+    this.pegawai2,
+    required this.customer,
+    required this.tanggalCheckIn,
+    required this.tanggalCheckOut,
+    required this.tamuDewasa,
+    required this.tamuAnak,
+    required this.tanggalPembayaran,
+    required this.detailBookingKamar,
+    required this.detailBookingLayanan,
+    required this.invoice,
+  });
+
+  factory BookingData.fromJson(Map<String, dynamic> json) {
+    return BookingData(
+      idBooking: json['id_booking'],
+      customer: CustomerBooking.fromJson(json['customer']),
+      pegawai1: json['pegawai_1'] != null
+          ? Pegawai.fromJson(json['pegawai_1'])
+          : null,
+      pegawai2: json['pegawai_2'] != null
+          ? Pegawai.fromJson(json['pegawai_2'])
+          : null,
+      tanggalCheckIn: DateTime.parse(json['tanggal_check_in']),
+      tanggalCheckOut: DateTime.parse(json['tanggal_check_out']),
+      tamuDewasa: json['tamu_dewasa'],
+      tamuAnak: json['tamu_anak'],
+      tanggalPembayaran: DateTime.parse(json['tanggal_pembayaran']),
+      detailBookingKamar: List<DetailBookingKamar>.from(
+          json['detail_booking_kamar']
+              .map((x) => DetailBookingKamar.fromJson(x))),
+      detailBookingLayanan: List<Layanan>.from(
+          json['detail_booking_layanan'].map((x) => Layanan.fromJson(x))),
+      invoice:
+          List<Invoice>.from(json['invoice'].map((x) => Invoice.fromJson(x))),
+    );
   }
 }
 
