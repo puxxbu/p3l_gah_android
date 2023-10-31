@@ -10,11 +10,13 @@ import 'package:p3l_gah_android/view/account/auth/sign_in_screen.dart';
 import '../model/customer.dart';
 import '../model/user.dart';
 import '../service/local_service/local_auth_service.dart';
+import '../service/remote_service/remote_booking_service.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   Rxn<User> user = Rxn<User>();
   Rxn<Customer> customer = Rxn<Customer>();
+  Rxn<CustomerEdit> customerEdit = Rxn<CustomerEdit>();
   final LocalAuthService _localAuthService = LocalAuthService();
 
   @override
@@ -77,8 +79,7 @@ class AuthController extends GetxController {
 
             if (customerResult.statusCode == 200) {
               customer.value = customerFromJson(customerResult.body);
-              print(customer.value!.nama.toString() + 'ini nama customer');
-              print(customer.value!.idCustomer.toString() + 'ini id customer');
+
               await _localAuthService.addCustomer(customer: customer.value!);
             }
           }
@@ -101,6 +102,87 @@ class AuthController extends GetxController {
     } catch (e) {
       debugPrint(e.toString() + 'ini error');
       EasyLoading.showError('Something wrong. Try again!');
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  void editCustomer({required CustomerEdit data}) async {
+    try {
+      EasyLoading.show(
+        status: 'Loading...',
+        dismissOnTap: false,
+      );
+      var result = await BookingService().updateCustomer(
+        customer.value!.idCustomer,
+        await _localAuthService.getToken()!,
+        data,
+      );
+      var customerResult = await RemoteAuthService()
+          .getCustomerData(token: await _localAuthService.getToken()!);
+      if (customerResult.statusCode == 200) {
+        customer.value = customerFromJson(customerResult.body);
+        await _localAuthService.addCustomer(customer: customer.value!);
+      }
+
+      if (result.statusCode == 200) {
+        EasyLoading.showSuccess("Edit Berhasil");
+      } else {
+        EasyLoading.showError(result.body);
+      }
+    } catch (e) {
+      print(e.toString());
+      EasyLoading.showError('Something wrong. Try again!' + e.toString());
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  void changePassword({
+    required String newPassword,
+    required String oldPassword,
+    required Function(bool, String) callback,
+  }) async {
+    try {
+      EasyLoading.show(
+        status: 'Loading...',
+        dismissOnTap: false,
+      );
+      var result = await BookingService().updatePassword(
+        await _localAuthService.getToken()!,
+        newPassword,
+        oldPassword,
+      );
+
+      if (result.statusCode == 200) {
+        EasyLoading.showSuccess("Edit Password Berhasil");
+        callback(true, "Edit Password Berhasil");
+      } else {
+        EasyLoading.showError(result.body.toString());
+        callback(false, result.body.toString());
+      }
+    } catch (e) {
+      EasyLoading.showError('Something wrong. Try again!' + e.toString());
+      callback(false, 'Something wrong. Try again!' + e.toString());
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  void getProfile() async {
+    try {
+      EasyLoading.show(
+        status: 'Loading...',
+        dismissOnTap: false,
+      );
+      var customerResult = await RemoteAuthService()
+          .getCustomerData(token: await _localAuthService.getToken()!);
+      if (customerResult.statusCode == 200) {
+        customer.value = customerFromJson(customerResult.body);
+        await _localAuthService.addCustomer(customer: customer.value!);
+      }
+    } catch (e) {
+      EasyLoading.showError('Something wrong. Try again!' + e.toString());
     } finally {
       EasyLoading.dismiss();
     }

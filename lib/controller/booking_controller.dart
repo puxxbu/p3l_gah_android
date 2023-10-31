@@ -18,6 +18,7 @@ class BookingController extends GetxController {
 
   var hasMore = true.obs;
   var bookingHistory = <BookingHistory>[].obs;
+  Rxn<BookingData> detailBooking = Rxn<BookingData>();
 
   void onInit() async {
     await _localAuthService.init();
@@ -28,12 +29,10 @@ class BookingController extends GetxController {
   Future getHistoryBooking() async {
     try {
       var id = authController.customer.value?.idCustomer;
+      var token = authController.user.value?.data?.token;
       // print("Refresh" + id.toString());
       List<BookingHistory> result = await _bookingService.fetchBookingHistory(
-          _page.toString(),
-          id.toString(),
-          _size.toString(),
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImN1c3RvbWVyIiwiaWF0IjoxNjk4NjQyNTQ4LCJleHAiOjE2OTkxNjA5NDh9.yuhGmNrwj7s9ZOAmhLu-3nOc_Q3DEtrrHvoFdKGSksg");
+          _page.toString(), id.toString(), _size.toString(), token.toString());
       print("Refresh $id ${result.length} $_page ${hasMore.value}");
       if (result.length < _size - 1) {
         hasMore.value = false;
@@ -53,5 +52,17 @@ class BookingController extends GetxController {
     bookingHistory.value = [];
 
     await getHistoryBooking();
+  }
+
+  Future getDetailBooking(String id) async {
+    try {
+      var token = authController.user.value?.data?.token;
+      // print("Refresh" + id.toString());
+      BookingResponse result = await _bookingService.getDetailBooking(
+          id.toString(), token.toString());
+      detailBooking.value = result.data;
+    } catch (e) {
+      print(e.toString() + " Error");
+    }
   }
 }

@@ -57,3 +57,21 @@ class Customer {
     );
   }
 }
+
+class CustomerEdit {
+  late String nama;
+  late String jenisCustomer;
+  late String nomorIdentitas;
+  late String nomorTelepon;
+  late String email;
+  late String alamat;
+
+  CustomerEdit({
+    required this.nama,
+    required this.jenisCustomer,
+    required this.nomorIdentitas,
+    required this.nomorTelepon,
+    required this.email,
+    required this.alamat,
+  });
+}

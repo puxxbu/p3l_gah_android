@@ -3,6 +3,8 @@ import 'package:p3l_gah_android/routes/app_route.dart';
 // import 'package:commerce_app/view/dashboard/dashboard_screen.dart';
 import 'package:get/get.dart';
 import 'package:p3l_gah_android/view/account/account_screen.dart';
+import 'package:p3l_gah_android/view/account/auth/customer_edit_screen.dart';
+import 'package:p3l_gah_android/view/account/auth/edit_password_screen.dart';
 import 'package:p3l_gah_android/view/account/auth/sign_in_screen.dart';
 import 'package:p3l_gah_android/view/account/book/book_history_screen.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_binding.dart';
@@ -27,5 +29,13 @@ class AppPage {
         name: AppRoute.bookingDetail,
         page: () => const DetailBookingScreen(),
         binding: DashboardBinding()),
+    GetPage(
+        name: AppRoute.profileEdit,
+        page: () => const CustomerEditScreen(),
+        binding: DashboardBinding()),
+    GetPage(
+        name: AppRoute.profileEditPassword,
+        page: () => const EditPasswordScreen(),
+        binding: DashboardBinding())
   ];
 }

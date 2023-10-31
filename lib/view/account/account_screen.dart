@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
+import 'package:p3l_gah_android/view/account/auth/customer_edit_screen.dart';
 import 'package:p3l_gah_android/view/account/book/book_history_screen.dart';
 
 import '../../service/local_service/local_auth_service.dart';
+import 'auth/edit_password_screen.dart';
 import 'auth/sign_in_screen.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -31,15 +33,18 @@ class AccountScreen extends StatelessWidget {
                 const SizedBox(width: 10),
                 Column(
                   children: [
-                    Text(
-                      authController.customer.value?.nama ??
-                          "Sign in your account",
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w500),
-                    ),
+                    if (authController.customer.value?.nama != null)
+                      Text(
+                        authController.customer.value?.nama ??
+                            "Sign in your account",
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500),
+                      ),
                     if (authController.user.value?.data?.role?.namaRole != null)
                       Text(
-                        "(${authController.user.value?.data?.role?.namaRole})",
+                        authController.customer.value?.nama == null
+                            ? "Role : ${authController.user.value?.data?.role?.namaRole}"
+                            : "(${authController.user.value?.data?.role?.namaRole})",
                         style: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w500),
                       )
@@ -59,33 +64,34 @@ class AccountScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SignInScreen()),
+                            builder: (context) => const CustomerEditScreen()),
                       );
                     },
                   ),
                   buildAccountCard(
                     title: "Riwayat transaksi",
                     onClick: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => const BookingHistoryScreen()),
-                      // );
                       Get.toNamed('/history-booking');
                     },
                   ),
                 ],
               );
-            } else {
+            } else if (authController.user.value?.data?.role?.namaRole !=
+                    "Customer" &&
+                authController.user.value?.data?.role?.namaRole != null) {
               return buildAccountCard(
                 title: "Admin Info",
                 onClick: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SignInScreen()),
+                        builder: (context) => const EditPasswordScreen()),
                   );
                 },
+              );
+            } else {
+              return SizedBox(
+                height: 0,
               );
             }
           }),

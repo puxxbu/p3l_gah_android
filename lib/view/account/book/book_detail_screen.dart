@@ -20,62 +20,176 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
     super.initState();
 
     String idBooking = Get.arguments;
-    bookingController.refreshData();
+    bookingController.getDetailBooking(idBooking);
     print('initState');
   }
 
   @override
   Widget build(BuildContext context) {
-    final ScrollController scrollController = ScrollController();
-
-    Future onRefresh() async {
-      bookingController.refreshData();
-    }
-
-    void onScroll() {
-      double maxScroll = scrollController.position.maxScrollExtent;
-      double currentScroll = scrollController.position.pixels;
-      if (maxScroll == currentScroll && bookingController.hasMore.value) {
-        bookingController.getHistoryBooking();
-      }
-    }
-
-    scrollController.addListener(onScroll);
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: onRefresh,
-        child: Obx(
-          () => Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: ListView.builder(
-                controller: scrollController,
-                itemCount: bookingController.hasMore.value
-                    ? bookingController.bookingHistory.length + 1
-                    : bookingController.bookingHistory.length,
-                itemBuilder: (context, index) {
-                  if (index < bookingController.bookingHistory.length) {
-                    return buildAccountCard(
-                        dataBooking: bookingController.bookingHistory[index],
-                        onClick: () {
-                          Get.toNamed('/booking/detail',
-                              arguments:
-                                  bookingController.bookingHistory[index]);
-                        });
-                  } else {
-                    return const Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.black,
+        body: Obx(
+      () => Column(children: [
+        Expanded(
+            child: ListView(physics: const BouncingScrollPhysics(), children: [
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "ID Booking : ${bookingController.detailBooking.value?.idBooking}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    "Tanggal Pembayaran : ${bookingController.detailBooking.value?.tanggalPembayaran.toString().formatDate()}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    "Nama Pemesan : ${bookingController.detailBooking.value?.customer.nama}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    "Alamat : ${bookingController.detailBooking.value?.customer.alamat}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Tanggal Check-in : ${bookingController.detailBooking.value?.tanggalCheckIn.toString().formatDate()}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    "Tanggal Check-out : ${bookingController.detailBooking.value?.tanggalCheckOut.toString().formatDate()}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Kamar :",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  if (bookingController
+                          .detailBooking.value?.detailBookingKamar.length !=
+                      0)
+                    Container(
+                      height: 300,
+                      width: 380,
+                      child: ListView.builder(
+                          itemCount: bookingController
+                              .detailBooking.value?.detailBookingKamar.length,
+                          itemBuilder: (context, index) {
+                            var hargaPerMalam = bookingController.detailBooking
+                                    .value!.detailBookingKamar[index].subTotal /
+                                bookingController.detailBooking.value!
+                                    .detailBookingKamar[index].jumlah;
+                            return Container(
+                              color: Colors.grey[200],
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${bookingController.detailBooking.value?.detailBookingKamar[index].jenisKamar.jenisKamar} (${bookingController.detailBooking.value?.detailBookingKamar[index].jenisKamar.jenisBed})",
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      "Jumlah : ${bookingController.detailBooking.value?.detailBookingKamar[index].jumlah} @ Rp. $hargaPerMalam ",
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      "Subtotal : ${bookingController.detailBooking.value?.detailBookingKamar[index].subTotal}  ",
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                  const Text(
+                    "Layanan :",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  if (bookingController
+                          .detailBooking.value?.detailBookingLayanan.length !=
+                      0)
+                    Container(
+                      height: 300,
+                      width: 380,
+                      child: ListView.builder(
+                          itemCount: bookingController
+                              .detailBooking.value?.detailBookingLayanan.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              color: Colors.grey[200],
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${bookingController.detailBooking.value?.detailBookingLayanan[index].fasilitas.namaLayanan} (${bookingController.detailBooking.value?.detailBookingLayanan[index].tanggal.toString().formatDate()})",
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      "Jumlah : ${bookingController.detailBooking.value?.detailBookingLayanan[index].jumlah} @ Rp. ${bookingController.detailBooking.value?.detailBookingLayanan[index].fasilitas.harga} ",
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      "Sub Total : ${bookingController.detailBooking.value?.detailBookingLayanan[index].subTotal}",
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                  if (bookingController.detailBooking.value?.invoice.length !=
+                      0)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Total : Rp. ${bookingController.detailBooking.value?.invoice[0].totalPembayaran}",
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w500),
                         ),
-                      ),
-                    );
-                  }
-                }),
+                        Text(
+                          "Pajak : Rp. ${bookingController.detailBooking.value?.invoice[0].totalPajak}",
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                ],
+              )
+            ],
           ),
-        ),
-      ),
-    );
+          const SizedBox(height: 50),
+        ])),
+      ]),
+    ));
   }
 }
 
