@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:p3l_gah_android/view/room/room_detail_screen.dart';
 import '../../component/calendar_popup_view.dart';
 import '../../model/hotel_list_data.dart';
+import '../../model/property_data.dart';
 import '../../theme/hotel_app_theme.dart';
 import '../hotel/filter_screen.dart';
 import '../hotel/hotel_list_view.dart';
@@ -21,6 +23,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now().add(const Duration(days: 5));
+  List<Property> properties = getPropertyList();
 
   @override
   void initState() {
@@ -104,7 +107,15 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                                               curve: Curves.fastOutSlowIn)));
                               animationController?.forward();
                               return HotelListView(
-                                callback: () {},
+                                callback: () {
+                                  Navigator.push<dynamic>(
+                                    context,
+                                    MaterialPageRoute<dynamic>(
+                                        builder: (BuildContext context) =>
+                                            Detail(property: properties[0]),
+                                        fullscreenDialog: true),
+                                  );
+                                },
                                 hotelData: hotelList[index],
                                 animation: animation,
                                 animationController: animationController!,
