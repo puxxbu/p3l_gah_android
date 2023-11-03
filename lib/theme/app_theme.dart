@@ -1,6 +1,9 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static Color lightBackgroundColor = const Color(0xfff2f2f2);
@@ -20,6 +23,7 @@ class AppTheme {
       visualDensity: VisualDensity.adaptivePlatformDensity,
       appBarTheme: AppBarTheme(backgroundColor: lightPrimaryColor),
       colorScheme: ColorScheme.light(secondary: lightSecondaryColor),
+      textTheme: GoogleFonts.rubikTextTheme(),
       textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(primary: lightBackgroundColor)));
 

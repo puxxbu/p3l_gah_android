@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:p3l_gah_android/model/customer.dart';
@@ -29,12 +30,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      getPages: AppPage.list,
-      initialRoute: AppRoute.account,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      builder: EasyLoading.init(),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (BuildContext context, Widget? widget) {
+        return GetMaterialApp(
+          getPages: AppPage.list,
+          initialRoute: AppRoute.dashboard,
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          builder: EasyLoading.init(),
+        );
+      },
     );
   }
 }

@@ -29,6 +29,10 @@ dependencies:
   hive_flutter: ^1.1.0
   intl: ^0.18.1
   flutter_easyloading: ^3.0.5
+  font_awesome_flutter: ^10.6.0
+  flutter_rating_bar: ^4.0.1
+  google_fonts: ^6.1.0
+  flutter_screenutil: ^5.9.0
 
 dev_dependencies:
   flutter_test:
@@ -48,3 +52,4 @@ flutter:
 
   assets:
     - assets/
+    - assets/hotel/
