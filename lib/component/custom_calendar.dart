@@ -263,6 +263,7 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
                               if (date.isAfter(newminimumDate) &&
                                   date.isBefore(newmaximumDate)) {
                                 onDateClick(date);
+                                print('date.isAfter && date.isBefore ');
                               }
                             } else if (widget.minimumDate != null) {
                               final DateTime newminimumDate = DateTime(
@@ -271,6 +272,7 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
                                   widget.minimumDate!.day - 1);
                               if (date.isAfter(newminimumDate)) {
                                 onDateClick(date);
+                                print('date.isAfter  ' + date.toString());
                               }
                             } else if (widget.maximumDate != null) {
                               final DateTime newmaximumDate = DateTime(
@@ -278,9 +280,11 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
                                   widget.maximumDate!.month,
                                   widget.maximumDate!.day + 1);
                               if (date.isBefore(newmaximumDate)) {
+                                print('date.isBefore ');
                                 onDateClick(date);
                               }
                             } else {
+                              print('else ');
                               onDateClick(date);
                             }
                           }
@@ -425,6 +429,7 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
       startDate = date;
     } else if (startDate != date && endDate == null) {
       endDate = date;
+      print('startDate != date && endDate == null ');
     } else if (startDate!.day == date.day && startDate!.month == date.month) {
       startDate = null;
     } else if (endDate!.day == date.day && endDate!.month == date.month) {
@@ -439,12 +444,14 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
         final DateTime d = startDate!;
         startDate = endDate;
         endDate = d;
+        print('!endDate!.isAfter(startDate! ');
       }
       if (date.isBefore(startDate!)) {
         startDate = date;
       }
-      if (date.isAfter(endDate!)) {
+      if (date.isAfter(endDate!) || date.isBefore(endDate!)) {
         endDate = date;
+        print('date.isAfter(endDate!) ');
       }
     }
     setState(() {

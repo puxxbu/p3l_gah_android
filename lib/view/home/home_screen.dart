@@ -22,7 +22,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
   final ScrollController _scrollController = ScrollController();
 
   DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now().add(const Duration(days: 5));
+  DateTime endDate = DateTime.now().add(const Duration(days: 1));
   List<Property> properties = getPropertyList();
 
   @override

@@ -92,7 +92,11 @@ class AuthController extends GetxController {
           String? namaRole =
               await _localAuthService.getUser()?.data?.role?.namaRole;
           print(namaRole);
-          Navigator.of(Get.overlayContext!).pop();
+          if (namaRole == "Customer") {
+            Get.offAllNamed('/');
+          } else {
+            Get.offAllNamed('/dashboard-admin');
+          }
         } else {
           EasyLoading.showError('Something wrong. Try again!');
         }

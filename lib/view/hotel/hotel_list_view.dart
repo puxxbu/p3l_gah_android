@@ -55,7 +55,7 @@ class HotelListView extends StatelessWidget {
                             AspectRatio(
                               aspectRatio: 2,
                               child: Image.asset(
-                                hotelData!.imagePath,
+                                'assets/hotel/doubledeluxe-double.jpg',
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -219,11 +219,6 @@ class HotelListView extends StatelessWidget {
                               onTap: () {},
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.favorite_border,
-                                  color: HotelAppTheme.buildLightTheme()
-                                      .primaryColor,
-                                ),
                               ),
                             ),
                           ),

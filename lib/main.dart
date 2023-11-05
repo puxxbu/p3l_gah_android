@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? widget) {
         return GetMaterialApp(
           getPages: AppPage.list,
-          initialRoute: AppRoute.dashboard,
+          initialRoute: AppRoute.splashScreen,
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           builder: EasyLoading.init(),

@@ -17,10 +17,10 @@ class Detail extends StatelessWidget {
           Hero(
             tag: property.frontImage,
             child: Container(
-              height: size.height * 0.5,
+              height: size.height * 0.4,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(property.frontImage),
+                  image: AssetImage('assets/hotel/doubledeluxe-double.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -57,68 +57,48 @@ class Detail extends StatelessWidget {
                           size: 24,
                         ),
                       ),
-                      Icon(
-                        Icons.notifications_none,
-                        color: Colors.white,
-                        size: 28,
-                      ),
                     ],
                   ),
                 ),
                 Expanded(
                   child: Container(),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.yellow[700],
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                    ),
-                    width: 80,
-                    padding: EdgeInsets.symmetric(
-                      vertical: 4,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "FOR " + property.label,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //       color: Colors.yellow[700],
+                //       borderRadius: BorderRadius.all(
+                //         Radius.circular(5),
+                //       ),
+                //     ),
+                //     width: 80,
+                //     padding: EdgeInsets.symmetric(
+                //       vertical: 4,
+                //     ),
+                //     child: Center(
+                //       child: Text(
+                //         "FOR " + property.label,
+                //         style: TextStyle(
+                //           color: Colors.white,
+                //           fontSize: 14,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        property.name,
+                        "Jenis Kamar",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.favorite,
-                            color: Colors.yellow[700],
-                            size: 20,
-                          ),
                         ),
                       ),
                     ],
@@ -137,7 +117,7 @@ class Detail extends StatelessWidget {
                       Row(
                         children: [
                           Icon(
-                            Icons.location_on,
+                            Icons.monetization_on,
                             color: Colors.white,
                             size: 16,
                           ),
@@ -145,7 +125,7 @@ class Detail extends StatelessWidget {
                             width: 4,
                           ),
                           Text(
-                            property.location,
+                            "Rp 100.000",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -154,22 +134,6 @@ class Detail extends StatelessWidget {
                           ),
                           SizedBox(
                             width: 8,
-                          ),
-                          Icon(
-                            Icons.zoom_out_map,
-                            color: Colors.white,
-                            size: 16,
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            property.sqm + " sq/m",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
                           ),
                         ],
                       ),
@@ -216,105 +180,47 @@ class Detail extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(24),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                height: 65,
-                                width: 65,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(property.ownerImage),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 16,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "James Milner",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(
-                                    "Property Owner",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.grey[500],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                height: 50,
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  color: Colors.yellow[700]?.withOpacity(0.1),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.phone,
-                                    color: Colors.yellow[700],
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 16,
-                              ),
-                              Container(
-                                height: 50,
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  color: Colors.yellow[700]?.withOpacity(0.1),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.message,
-                                    color: Colors.yellow[700],
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                      padding: EdgeInsets.only(right: 24, left: 24, top: 24),
+                      child: Text(
+                        "Fasilitas",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
+                        top: 16,
                         right: 24,
-                        left: 24,
-                        bottom: 24,
+                        left: 16,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          buildFeature(Icons.hotel, "3 Bedroom"),
-                          buildFeature(Icons.wc, "2 Bathroom"),
-                          buildFeature(Icons.kitchen, "1 Kitchen"),
-                          buildFeature(Icons.local_parking, "2 Parking"),
-                        ],
+                      child: Container(
+                        height: 80, // Atur tinggi sesuai kebutuhan Anda
+                        child: ListView(
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          children: [
+                            buildFeature(Icons.hotel, "2 Bedroom"),
+                            buildFeature(Icons.wc, "2 Bathroom"),
+                            buildFeature(Icons.kitchen, "1 Kitchen"),
+                            buildFeature(Icons.local_parking, "2 Parking"),
+                            buildFeature(Icons.local_parking, "2 Parking"),
+                            buildFeature(Icons.local_parking, "2 Parking"),
+                            buildFeature(Icons.local_parking, "2 Parking"),
+                          ],
+                        ),
                       ),
+                      // child: Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     buildFeature(Icons.hotel, "3 Bedroom"),
+                      //     buildFeature(Icons.wc, "2 Bathroom"),
+                      //     buildFeature(Icons.kitchen, "1 Kitchen"),
+                      //     buildFeature(Icons.local_parking, "2 Parking"),
+                      //   ],
+                      // ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -378,28 +284,44 @@ class Detail extends StatelessWidget {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        label: const Text('Booking',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            )),
+        icon: const Icon(Icons.book, color: Colors.white),
+        backgroundColor: Colors.amber,
+      ),
     );
   }
 
   Widget buildFeature(IconData iconData, String text) {
-    return Column(
-      children: [
-        Icon(
-          iconData,
-          color: Colors.yellow[700],
-          size: 28,
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Text(
-          text,
-          style: TextStyle(
-            color: Colors.grey[500],
-            fontSize: 14,
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: Column(
+        children: [
+          Icon(
+            iconData,
+            color: Colors.yellow[700],
+            size: 28,
           ),
-        ),
-      ],
+          SizedBox(
+            height: 8,
+          ),
+          Text(
+            text,
+            style: TextStyle(
+              color: Colors.grey[500],
+              fontSize: 14,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
