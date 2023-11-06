@@ -62,11 +62,12 @@ class BookingController extends GetxController {
     await getHistoryBooking();
   }
 
-  void getKamarList() async {
+  void getKamarList({String keyword = ''}) async {
     try {
       isKamarLoading(true);
       var token = authController.user.value?.data?.token;
-      var result = await _bookingService.getListKamar(token.toString(), '');
+      var result =
+          await _bookingService.getListKamar(token.toString(), keyword);
       if (result != null) {
         kamarList.assignAll(result.data!);
       }

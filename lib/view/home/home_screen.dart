@@ -31,6 +31,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
+
     super.initState();
   }
 
@@ -93,41 +94,49 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                         body: Container(
                           color:
                               HotelAppTheme.buildLightTheme().backgroundColor,
-                          child: ListView.builder(
-                            itemCount: bookingController.kamarList.length,
-                            padding: const EdgeInsets.only(top: 8),
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (BuildContext context, int index) {
-                              final int count =
-                                  bookingController.kamarList.length > 10
-                                      ? 10
-                                      : bookingController.kamarList.length;
-                              final Animation<double> animation =
-                                  Tween<double>(begin: 0.0, end: 1.0).animate(
-                                      CurvedAnimation(
-                                          parent: animationController!,
-                                          curve: Interval(
-                                              (1 / count) * index, 1.0,
-                                              curve: Curves.fastOutSlowIn)));
-                              animationController?.forward();
-                              return HotelListView(
-                                callback: () {
-                                  Navigator.push<dynamic>(
-                                    context,
-                                    MaterialPageRoute<dynamic>(
-                                        builder: (BuildContext context) =>
-                                            Detail(
-                                                property: bookingController
-                                                    .kamarList[index]),
-                                        fullscreenDialog: true),
-                                  );
-                                },
-                                hotelData: bookingController.kamarList[index],
-                                animation: animation,
-                                animationController: animationController!,
-                              );
-                            },
-                          ),
+                          child: bookingController.kamarList.isEmpty
+                              ? Center(child: Text('Data tidak ditemukan'))
+                              : ListView.builder(
+                                  itemCount: bookingController.kamarList.length,
+                                  padding: const EdgeInsets.only(top: 8),
+                                  scrollDirection: Axis.vertical,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final int count =
+                                        bookingController.kamarList.length > 10
+                                            ? 10
+                                            : bookingController
+                                                .kamarList.length;
+                                    final Animation<double> animation =
+                                        Tween<double>(begin: 0.0, end: 1.0)
+                                            .animate(CurvedAnimation(
+                                                parent: animationController!,
+                                                curve: Interval(
+                                                    (1 / count) * index, 1.0,
+                                                    curve:
+                                                        Curves.fastOutSlowIn)));
+                                    animationController?.forward();
+                                    return HotelListView(
+                                      callback: () {
+                                        Navigator.push<dynamic>(
+                                          context,
+                                          MaterialPageRoute<dynamic>(
+                                              builder: (BuildContext context) =>
+                                                  Detail(
+                                                      property:
+                                                          bookingController
+                                                                  .kamarList[
+                                                              index]),
+                                              fullscreenDialog: true),
+                                        );
+                                      },
+                                      hotelData:
+                                          bookingController.kamarList[index],
+                                      animation: animation,
+                                      animationController: animationController!,
+                                    );
+                                  },
+                                ),
                         ),
                       ),
                     )
@@ -276,62 +285,62 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: Container(
-              width: 1,
-              height: 42,
-              color: Colors.grey.withOpacity(0.8),
-            ),
-          ),
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 4, bottom: 4),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Number of Rooms',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            '1 Room - 2 Adults',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 8),
+          //   child: Container(
+          //     width: 1,
+          //     height: 42,
+          //     color: Colors.grey.withOpacity(0.8),
+          //   ),
+          // ),
+          // Expanded(
+          //   child: Row(
+          //     children: <Widget>[
+          //       Material(
+          //         color: Colors.transparent,
+          //         child: InkWell(
+          //           focusColor: Colors.transparent,
+          //           highlightColor: Colors.transparent,
+          //           hoverColor: Colors.transparent,
+          //           splashColor: Colors.grey.withOpacity(0.2),
+          //           borderRadius: const BorderRadius.all(
+          //             Radius.circular(4.0),
+          //           ),
+          //           onTap: () {
+          //             FocusScope.of(context).requestFocus(FocusNode());
+          //           },
+          //           child: Padding(
+          //             padding: const EdgeInsets.only(
+          //                 left: 8, right: 8, top: 4, bottom: 4),
+          //             child: Column(
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children: <Widget>[
+          //                 Text(
+          //                   'Number of Rooms',
+          //                   style: TextStyle(
+          //                       fontWeight: FontWeight.w100,
+          //                       fontSize: 16,
+          //                       color: Colors.grey.withOpacity(0.8)),
+          //                 ),
+          //                 const SizedBox(
+          //                   height: 8,
+          //                 ),
+          //                 Text(
+          //                   '1 Room - 2 Adults',
+          //                   style: TextStyle(
+          //                     fontWeight: FontWeight.w100,
+          //                     fontSize: 16,
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
@@ -366,7 +375,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                           controller:
                               bookingController.searchTextEditController,
                           onSubmitted: (val) {
-                            bookingController.getKamarList();
+                            bookingController.getKamarList(keyword: val);
                             // dashboardController.updateIndex(1);
                           },
                           onChanged: (val) {
@@ -398,37 +407,6 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                               hintText: "Nama Kamar...",
                               prefixIcon: const Icon(Icons.search)),
                         ))),
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: HotelAppTheme.buildLightTheme().primaryColor,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(38.0),
-              ),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
-                    offset: const Offset(0, 2),
-                    blurRadius: 8.0),
-              ],
-            ),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(32.0),
-                ),
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Icon(FontAwesomeIcons.magnifyingGlass,
-                      size: 20,
-                      color: HotelAppTheme.buildLightTheme().backgroundColor),
-                ),
               ),
             ),
           ),
@@ -468,7 +446,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '530 hotels found',
+                      '${bookingController.kamarList.length} kamar ditemukan',
                       style: TextStyle(
                         fontWeight: FontWeight.w100,
                         fontSize: 16,
@@ -599,13 +577,6 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
               ),
             ),
             Spacer(),
-            IconButton(
-              icon: Icon(
-                CupertinoIcons.add,
-                color: HotelAppTheme.buildLightTheme().primaryColor,
-              ),
-              onPressed: () {},
-            )
           ],
         ),
       ),
