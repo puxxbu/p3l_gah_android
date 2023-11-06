@@ -9,6 +9,7 @@ import 'package:p3l_gah_android/view/account/auth/sign_in_screen.dart';
 import 'package:p3l_gah_android/view/account/book/book_history_screen.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_binding.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_screen.dart';
+import 'package:p3l_gah_android/view/home/home_screen.dart';
 import 'package:p3l_gah_android/view/splash_screen/splash_screen.dart';
 
 import '../view/account/book/book_detail_screen.dart';
@@ -18,6 +19,10 @@ class AppPage {
     GetPage(
         name: AppRoute.dashboard,
         page: () => const DashboardScreen(),
+        binding: DashboardBinding()),
+    GetPage(
+        name: AppRoute.home,
+        page: () => HotelHomeScreen(),
         binding: DashboardBinding()),
     GetPage(
         name: AppRoute.account,

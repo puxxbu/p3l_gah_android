@@ -432,6 +432,7 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
       print('startDate != date && endDate == null ');
     } else if (startDate!.day == date.day && startDate!.month == date.month) {
       startDate = null;
+      print('startDate != date && endDate == null ');
     } else if (endDate!.day == date.day && endDate!.month == date.month) {
       endDate = null;
     }

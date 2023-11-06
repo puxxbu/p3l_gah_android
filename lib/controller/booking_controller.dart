@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
+import 'package:p3l_gah_android/model/kamar.dart';
 import 'package:p3l_gah_android/service/remote_service/remote_booking_service.dart';
 
 import '../model/booking.dart';
@@ -14,6 +16,11 @@ class BookingController extends GetxController {
   int _page = 1;
   int _size = 20;
 
+  TextEditingController searchTextEditController = TextEditingController();
+  RxString searchVal = ''.obs;
+  RxList<Data> kamarList = List<Data>.empty(growable: true).obs;
+  RxBool isKamarLoading = false.obs;
+
   final LocalAuthService _localAuthService = LocalAuthService();
 
   var hasMore = true.obs;
@@ -23,6 +30,7 @@ class BookingController extends GetxController {
   void onInit() async {
     await _localAuthService.init();
     customer.value = await _localAuthService.getCustomer();
+    getKamarList();
     super.onInit();
   }
 
@@ -52,6 +60,20 @@ class BookingController extends GetxController {
     bookingHistory.value = [];
 
     await getHistoryBooking();
+  }
+
+  void getKamarList() async {
+    try {
+      isKamarLoading(true);
+      var token = authController.user.value?.data?.token;
+      var result = await _bookingService.getListKamar(token.toString(), '');
+      if (result != null) {
+        kamarList.assignAll(result.data!);
+      }
+    } finally {
+      isKamarLoading(false);
+      print(kamarList.length);
+    }
   }
 
   Future getDetailBooking(String id) async {

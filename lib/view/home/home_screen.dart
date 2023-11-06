@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:p3l_gah_android/view/room/room_detail_screen.dart';
 import '../../component/calendar_popup_view.dart';
 import '../../model/hotel_list_data.dart';
@@ -92,12 +94,14 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                           color:
                               HotelAppTheme.buildLightTheme().backgroundColor,
                           child: ListView.builder(
-                            itemCount: hotelList.length,
+                            itemCount: bookingController.kamarList.length,
                             padding: const EdgeInsets.only(top: 8),
                             scrollDirection: Axis.vertical,
                             itemBuilder: (BuildContext context, int index) {
                               final int count =
-                                  hotelList.length > 10 ? 10 : hotelList.length;
+                                  bookingController.kamarList.length > 10
+                                      ? 10
+                                      : bookingController.kamarList.length;
                               final Animation<double> animation =
                                   Tween<double>(begin: 0.0, end: 1.0).animate(
                                       CurvedAnimation(
@@ -112,11 +116,13 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                                     context,
                                     MaterialPageRoute<dynamic>(
                                         builder: (BuildContext context) =>
-                                            Detail(property: properties[0]),
+                                            Detail(
+                                                property: bookingController
+                                                    .kamarList[index]),
                                         fullscreenDialog: true),
                                   );
                                 },
-                                hotelData: hotelList[index],
+                                hotelData: bookingController.kamarList[index],
                                 animation: animation,
                                 animationController: animationController!,
                               );
@@ -172,7 +178,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
 
                       return HotelListView(
                         callback: () {},
-                        hotelData: hotelList[index],
+                        hotelData: bookingController.kamarList[index],
                         animation: animation,
                         animationController: animationController!,
                       );
@@ -201,7 +207,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
       hotelListViews.add(
         HotelListView(
           callback: () {},
-          hotelData: hotelList[i],
+          hotelData: bookingController.kamarList[i],
           animation: animation,
           animationController: animationController!,
         ),
@@ -353,20 +359,45 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, right: 16, top: 4, bottom: 4),
-                  child: TextField(
-                    onChanged: (String txt) {},
-                    style: const TextStyle(
-                      fontSize: 18,
-                    ),
-                    cursorColor: HotelAppTheme.buildLightTheme().primaryColor,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'London...',
-                    ),
-                  ),
-                ),
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 16, top: 4, bottom: 4),
+                    child: Obx(() => TextField(
+                          autofocus: false,
+                          controller:
+                              bookingController.searchTextEditController,
+                          onSubmitted: (val) {
+                            bookingController.getKamarList();
+                            // dashboardController.updateIndex(1);
+                          },
+                          onChanged: (val) {
+                            bookingController.searchVal.value = val;
+                          },
+                          decoration: InputDecoration(
+                              suffixIcon: bookingController
+                                      .searchVal.value.isNotEmpty
+                                  ? IconButton(
+                                      icon: const Icon(Icons.clear),
+                                      onPressed: () {
+                                        FocusScope.of(context)
+                                            .requestFocus(FocusNode());
+                                        bookingController
+                                            .searchTextEditController
+                                            .clear();
+                                        bookingController.searchVal.value = '';
+                                        bookingController.getKamarList();
+                                      },
+                                    )
+                                  : null,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 16),
+                              fillColor: Colors.white,
+                              filled: true,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                  borderSide: BorderSide.none),
+                              hintText: "Nama Kamar...",
+                              prefixIcon: const Icon(Icons.search)),
+                        ))),
               ),
             ),
           ),

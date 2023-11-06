@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:p3l_gah_android/model/kamar.dart';
+import 'package:p3l_gah_android/util/string_extention.dart';
 
 import '../../model/property_data.dart';
 
 class Detail extends StatelessWidget {
-  final Property property;
+  final Data property;
 
   Detail({required this.property});
+  List<Property> properties = getPropertyList();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,7 @@ class Detail extends StatelessWidget {
       body: Stack(
         children: [
           Hero(
-            tag: property.frontImage,
+            tag: property.jenisKamar ?? '',
             child: Container(
               height: size.height * 0.4,
               decoration: BoxDecoration(
@@ -94,7 +97,7 @@ class Detail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Jenis Kamar",
+                        "${property.jenisKamar} (${property.jenisBed.toString().capitalize()})",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 32,
@@ -125,7 +128,26 @@ class Detail extends StatelessWidget {
                             width: 4,
                           ),
                           Text(
-                            "Rp 100.000",
+                            "Rp ${property.tarif?[0].harga}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            "${property.kapasitas} Orang",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -148,7 +170,7 @@ class Detail extends StatelessWidget {
                             width: 4,
                           ),
                           Text(
-                            property.review + " Reviews",
+                            "12" + " Reviews",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -243,7 +265,7 @@ class Detail extends StatelessWidget {
                         bottom: 24,
                       ),
                       child: Text(
-                        property.description,
+                        "The living is easy in this impressive, generously proportioned contemporary residence with lake and ocean views, located within a level stroll to the sand and surf.",
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[500],
@@ -273,7 +295,7 @@ class Detail extends StatelessWidget {
                           physics: BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
-                          children: buildPhotos(property.images),
+                          children: buildPhotos(properties[0].images ?? []),
                         ),
                       ),
                     ),

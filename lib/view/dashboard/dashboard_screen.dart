@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:get/get.dart';
+import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:p3l_gah_android/view/home/home_screen.dart';
 
 import '../../controller/dashboard_controller.dart';
@@ -24,7 +25,7 @@ class DashboardScreen extends StatelessWidget {
             children: [
               HotelHomeScreen(),
               SingleOrder(),
-              Detail(property: properties[0]),
+              Detail(property: bookingController.kamarList[0]),
               AccountScreen()
             ],
           ),
