@@ -7,6 +7,8 @@ import 'package:p3l_gah_android/service/remote_service/remote_booking_service.da
 
 import '../model/booking.dart';
 import '../model/customer.dart';
+import '../model/fasilitas.dart';
+
 import '../service/local_service/local_auth_service.dart';
 
 class BookingController extends GetxController {
@@ -22,6 +24,11 @@ class BookingController extends GetxController {
   RxBool isKamarLoading = false.obs;
 
   final LocalAuthService _localAuthService = LocalAuthService();
+  RxList<String> selectedList = List<String>.empty(growable: true).obs;
+  RxMap<int, int> selectedMap = Map<int, int>().obs;
+
+  RxList<FasilitasData> fasilitasList =
+      List<FasilitasData>.empty(growable: true).obs;
 
   var hasMore = true.obs;
   var bookingHistory = <BookingHistory>[].obs;
@@ -70,6 +77,20 @@ class BookingController extends GetxController {
           await _bookingService.getListKamar(token.toString(), keyword);
       if (result != null) {
         kamarList.assignAll(result.data!);
+      }
+    } finally {
+      isKamarLoading(false);
+      print(kamarList.length);
+    }
+  }
+
+  void getFasilitasList() async {
+    try {
+      isKamarLoading(true);
+      var token = authController.user.value?.data?.token;
+      var result = await _bookingService.getListFasilitas(token.toString());
+      if (result != null) {
+        fasilitasList.assignAll(result.data!);
       }
     } finally {
       isKamarLoading(false);

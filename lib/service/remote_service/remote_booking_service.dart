@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:p3l_gah_android/model/booking.dart';
 import 'package:p3l_gah_android/model/customer.dart';
 import 'package:http/http.dart' as http;
+import 'package:p3l_gah_android/model/fasilitas.dart';
 
 import '../../model/kamar.dart';
 
@@ -77,43 +78,28 @@ class BookingService extends GetConnect {
     }
   }
 
-  // Future<dynamic> updateCustomer(
-  //     int idCustomer, String token, CustomerEdit data) async {
-  //   final url = 'http://localhost:3000/api/customer';
-  //
-  //   final headers = {
-  //     'Content-Type': 'application/json',
-  //     'Accept': 'application/json',
-  //     'Authorization': "Bearer $token",
-  //   };
-  //
-  //   final body = {
-  //     'customer': {
-  //       'nama': data.nama,
-  //       'jenis_customer': data.jenisCustomer,
-  //       'nomor_identitas': data.nomorIdentitas,
-  //       'nomor_telepon': data.nomorTelepon,
-  //       'email': data.email,
-  //       'alamat': data.alamat,
-  //     },
-  //     'id_customer': idCustomer,
-  //   };
-  //
-  //   final response = await put(url, body, headers: headers);
-  //   // print(response.toString() + " Status Code");
-  //   //
-  //   // if (response.statusCode == 200) {
-  //   //   // Berhasil melakukan permintaan PUT
-  //   //   print('Customer berhasil diperbarui');
-  //   //   return Customer.fromJson(response.body);
-  //   // } else {
-  //   //   throw Exception('Gagal memperbarui customer error response !');
-  //   // }
-  //
-  //   print(response.body.toString());
-  //
-  //   return response;
-  // }
+  Future<ListFasilitasResponse> getListFasilitas(String token) async {
+    final baseUrl = 'http://10.0.2.2:3000/api/fasilitas?size=100';
+    final headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization":
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNtIiwiaWF0IjoxNjk4NzU0ODU5LCJleHAiOjE3MDEzNDY4NTl9.46MklXr0lciK4Y7bNaJIBrURDmZHDUrCaYB0oBZfyfs"
+    };
+
+    final url = Uri.parse(baseUrl);
+
+    final response = await http.get(url, headers: headers);
+
+    print(response.statusCode.toString() + " Status Code");
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      return ListFasilitasResponse.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed to load List Fasilitas');
+    }
+  }
 
   Future<dynamic> updateCustomer(
       int idCustomer, String token, CustomerEdit data) async {

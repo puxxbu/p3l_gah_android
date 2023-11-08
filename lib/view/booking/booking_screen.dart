@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:p3l_gah_android/view/booking/booking_fasilitas_screen.dart';
 
 import '../../theme/hotel_app_theme.dart';
 
@@ -100,7 +101,7 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: "Pemesanan Kamar\n",
+                            text: "Fasilitas Kamar\n",
                             style:
                                 Theme.of(context).textTheme.headline6?.copyWith(
                                       color: Colors.white,
@@ -108,6 +109,9 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                           ),
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: 20.0,
                     ),
                     Container(
                       width: double.infinity,
@@ -180,6 +184,37 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                     SizedBox(
                       height: 20.0,
                     ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Aksi yang ingin Anda lakukan ketika tombol ditekan
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.all(16.0),
+                        backgroundColor: Color.fromRGBO(245, 247, 249, 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ), // Warna latar belakang tombol
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: Color.fromRGBO(74, 77, 84, 1),
+                          ), // Ikonya di sini, ganti dengan ikon yang Anda inginkan
+                          SizedBox(width: 8.0), // Jarak antara ikon dan teks
+                          Text(
+                            'Tambah Kamar',
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color.fromRGBO(74, 77, 84, 1)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -240,6 +275,41 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                           ),
                           SizedBox(
                             height: 10.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BookingFasilitasScreen()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.all(16.0),
+                        backgroundColor: Color.fromRGBO(245, 247, 249, 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ), // Warna latar belakang tombol
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: Color.fromRGBO(74, 77, 84, 1),
+                          ), // Ikonya di sini, ganti dengan ikon yang Anda inginkan
+                          SizedBox(width: 8.0), // Jarak antara ikon dan teks
+                          Text(
+                            'Tambah Fasilitas',
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color.fromRGBO(74, 77, 84, 1)),
                           ),
                         ],
                       ),

@@ -7,6 +7,8 @@ import 'package:p3l_gah_android/view/account/auth/customer_edit_screen.dart';
 import 'package:p3l_gah_android/view/account/auth/edit_password_screen.dart';
 import 'package:p3l_gah_android/view/account/auth/sign_in_screen.dart';
 import 'package:p3l_gah_android/view/account/book/book_history_screen.dart';
+import 'package:p3l_gah_android/view/booking/booking_fasilitas_screen.dart';
+import 'package:p3l_gah_android/view/booking/booking_screen.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_binding.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_screen.dart';
 import 'package:p3l_gah_android/view/home/home_screen.dart';
@@ -51,6 +53,14 @@ class AppPage {
     GetPage(
         name: AppRoute.splashScreen,
         page: () => SplashScreen(),
+        binding: DashboardBinding()),
+    GetPage(
+        name: AppRoute.bookingFasilitas,
+        page: () => BookingFasilitasScreen(),
+        binding: DashboardBinding()),
+    GetPage(
+        name: AppRoute.orderKamar,
+        page: () => OrderKamarScreen(),
         binding: DashboardBinding()),
   ];
 }
