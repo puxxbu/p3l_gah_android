@@ -77,6 +77,8 @@ class _CustomListKamarState extends State<CustomListKamar> {
                     onTap: () {
                       bookingController.selectedKamar.removeWhere(
                           (data) => data.idJenisKamar == widget.idJenisKamar);
+                      bookingController.selectedKamarCount.removeWhere(
+                          (key, value) => key == widget.idJenisKamar);
                     },
                     child: Icon(
                       Icons.delete,

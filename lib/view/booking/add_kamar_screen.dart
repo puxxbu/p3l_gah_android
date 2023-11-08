@@ -12,27 +12,27 @@ import '../../theme/hotel_app_theme.dart';
 import '../hotel/filter_screen.dart';
 import '../hotel/hotel_list_view.dart';
 
-class HotelHomeScreen extends StatefulWidget {
+class AddKamarScreen extends StatefulWidget {
   @override
-  _HotelHomeScreenState createState() => _HotelHomeScreenState();
+  _AddKamarScreenState createState() => _AddKamarScreenState();
 }
 
-class _HotelHomeScreenState extends State<HotelHomeScreen>
+class _AddKamarScreenState extends State<AddKamarScreen>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   List<HotelListData> hotelList = HotelListData.hotelList;
   final ScrollController _scrollController = ScrollController();
 
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now().add(const Duration(days: 1));
+  // DateTime startDate = DateTime.now();
+  // DateTime endDate = DateTime.now().add(const Duration(days: 1));
   List<Property> properties = getPropertyList();
 
   @override
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
-    bookingController.startDate.value = startDate;
-    bookingController.endDate.value = endDate;
+    // bookingController.startDate.value = startDate;
+    // bookingController.endDate.value = endDate;
     super.initState();
   }
 
@@ -65,7 +65,10 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                 },
                 child: Column(
                   children: <Widget>[
-                    getAppBarUI(),
+                    // getAppBarUI(),
+                    SizedBox(
+                      height: 40,
+                    ),
                     Expanded(
                       child: NestedScrollView(
                         controller: _scrollController,
@@ -78,7 +81,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                                 return Column(
                                   children: <Widget>[
                                     getSearchBarUI(),
-                                    getTimeDateUI(),
+                                    // getTimeDateUI(),
                                   ],
                                 );
                               }, childCount: 1),
@@ -229,123 +232,123 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
     );
   }
 
-  Widget getTimeDateUI() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 18, bottom: 16),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      // setState(() {
-                      //   isDatePopupOpen = true;
-                      // });
-                      showDemoDialog(context: context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 4, bottom: 4),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Choose date',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            '${DateFormat("dd, MMM").format(startDate)} - ${DateFormat("dd, MMM").format(endDate)}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Padding(
-          //   padding: const EdgeInsets.only(right: 8),
-          //   child: Container(
-          //     width: 1,
-          //     height: 42,
-          //     color: Colors.grey.withOpacity(0.8),
-          //   ),
-          // ),
-          // Expanded(
-          //   child: Row(
-          //     children: <Widget>[
-          //       Material(
-          //         color: Colors.transparent,
-          //         child: InkWell(
-          //           focusColor: Colors.transparent,
-          //           highlightColor: Colors.transparent,
-          //           hoverColor: Colors.transparent,
-          //           splashColor: Colors.grey.withOpacity(0.2),
-          //           borderRadius: const BorderRadius.all(
-          //             Radius.circular(4.0),
-          //           ),
-          //           onTap: () {
-          //             FocusScope.of(context).requestFocus(FocusNode());
-          //           },
-          //           child: Padding(
-          //             padding: const EdgeInsets.only(
-          //                 left: 8, right: 8, top: 4, bottom: 4),
-          //             child: Column(
-          //               mainAxisAlignment: MainAxisAlignment.center,
-          //               crossAxisAlignment: CrossAxisAlignment.start,
-          //               children: <Widget>[
-          //                 Text(
-          //                   'Number of Rooms',
-          //                   style: TextStyle(
-          //                       fontWeight: FontWeight.w100,
-          //                       fontSize: 16,
-          //                       color: Colors.grey.withOpacity(0.8)),
-          //                 ),
-          //                 const SizedBox(
-          //                   height: 8,
-          //                 ),
-          //                 Text(
-          //                   '1 Room - 2 Adults',
-          //                   style: TextStyle(
-          //                     fontWeight: FontWeight.w100,
-          //                     fontSize: 16,
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-        ],
-      ),
-    );
-  }
+  // Widget getTimeDateUI() {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(left: 18, bottom: 16),
+  //     child: Row(
+  //       children: <Widget>[
+  //         Expanded(
+  //           child: Row(
+  //             children: <Widget>[
+  //               Material(
+  //                 color: Colors.transparent,
+  //                 child: InkWell(
+  //                   focusColor: Colors.transparent,
+  //                   highlightColor: Colors.transparent,
+  //                   hoverColor: Colors.transparent,
+  //                   splashColor: Colors.grey.withOpacity(0.2),
+  //                   borderRadius: const BorderRadius.all(
+  //                     Radius.circular(4.0),
+  //                   ),
+  //                   onTap: () {
+  //                     FocusScope.of(context).requestFocus(FocusNode());
+  //                     // setState(() {
+  //                     //   isDatePopupOpen = true;
+  //                     // });
+  //                     showDemoDialog(context: context);
+  //                   },
+  //                   child: Padding(
+  //                     padding: const EdgeInsets.only(
+  //                         left: 8, right: 8, top: 4, bottom: 4),
+  //                     child: Column(
+  //                       mainAxisAlignment: MainAxisAlignment.center,
+  //                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                       children: <Widget>[
+  //                         Text(
+  //                           'Choose date',
+  //                           style: TextStyle(
+  //                               fontWeight: FontWeight.w100,
+  //                               fontSize: 16,
+  //                               color: Colors.grey.withOpacity(0.8)),
+  //                         ),
+  //                         const SizedBox(
+  //                           height: 8,
+  //                         ),
+  //                         Text(
+  //                           '${DateFormat("dd, MMM").format(startDate)} - ${DateFormat("dd, MMM").format(endDate)}',
+  //                           style: TextStyle(
+  //                             fontWeight: FontWeight.w100,
+  //                             fontSize: 16,
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //         // Padding(
+  //         //   padding: const EdgeInsets.only(right: 8),
+  //         //   child: Container(
+  //         //     width: 1,
+  //         //     height: 42,
+  //         //     color: Colors.grey.withOpacity(0.8),
+  //         //   ),
+  //         // ),
+  //         // Expanded(
+  //         //   child: Row(
+  //         //     children: <Widget>[
+  //         //       Material(
+  //         //         color: Colors.transparent,
+  //         //         child: InkWell(
+  //         //           focusColor: Colors.transparent,
+  //         //           highlightColor: Colors.transparent,
+  //         //           hoverColor: Colors.transparent,
+  //         //           splashColor: Colors.grey.withOpacity(0.2),
+  //         //           borderRadius: const BorderRadius.all(
+  //         //             Radius.circular(4.0),
+  //         //           ),
+  //         //           onTap: () {
+  //         //             FocusScope.of(context).requestFocus(FocusNode());
+  //         //           },
+  //         //           child: Padding(
+  //         //             padding: const EdgeInsets.only(
+  //         //                 left: 8, right: 8, top: 4, bottom: 4),
+  //         //             child: Column(
+  //         //               mainAxisAlignment: MainAxisAlignment.center,
+  //         //               crossAxisAlignment: CrossAxisAlignment.start,
+  //         //               children: <Widget>[
+  //         //                 Text(
+  //         //                   'Number of Rooms',
+  //         //                   style: TextStyle(
+  //         //                       fontWeight: FontWeight.w100,
+  //         //                       fontSize: 16,
+  //         //                       color: Colors.grey.withOpacity(0.8)),
+  //         //                 ),
+  //         //                 const SizedBox(
+  //         //                   height: 8,
+  //         //                 ),
+  //         //                 Text(
+  //         //                   '1 Room - 2 Adults',
+  //         //                   style: TextStyle(
+  //         //                     fontWeight: FontWeight.w100,
+  //         //                     fontSize: 16,
+  //         //                   ),
+  //         //                 ),
+  //         //               ],
+  //         //             ),
+  //         //           ),
+  //         //         ),
+  //         //       ),
+  //         //     ],
+  //         //   ),
+  //         // ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget getSearchBarUI() {
     return Padding(
@@ -455,47 +458,47 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                     ),
                   ),
                 ),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      Navigator.push<dynamic>(
-                        context,
-                        MaterialPageRoute<dynamic>(
-                            builder: (BuildContext context) => FiltersScreen(),
-                            fullscreenDialog: true),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            'Filter',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.sort,
-                                color: HotelAppTheme.buildLightTheme()
-                                    .primaryColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                // Material(
+                //   color: Colors.transparent,
+                //   child: InkWell(
+                //     focusColor: Colors.transparent,
+                //     highlightColor: Colors.transparent,
+                //     hoverColor: Colors.transparent,
+                //     splashColor: Colors.grey.withOpacity(0.2),
+                //     borderRadius: const BorderRadius.all(
+                //       Radius.circular(4.0),
+                //     ),
+                //     onTap: () {
+                //       FocusScope.of(context).requestFocus(FocusNode());
+                //       Navigator.push<dynamic>(
+                //         context,
+                //         MaterialPageRoute<dynamic>(
+                //             builder: (BuildContext context) => FiltersScreen(),
+                //             fullscreenDialog: true),
+                //       );
+                //     },
+                //     child: Padding(
+                //       padding: const EdgeInsets.only(left: 8),
+                //       child: Row(
+                //         children: <Widget>[
+                //           Text(
+                //             'Filter',
+                //             style: TextStyle(
+                //               fontWeight: FontWeight.w100,
+                //               fontSize: 16,
+                //             ),
+                //           ),
+                //           Padding(
+                //             padding: const EdgeInsets.all(8.0),
+                //             child: Icon(Icons.sort,
+                //                 color: HotelAppTheme.buildLightTheme()
+                //                     .primaryColor),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -512,29 +515,29 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
     );
   }
 
-  void showDemoDialog({BuildContext? context}) {
-    showDialog<dynamic>(
-      context: context!,
-      builder: (BuildContext context) => CalendarPopupView(
-        barrierDismissible: true,
-        minimumDate: DateTime.now(),
-        //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
-        initialEndDate: endDate,
-        initialStartDate: startDate,
-        onApplyClick: (DateTime startData, DateTime endData) {
-          setState(() {
-            startDate = startData;
-            endDate = endData;
-          });
-          bookingController.startDate.value = DateTime(
-              startDate.year, startDate.month, startDate.day, 0, 0, 0, 0, 0);
-          bookingController.endDate.value = DateTime(
-              endDate.year, endDate.month, endDate.day, 12, 0, 0, 0, 0);
-        },
-        onCancelClick: () {},
-      ),
-    );
-  }
+  // void showDemoDialog({BuildContext? context}) {
+  //   showDialog<dynamic>(
+  //     context: context!,
+  //     builder: (BuildContext context) => CalendarPopupView(
+  //       barrierDismissible: true,
+  //       minimumDate: DateTime.now(),
+  //       //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
+  //       initialEndDate: endDate,
+  //       initialStartDate: startDate,
+  //       onApplyClick: (DateTime startData, DateTime endData) {
+  //         setState(() {
+  //           startDate = startData;
+  //           endDate = endData;
+  //         });
+  //         bookingController.startDate.value = DateTime(
+  //             startDate.year, startDate.month, startDate.day, 12, 0, 0, 0, 0);
+  //         bookingController.endDate.value = DateTime(
+  //             endDate.year, endDate.month, endDate.day, 12, 0, 0, 0, 0);
+  //       },
+  //       onCancelClick: () {},
+  //     ),
+  //   );
+  // }
 
   Widget getAppBarUI() {
     return Container(

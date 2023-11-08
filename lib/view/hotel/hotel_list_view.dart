@@ -23,6 +23,12 @@ class HotelListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int? harga = 0;
+    if (hotelData?.tarif?.length == 0) {
+      harga = hotelData?.baseHarga;
+    } else {
+      harga = hotelData?.tarif?[0].harga;
+    }
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -151,7 +157,7 @@ class HotelListView extends StatelessWidget {
                                           CrossAxisAlignment.end,
                                       children: <Widget>[
                                         Text(
-                                          'Rp${hotelData!.tarif?[0].harga}',
+                                          'Rp${harga}',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,

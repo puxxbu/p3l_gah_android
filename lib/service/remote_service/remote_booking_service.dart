@@ -54,7 +54,8 @@ class BookingService extends GetConnect {
 
   Future<ListKamarResponse> getListKamar(
       String token, String searchParams) async {
-    final baseUrl = 'http://10.0.2.2:3000/api/booking/kamar';
+    final baseUrl =
+        'http://10.0.2.2:3000/api/booking/kamar?tanggal_check_in=2024-09-12';
     final headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",

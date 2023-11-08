@@ -17,6 +17,13 @@ class Detail extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    int? harga = 0;
+    if (property.tarif?.length == 0) {
+      harga = property.baseHarga;
+    } else {
+      harga = property.tarif?[0].harga;
+    }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -131,7 +138,7 @@ class Detail extends StatelessWidget {
                             width: 4,
                           ),
                           Text(
-                            "Rp ${property.tarif?[0].harga}",
+                            "Rp $harga",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
