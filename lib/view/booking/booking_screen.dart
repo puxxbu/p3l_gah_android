@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:p3l_gah_android/controller/controllers.dart';
+import 'package:p3l_gah_android/util/string_extention.dart';
 import 'package:p3l_gah_android/view/booking/booking_fasilitas_screen.dart';
+import 'package:p3l_gah_android/view/booking/component/list_item_kamar.dart';
+import 'package:p3l_gah_android/view/home/home_screen.dart';
 
 import '../../theme/hotel_app_theme.dart';
 
@@ -59,6 +64,13 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    print(bookingController.selectedKamar.length);
+    print(bookingController.bookCheckIn.value);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HotelAppTheme.buildLightTheme().primaryColor,
@@ -101,7 +113,7 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: "Fasilitas Kamar\n",
+                            text: "Pemesanan Kamar\n",
                             style:
                                 Theme.of(context).textTheme.headline6?.copyWith(
                                       color: Colors.white,
@@ -128,7 +140,7 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Nama Jenis Kamar",
+                            "Tanggal Pemesanan",
                             style:
                                 Theme.of(context).textTheme.headline6?.copyWith(
                                       color: Color.fromRGBO(74, 77, 84, 1),
@@ -137,50 +149,68 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                     ),
                           ),
                           SizedBox(
-                            height: 6.0,
+                            height: 8.0,
                           ),
                           Text(
-                            "Kapasitas ... orang",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Color.fromRGBO(143, 148, 162, 1),
-                            ),
+                            "Tanggal Check-in: ${bookingController.bookCheckIn.value.toString().formatDate()}",
+                            style:
+                                Theme.of(context).textTheme.headline6?.copyWith(
+                                      color: Color.fromRGBO(74, 77, 84, 1),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                           ),
                           SizedBox(
-                            height: 10.0,
+                            height: 8.0,
                           ),
-                          getItemRow("3", "Kamar", "Rp 3.000.000 / malam"),
+                          Text(
+                            "Tanggal Check-out: ${bookingController.bookCheckOut.value.toString().formatDate()}",
+                            style:
+                                Theme.of(context).textTheme.headline6?.copyWith(
+                                      color: Color.fromRGBO(74, 77, 84, 1),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                          ),
                           SizedBox(
-                            height: 10.0,
+                            height: 8.0,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.remove),
-                                onPressed: () {
-                                  decrementRoomCount();
-                                },
-                              ),
-                              Text(
-                                selectedRoomCount
-                                    .toString(), // Jumlah kamar yang ingin dipesan
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.add),
-                                onPressed: () {
-                                  incrementRoomCount();
-                                },
-                              ),
-                            ],
+                          Text(
+                            "Jumlah malam: ${bookingController.bookCheckOut.value != null && bookingController.bookCheckIn.value != null ? bookingController.bookCheckOut.value!.difference(bookingController.bookCheckIn.value!).inDays : 'N/A'} malam",
+                            style:
+                                Theme.of(context).textTheme.headline6?.copyWith(
+                                      color: Color.fromRGBO(74, 77, 84, 1),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                           ),
                         ],
                       ),
                     ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Obx(() => ListView.builder(
+                          physics:
+                              NeverScrollableScrollPhysics(), // Mencegah scrolling
+                          shrinkWrap:
+                              true, // Mengatur ukuran ListView sesuai dengan jumlah item yang ada
+                          itemCount: bookingController.selectedKamar.length,
+                          itemBuilder: (context, index) {
+                            final item = bookingController.selectedKamar[index];
+                            if (bookingController.selectedKamar.length > 0) {
+                              return CustomListKamar(
+                                idJenisKamar: item.idJenisKamar ?? 0,
+                                harga: item.tarif?[0].harga ?? 0,
+                                jenisBed: item.jenisBed ?? "",
+                                jenisKamar: item.jenisKamar ?? "",
+                                kapasitas: item.kapasitas ?? 0,
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          },
+                        )),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -195,21 +225,30 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                           borderRadius: BorderRadius.circular(8.0),
                         ), // Warna latar belakang tombol
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            color: Color.fromRGBO(74, 77, 84, 1),
-                          ), // Ikonya di sini, ganti dengan ikon yang Anda inginkan
-                          SizedBox(width: 8.0), // Jarak antara ikon dan teks
-                          Text(
-                            'Tambah Kamar',
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                color: Color.fromRGBO(74, 77, 84, 1)),
-                          ),
-                        ],
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HotelHomeScreen()),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.add,
+                              color: Color.fromRGBO(74, 77, 84, 1),
+                            ), // Ikonya di sini, ganti dengan ikon yang Anda inginkan
+                            SizedBox(width: 8.0), // Jarak antara ikon dan teks
+                            Text(
+                              'Tambah Kamar',
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Color.fromRGBO(74, 77, 84, 1)),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(

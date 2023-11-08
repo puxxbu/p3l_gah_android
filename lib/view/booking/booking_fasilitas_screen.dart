@@ -151,10 +151,13 @@ class _BookingFasilitasScreenState extends State<BookingFasilitasScreen> {
                         children: [
                           TextSpan(
                             text: "Penambahan Fasilitas\n",
-                            style:
-                                Theme.of(context).textTheme.headline6?.copyWith(
-                                      color: Colors.white,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                ?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 28),
                           ),
                         ],
                       ),
@@ -238,21 +241,21 @@ class _BookingFasilitasScreenState extends State<BookingFasilitasScreen> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    ListView.builder(
-                      physics:
-                          NeverScrollableScrollPhysics(), // Mencegah scrolling
-                      shrinkWrap:
-                          true, // Mengatur ukuran ListView sesuai dengan jumlah item yang ada
-                      itemCount: bookingController.fasilitasList.length,
-                      itemBuilder: (context, index) {
-                        final item = bookingController.fasilitasList[index];
-                        return CustomListItem(
-                          idFasilitas: item.idFasilitas ?? 0,
-                          namaLayanan: item.namaLayanan ?? '',
-                          harga: item.harga ?? 0,
-                        );
-                      },
-                    ),
+                    // ListView.builder(
+                    //   physics:
+                    //       NeverScrollableScrollPhysics(), // Mencegah scrolling
+                    //   shrinkWrap:
+                    //       true, // Mengatur ukuran ListView sesuai dengan jumlah item yang ada
+                    //   itemCount: bookingController.fasilitasList.length,
+                    //   itemBuilder: (context, index) {
+                    //     final item = bookingController.fasilitasList[index];
+                    //     return CustomListItem(
+                    //       idFasilitas: item.idFasilitas ?? 0,
+                    //       namaLayanan: item.namaLayanan ?? '',
+                    //       harga: item.harga ?? 0,
+                    //     );
+                    //   },
+                    // ),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -353,7 +356,8 @@ class _CustomListItemState extends State<CustomListItem> {
               height: 6.0,
             ),
             getItemRow(
-                bookingController.selectedMap[widget.idFasilitas].toString(),
+                (bookingController.selectedMap[widget.idFasilitas] ?? 0)
+                    .toString(),
                 widget.namaLayanan,
                 widget.harga.toString()),
             SizedBox(
@@ -425,7 +429,7 @@ Widget getItemRow(String count, String item, String price) {
     child: Row(
       children: [
         Text(
-          count,
+          count ?? '0',
           style: TextStyle(
             color: Color.fromRGBO(74, 77, 84, 1),
             fontSize: 15.0,
@@ -442,7 +446,7 @@ Widget getItemRow(String count, String item, String price) {
           ),
         ),
         Text(
-          price,
+          "Rp $price",
           style: TextStyle(
             color: Color.fromRGBO(74, 77, 84, 1),
             fontSize: 15.0,

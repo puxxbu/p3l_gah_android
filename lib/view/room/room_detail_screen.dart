@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:p3l_gah_android/model/kamar.dart';
 import 'package:p3l_gah_android/util/string_extention.dart';
 
 import '../../model/property_data.dart';
+import '../booking/booking_screen.dart';
 
 class Detail extends StatelessWidget {
   final Data property;
@@ -308,7 +311,27 @@ class Detail extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // Add your onPressed code here!
+          if (bookingController.selectedKamar
+              .any((data) => data.idJenisKamar == property.idJenisKamar)) {
+            Fluttertoast.showToast(
+                msg: "Jenis kamar ini sudah ada di pesanan anda");
+          } else {
+            // Property belum ada di selectedKamar, tambahkan property ke selectedKamar
+            bookingController.selectedKamar.add(property);
+            bookingController.bookCheckIn.value =
+                bookingController.startDate.value;
+            bookingController.bookCheckOut.value =
+                bookingController.endDate.value;
+
+            // Navigasi ke halaman OrderKamarScreen
+            Navigator.push<dynamic>(
+              context,
+              MaterialPageRoute<dynamic>(
+                builder: (BuildContext context) => OrderKamarScreen(),
+                fullscreenDialog: true,
+              ),
+            );
+          }
         },
         label: const Text('Booking',
             style: TextStyle(

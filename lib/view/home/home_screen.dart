@@ -31,7 +31,8 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
-
+    bookingController.startDate.value = startDate;
+    bookingController.endDate.value = endDate;
     super.initState();
   }
 
@@ -525,6 +526,10 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
             startDate = startData;
             endDate = endData;
           });
+          bookingController.startDate.value = DateTime(
+              startDate.year, startDate.month, startDate.day, 12, 0, 0, 0, 0);
+          bookingController.endDate.value = DateTime(
+              endDate.year, endDate.month, endDate.day, 12, 0, 0, 0, 0);
         },
         onCancelClick: () {},
       ),

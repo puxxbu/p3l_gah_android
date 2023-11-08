@@ -21,11 +21,18 @@ class BookingController extends GetxController {
   TextEditingController searchTextEditController = TextEditingController();
   RxString searchVal = ''.obs;
   RxList<Data> kamarList = List<Data>.empty(growable: true).obs;
+  RxList<Data> selectedKamar = List<Data>.empty(growable: true).obs;
   RxBool isKamarLoading = false.obs;
 
   final LocalAuthService _localAuthService = LocalAuthService();
   RxList<String> selectedList = List<String>.empty(growable: true).obs;
   RxMap<int, int> selectedMap = Map<int, int>().obs;
+  RxMap<int, int> selectedKamarCount = Map<int, int>().obs;
+
+  Rxn<DateTime> startDate = Rxn<DateTime>();
+  Rxn<DateTime> endDate = Rxn<DateTime>();
+  Rxn<DateTime> bookCheckIn = Rxn<DateTime>();
+  Rxn<DateTime> bookCheckOut = Rxn<DateTime>();
 
   RxList<FasilitasData> fasilitasList =
       List<FasilitasData>.empty(growable: true).obs;
