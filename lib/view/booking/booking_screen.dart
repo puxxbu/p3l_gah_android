@@ -20,10 +20,13 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
   int selectedRoomCount = 0;
   int jumlahAnakCount = 0;
   int jumlahDewasaCount = 0;
+  int maksimalCount = 5;
 
   void incrementAnakCount() {
     setState(() {
-      jumlahAnakCount++;
+      if (jumlahAnakCount < maksimalCount) {
+        jumlahAnakCount++;
+      }
     });
   }
 
@@ -37,7 +40,9 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
 
   void incrementDewasaCount() {
     setState(() {
-      jumlahDewasaCount++;
+      if (jumlahDewasaCount < maksimalCount) {
+        jumlahDewasaCount++;
+      }
     });
   }
 
@@ -125,71 +130,76 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Color.fromRGBO(245, 247, 249, 1),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 24.0,
-                        horizontal: 16.0,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Tanggal Pemesanan",
-                            style:
-                                Theme.of(context).textTheme.headline6?.copyWith(
+                    Obx(() => Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: Color.fromRGBO(245, 247, 249, 1),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            vertical: 24.0,
+                            horizontal: 16.0,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Tanggal Pemesanan",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    ?.copyWith(
                                       color: Color.fromRGBO(74, 77, 84, 1),
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w800,
                                     ),
-                          ),
-                          SizedBox(
-                            height: 8.0,
-                          ),
-                          Text(
-                            "Tanggal Check-in: ${bookingController.bookCheckIn.value.toString().formatDate()}",
-                            style:
-                                Theme.of(context).textTheme.headline6?.copyWith(
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              Text(
+                                "Tanggal Check-in: ${bookingController.bookCheckIn.value.toString().formatDate()}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    ?.copyWith(
                                       color: Color.fromRGBO(74, 77, 84, 1),
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.w600,
                                     ),
-                          ),
-                          SizedBox(
-                            height: 8.0,
-                          ),
-                          Text(
-                            "Tanggal Check-out: ${bookingController.bookCheckOut.value.toString().formatDate()}",
-                            style:
-                                Theme.of(context).textTheme.headline6?.copyWith(
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              Text(
+                                "Tanggal Check-out: ${bookingController.bookCheckOut.value.toString().formatDate()}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    ?.copyWith(
                                       color: Color.fromRGBO(74, 77, 84, 1),
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.w600,
                                     ),
-                          ),
-                          SizedBox(
-                            height: 8.0,
-                          ),
-                          Text(
-                            "Jumlah malam: ${bookingController.bookCheckOut.value != null && bookingController.bookCheckIn.value != null ? bookingController.bookCheckOut.value!.difference(bookingController.bookCheckIn.value!).inDays : 'N/A'} malam",
-                            style:
-                                Theme.of(context).textTheme.headline6?.copyWith(
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              Text(
+                                "Jumlah malam: ${bookingController.bookCheckOut.value != null && bookingController.bookCheckIn.value != null ? bookingController.bookCheckOut.value!.difference(bookingController.bookCheckIn.value!).inDays : 'N/A'} malam",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    ?.copyWith(
                                       color: Color.fromRGBO(74, 77, 84, 1),
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.w600,
                                     ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
+                        )),
                     Obx(() => ListView.builder(
                           physics:
                               NeverScrollableScrollPhysics(), // Mencegah scrolling
@@ -371,7 +381,7 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Order Details",
+                            "Detail Pemesanan",
                             style:
                                 Theme.of(context).textTheme.headline6?.copyWith(
                                       color: Color.fromRGBO(74, 77, 84, 1),
@@ -383,19 +393,49 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                             height: 6.0,
                           ),
                           Text(
-                            "WASHING AND FOLDING",
+                            "Check-in : ${bookingController.bookCheckIn.value.toString().formatDate()}",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              color: Color.fromRGBO(143, 148, 162, 1),
+                              color: Color.fromRGBO(74, 77, 84, 1),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 6.0,
+                          ),
+                          Text(
+                            "Check-out : ${bookingController.bookCheckOut.value.toString().formatDate()}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Color.fromRGBO(74, 77, 84, 1),
                             ),
                           ),
                           SizedBox(
                             height: 10.0,
                           ),
-                          getItemRow("3", "T-shirts (man)", "\$30.00"),
-                          getItemRow("2", "T-shirts (man)", "\$40.00"),
-                          getItemRow("4", "Pants (man)", "\$80.00"),
-                          getItemRow("1", "Jeans (man)", "\$20.00"),
+                          Obx(() => ListView.builder(
+                                physics:
+                                    NeverScrollableScrollPhysics(), // Mencegah scrolling
+                                shrinkWrap:
+                                    true, // Mengatur ukuran ListView sesuai dengan jumlah item yang ada
+                                itemCount:
+                                    bookingController.selectedKamar.length,
+                                itemBuilder: (context, index) {
+                                  final item =
+                                      bookingController.selectedKamar[index];
+                                  if (bookingController.selectedKamar.length >
+                                      0) {
+                                    return Obx(() => getItemRow(
+                                        (bookingController.selectedKamarCount[
+                                                    item.idJenisKamar] ??
+                                                0)
+                                            .toString(),
+                                        "${item.jenisKamar} (${item.jenisBed})",
+                                        "Rp ${item.tarif![0].harga! * (bookingController.selectedKamarCount[item.idJenisKamar] ?? 0)}"));
+                                  } else {
+                                    return SizedBox();
+                                  }
+                                },
+                              )),
                           SizedBox(
                             height: 30.0,
                           ),

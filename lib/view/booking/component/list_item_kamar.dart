@@ -98,11 +98,11 @@ class _CustomListKamarState extends State<CustomListKamar> {
             SizedBox(
               height: 10.0,
             ),
-            getItemRow(
+            Obx(() => getItemRow(
                 (bookingController.selectedKamarCount[widget.idJenisKamar] ?? 0)
                     .toString(),
                 widget.jenisKamar,
-                widget.harga.toString()),
+                widget.harga.toString())),
             SizedBox(
               height: 10.0,
             ),
