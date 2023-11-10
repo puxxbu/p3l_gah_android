@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
+import 'package:p3l_gah_android/model/booking_kamar.dart';
 import 'package:p3l_gah_android/util/string_extention.dart';
 import 'package:p3l_gah_android/view/booking/booking_fasilitas_screen.dart';
 import 'package:p3l_gah_android/view/booking/component/list_item_kamar.dart';
@@ -19,38 +21,41 @@ class OrderKamarScreen extends StatefulWidget {
 
 class _OrderKamarScreenState extends State<OrderKamarScreen> {
   int selectedRoomCount = 0;
-  int jumlahAnakCount = 0;
-  int jumlahDewasaCount = 0;
+
   int maksimalCount = 5;
 
   void incrementAnakCount() {
     setState(() {
-      if (jumlahAnakCount < maksimalCount) {
-        jumlahAnakCount++;
+      if (bookingController.jumlahAnakCount.value! < maksimalCount) {
+        bookingController.jumlahAnakCount.value =
+            bookingController.jumlahAnakCount.value! + 1;
       }
     });
   }
 
   void decrementAnakCount() {
-    if (jumlahAnakCount > 0) {
+    if (bookingController.jumlahAnakCount.value! > 0) {
       setState(() {
-        jumlahAnakCount--;
+        bookingController.jumlahAnakCount.value =
+            bookingController.jumlahAnakCount.value! - 1;
       });
     }
   }
 
   void incrementDewasaCount() {
     setState(() {
-      if (jumlahDewasaCount < maksimalCount) {
-        jumlahDewasaCount++;
+      if (bookingController.jumlahDewasaCount.value! < maksimalCount) {
+        bookingController.jumlahDewasaCount.value =
+            bookingController.jumlahDewasaCount.value! + 1;
       }
     });
   }
 
   void decrementDewasaCount() {
-    if (jumlahDewasaCount > 0) {
+    if (bookingController.jumlahDewasaCount.value! > 0) {
       setState(() {
-        jumlahDewasaCount--;
+        bookingController.jumlahDewasaCount.value =
+            bookingController.jumlahDewasaCount.value! - 1;
       });
     }
   }
@@ -84,20 +89,22 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Konfirmasi", style: TextStyle(color: Colors.black)),
-              content: Text(
+              title: const Text("Konfirmasi",
+                  style: TextStyle(color: Colors.black)),
+              content: const Text(
                   "Apakah Anda yakin ingin kembali? (Semua input pada pemesanan kamar akan hilang)",
                   style: TextStyle(color: Colors.black)),
               backgroundColor: Colors.white,
               actions: [
                 TextButton(
-                  child: Text("Tidak", style: TextStyle(color: Colors.black)),
+                  child: const Text("Tidak",
+                      style: TextStyle(color: Colors.black)),
                   onPressed: () {
                     Navigator.of(context).pop(); // Tutup dialog
                   },
                 ),
                 TextButton(
-                  child: Text("Ya", style: TextStyle(color: Colors.red)),
+                  child: const Text("Ya", style: TextStyle(color: Colors.red)),
                   onPressed: () {
                     bookingController.selectedKamarCount.clear();
                     bookingController.selectedKamar.clear();
@@ -135,11 +142,11 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
               ),
               SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: kToolbarHeight,
                       ),
                       // GestureDetector(
@@ -151,7 +158,7 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                       //     color: Colors.white,
                       //   ),
                       // ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       RichText(
@@ -169,16 +176,16 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       Obx(() => Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
-                              color: Color.fromRGBO(245, 247, 249, 1),
+                              color: const Color.fromRGBO(245, 247, 249, 1),
                             ),
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               vertical: 24.0,
                               horizontal: 16.0,
                             ),
@@ -192,12 +199,13 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                       .textTheme
                                       .headline6
                                       ?.copyWith(
-                                        color: Color.fromRGBO(74, 77, 84, 1),
+                                        color:
+                                            const Color.fromRGBO(74, 77, 84, 1),
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.w800,
                                       ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8.0,
                                 ),
                                 Text(
@@ -206,12 +214,13 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                       .textTheme
                                       .headline6
                                       ?.copyWith(
-                                        color: Color.fromRGBO(74, 77, 84, 1),
+                                        color:
+                                            const Color.fromRGBO(74, 77, 84, 1),
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.w600,
                                       ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8.0,
                                 ),
                                 Text(
@@ -220,12 +229,13 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                       .textTheme
                                       .headline6
                                       ?.copyWith(
-                                        color: Color.fromRGBO(74, 77, 84, 1),
+                                        color:
+                                            const Color.fromRGBO(74, 77, 84, 1),
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.w600,
                                       ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8.0,
                                 ),
                                 Text(
@@ -234,7 +244,8 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                       .textTheme
                                       .headline6
                                       ?.copyWith(
-                                        color: Color.fromRGBO(74, 77, 84, 1),
+                                        color:
+                                            const Color.fromRGBO(74, 77, 84, 1),
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -244,7 +255,7 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                           )),
                       Obx(() => ListView.builder(
                             physics:
-                                NeverScrollableScrollPhysics(), // Mencegah scrolling
+                                const NeverScrollableScrollPhysics(), // Mencegah scrolling
                             shrinkWrap:
                                 true, // Mengatur ukuran ListView sesuai dengan jumlah item yang ada
                             itemCount: bookingController.selectedKamar.length,
@@ -267,20 +278,25 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                   kapasitas: item.kapasitas ?? 0,
                                 );
                               } else {
-                                return SizedBox();
+                                return const SizedBox();
                               }
                             },
                           )),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          // Aksi yang ingin Anda lakukan ketika tombol ditekan
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddKamarScreen()),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(16.0),
-                          backgroundColor: Color.fromRGBO(245, 247, 249, 1),
+                          padding: const EdgeInsets.all(16.0),
+                          backgroundColor:
+                              const Color.fromRGBO(245, 247, 249, 1),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ), // Warna latar belakang tombol
@@ -293,7 +309,7 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                   builder: (context) => AddKamarScreen()),
                             );
                           },
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
@@ -312,16 +328,16 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
-                          color: Color.fromRGBO(245, 247, 249, 1),
+                          color: const Color.fromRGBO(245, 247, 249, 1),
                         ),
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           vertical: 24.0,
                           horizontal: 16.0,
                         ),
@@ -337,49 +353,56 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                       .textTheme
                                       .headline6
                                       ?.copyWith(
-                                        color: Color.fromRGBO(74, 77, 84, 1),
+                                        color:
+                                            const Color.fromRGBO(74, 77, 84, 1),
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.w800,
                                       ),
                                 ),
-                                Spacer(),
-                                Icon(Icons.group,
+                                const Spacer(),
+                                const Icon(Icons.group,
                                     color: Color.fromRGBO(143, 148, 162, 1)),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 6.0,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10.0,
                             ),
-                            RoomSelectionWidget(
-                              namaTamu: "Tamu Anak",
-                              onDecrement: () {
-                                decrementAnakCount();
-                              },
-                              onIncrement: () {
-                                incrementAnakCount();
-                              },
-                              selectedRoomCount: jumlahAnakCount,
+                            Obx(() => RoomSelectionWidget(
+                                  namaTamu: "Tamu Anak",
+                                  onDecrement: () {
+                                    decrementAnakCount();
+                                  },
+                                  onIncrement: () {
+                                    incrementAnakCount();
+                                  },
+                                  selectedRoomCount:
+                                      bookingController.jumlahAnakCount.value ??
+                                          0,
+                                )),
+                            Obx(
+                              () => RoomSelectionWidget(
+                                namaTamu: "Tamu Dewasa",
+                                onDecrement: () {
+                                  decrementDewasaCount();
+                                },
+                                onIncrement: () {
+                                  incrementDewasaCount();
+                                },
+                                selectedRoomCount:
+                                    bookingController.jumlahDewasaCount.value ??
+                                        0,
+                              ),
                             ),
-                            RoomSelectionWidget(
-                              namaTamu: "Tamu Dewasa",
-                              onDecrement: () {
-                                decrementDewasaCount();
-                              },
-                              onIncrement: () {
-                                incrementDewasaCount();
-                              },
-                              selectedRoomCount: jumlahDewasaCount,
-                            ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10.0,
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       ElevatedButton(
@@ -391,13 +414,14 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(16.0),
-                          backgroundColor: Color.fromRGBO(245, 247, 249, 1),
+                          padding: const EdgeInsets.all(16.0),
+                          backgroundColor:
+                              const Color.fromRGBO(245, 247, 249, 1),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ), // Warna latar belakang tombol
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
@@ -414,16 +438,16 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
-                          color: Color.fromRGBO(245, 247, 249, 1),
+                          color: const Color.fromRGBO(245, 247, 249, 1),
                         ),
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           vertical: 24.0,
                           horizontal: 16.0,
                         ),
@@ -437,37 +461,37 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                   .textTheme
                                   .headline6
                                   ?.copyWith(
-                                    color: Color.fromRGBO(74, 77, 84, 1),
+                                    color: const Color.fromRGBO(74, 77, 84, 1),
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w800,
                                   ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 6.0,
                             ),
                             Text(
                               "Check-in : ${bookingController.bookCheckIn.value.toString().formatDate()}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Color.fromRGBO(74, 77, 84, 1),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 6.0,
                             ),
                             Text(
                               "Check-out : ${bookingController.bookCheckOut.value.toString().formatDate()}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Color.fromRGBO(74, 77, 84, 1),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10.0,
                             ),
                             Obx(() => ListView.builder(
                                   physics:
-                                      NeverScrollableScrollPhysics(), // Mencegah scrolling
+                                      const NeverScrollableScrollPhysics(), // Mencegah scrolling
                                   shrinkWrap:
                                       true, // Mengatur ukuran ListView sesuai dengan jumlah item yang ada
                                   itemCount:
@@ -494,14 +518,14 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                             "Rp ${harga! * (bookingController.selectedKamarCount[item.idJenisKamar] ?? 0)}");
                                       });
                                     } else {
-                                      return SizedBox();
+                                      return const SizedBox();
                                     }
                                   },
                                 )),
-                            SizedBox(
+                            const SizedBox(
                               height: 30.0,
                             ),
-                            Text(
+                            const Text(
                               "Catatan tambahan:",
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -510,21 +534,21 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                             ),
                             Obx(() {
                               if (bookingController.selectedList.isEmpty) {
-                                return SizedBox();
+                                return const SizedBox();
                               } else {
                                 return Text(
                                   "${bookingController.selectedList.join(", ")}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: Color.fromRGBO(74, 77, 84, 1),
                                   ),
                                 );
                               }
                             }),
-                            SizedBox(
+                            const SizedBox(
                               height: 10.0,
                             ),
-                            Divider(),
+                            const Divider(),
                             Obx(() {
                               double subtotal = 0.0;
 
@@ -542,7 +566,7 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                               return getSubtotalRow(
                                   "Subtotal per malam", "Rp $subtotal");
                             }),
-                            SizedBox(
+                            const SizedBox(
                               height: 10.0,
                             ),
                             Obx(() {
@@ -574,62 +598,106 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 10.0),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8.0),
+                      const SizedBox(height: 20.0),
+
+                      ElevatedButton(
+                        onPressed: () {
+                          bool isAnyValueZeroOrNull = bookingController
+                              .selectedKamarCount.values
+                              .any((value) => value == 0);
+                          bookingController.selectedKamarCount
+                              .forEach((key, value) {
+                            print('Key: $key, Value: $value');
+                          });
+
+                          if ((bookingController.jumlahAnakCount.value == 0 &&
+                                  bookingController.jumlahDewasaCount.value ==
+                                      0) ||
+                              bookingController.selectedKamar.isEmpty ||
+                              bookingController.selectedKamarCount.isEmpty ||
+                              isAnyValueZeroOrNull) {
+                            Fluttertoast.showToast(
+                                msg: "Jumlah tamu tidak boleh kosong");
+                          } else {
+                            CreateBookingData data = CreateBookingData(
+                              idCustomer:
+                                  authController.customer.value?.idCustomer,
+                              tanggalBooking:
+                                  DateTime.now().toString().formatDate2(),
+                              tanggalCheckIn: bookingController
+                                  .bookCheckIn.value
+                                  .toString()
+                                  .formatDate2(),
+                              tanggalCheckOut: bookingController
+                                  .bookCheckOut.value
+                                  .toString()
+                                  .formatDate2(),
+                              tamuDewasa:
+                                  bookingController.jumlahDewasaCount.value,
+                              tamuAnak: bookingController.jumlahAnakCount.value,
+                              tanggalPembayaran: DateTime.now().toString(),
+                              jenisBooking: "Personal",
+                              statusBooking: "pending",
+                              noRekening: "123456789",
+                              catatanTambahan:
+                                  bookingController.selectedList.join(", "),
+                              detailBookingKamar:
+                                  bookingController.selectedKamar.map((e) {
+                                int? harga = 0;
+                                if (e.tarif!.isEmpty) {
+                                  harga = e.baseHarga;
+                                } else {
+                                  harga = e.tarif?[0].harga;
+                                }
+                                return DetailBookingKamar(
+                                  idJenisKamar: e.idJenisKamar,
+                                  jumlah: bookingController
+                                      .selectedKamarCount[e.idJenisKamar],
+                                  subTotal: harga! *
+                                      (bookingController.selectedKamarCount[
+                                              e.idJenisKamar] ??
+                                          0),
+                                );
+                              }).toList(),
+                            );
+
+                            print(data.toJson());
+
+                            bookingController.createBookKamar(data: data);
+                          }
+
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => BookingFasilitasScreen()),
+                          // );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(16.0),
+                          backgroundColor: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ), // Warna latar belakang tombol
                         ),
-                        padding: EdgeInsets.all(16.0),
-                        height: ScreenUtil().setHeight(127.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Icon(
+                              Icons.book,
+                              color: Colors.white,
+                            ), // Ikonya di sini, ganti dengan ikon yang Anda inginkan
+                            SizedBox(width: 8.0), // Jarak antara ikon dan teks
                             Text(
-                              "Your clothes are now washing.",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6
-                                  ?.copyWith(
-                                    color: Color.fromRGBO(74, 77, 84, 1),
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w800,
-                                  ),
+                              'Pesan Kamar',
+                              style: TextStyle(
+                                  fontSize: 16.0, color: Colors.white),
                             ),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: "Estimated Delivery\n",
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(143, 148, 162, 1),
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: "24 January 2021",
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(74, 77, 84, 1),
-                                          fontSize: 15.0,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Image.asset(
-                                  "assets/washlogo.png",
-                                ),
-                              ],
-                            )
                           ],
                         ),
-                      )
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
                     ],
                   ),
                 ),
@@ -644,18 +712,18 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
 
 Widget getTotalRow(String title, String amount) {
   return Padding(
-    padding: EdgeInsets.only(bottom: 8.0),
+    padding: const EdgeInsets.only(bottom: 8.0),
     child: Row(
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color.fromRGBO(19, 22, 33, 1),
             fontSize: 17.0,
             fontWeight: FontWeight.w600,
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Text(
           amount,
           style: TextStyle(
@@ -671,21 +739,21 @@ Widget getTotalRow(String title, String amount) {
 
 Widget getSubtotalRow(String title, String price) {
   return Padding(
-    padding: EdgeInsets.only(bottom: 8.0),
+    padding: const EdgeInsets.only(bottom: 8.0),
     child: Row(
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color.fromRGBO(74, 77, 84, 1),
             fontSize: 15.0,
             fontWeight: FontWeight.w600,
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Text(
           price,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color.fromRGBO(74, 77, 84, 1),
             fontSize: 15.0,
           ),
@@ -697,12 +765,12 @@ Widget getSubtotalRow(String title, String price) {
 
 Widget getItemRow(String count, String item, String price) {
   return Padding(
-    padding: EdgeInsets.only(bottom: 8.0),
+    padding: const EdgeInsets.only(bottom: 8.0),
     child: Row(
       children: [
         Text(
           count,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color.fromRGBO(74, 77, 84, 1),
             fontSize: 15.0,
             fontWeight: FontWeight.w600,
@@ -711,7 +779,7 @@ Widget getItemRow(String count, String item, String price) {
         Expanded(
           child: Text(
             " x $item",
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromRGBO(143, 148, 162, 1),
               fontSize: 15.0,
             ),
@@ -719,7 +787,7 @@ Widget getItemRow(String count, String item, String price) {
         ),
         Text(
           price,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color.fromRGBO(74, 77, 84, 1),
             fontSize: 15.0,
           ),
@@ -745,23 +813,23 @@ class RoomSelectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8.0),
+      padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
         children: [
           Text(
             namaTamu,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromRGBO(74, 77, 84, 1),
               fontSize: 15.0,
               fontWeight: FontWeight.w500,
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                icon: Icon(Icons.remove),
+                icon: const Icon(Icons.remove),
                 onPressed: onDecrement,
               ),
               Container(
@@ -770,7 +838,7 @@ class RoomSelectionWidget extends StatelessWidget {
                 child: Center(
                   child: Text(
                     selectedRoomCount.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16.0,
                     ),
@@ -778,7 +846,7 @@ class RoomSelectionWidget extends StatelessWidget {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
                 onPressed: onIncrement,
               ),
             ],

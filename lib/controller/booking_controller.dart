@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
+import 'package:p3l_gah_android/model/booking_kamar.dart';
 import 'package:p3l_gah_android/model/kamar.dart';
 import 'package:p3l_gah_android/service/remote_service/remote_booking_service.dart';
 
@@ -31,8 +35,10 @@ class BookingController extends GetxController {
 
   Rxn<DateTime> startDate = Rxn<DateTime>();
   Rxn<DateTime> endDate = Rxn<DateTime>();
-  Rxn<DateTime> bookCheckIn = Rxn<DateTime>();
-  Rxn<DateTime> bookCheckOut = Rxn<DateTime>();
+  Rxn<DateTime> bookCheckIn = Rxn<DateTime>(DateTime.now());
+  Rxn<DateTime> bookCheckOut = Rxn<DateTime>(DateTime.now());
+  Rxn<int> jumlahAnakCount = Rxn<int>(0);
+  Rxn<int> jumlahDewasaCount = Rxn<int>(0);
 
   RxList<FasilitasData> fasilitasList =
       List<FasilitasData>.empty(growable: true).obs;
@@ -76,12 +82,12 @@ class BookingController extends GetxController {
     await getHistoryBooking();
   }
 
-  void getKamarList({String keyword = ''}) async {
+  void getKamarList({String keyword = '', String date = ''}) async {
     try {
       isKamarLoading(true);
       var token = authController.user.value?.data?.token;
       var result =
-          await _bookingService.getListKamar(token.toString(), keyword);
+          await _bookingService.getListKamar(token.toString(), keyword, date);
       if (result != null) {
         kamarList.assignAll(result.data!);
       }
@@ -102,6 +108,31 @@ class BookingController extends GetxController {
     } finally {
       isKamarLoading(false);
       print(kamarList.length);
+    }
+  }
+
+  void createBookKamar({required CreateBookingData data}) async {
+    try {
+      EasyLoading.show(
+        status: 'Loading...',
+        dismissOnTap: false,
+      );
+      var token = authController.user.value?.data?.token;
+      var result = await _bookingService.postBookingKamar(data, token!);
+      if (result.statusCode == 200) {
+        Map<String, dynamic> responseBody = jsonDecode(result.body);
+        BookingCreatedResponse response =
+            BookingCreatedResponse.fromJson(responseBody);
+        EasyLoading.showSuccess("Booking Berhasil ${response.data?.idBooking}");
+      } else {
+        String error = json.decode(result.body)['errors'];
+        EasyLoading.showError('Ada kesalahan : $error');
+      }
+    } catch (e) {
+      debugPrint(e.toString() + 'ini error');
+      EasyLoading.showError('Something wrong. Try again!');
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 

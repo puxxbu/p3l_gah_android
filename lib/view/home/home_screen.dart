@@ -93,52 +93,59 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                           ];
                         },
                         body: Container(
-                          color:
-                              HotelAppTheme.buildLightTheme().backgroundColor,
-                          child: bookingController.kamarList.isEmpty
-                              ? Center(child: Text('Data tidak ditemukan'))
-                              : ListView.builder(
-                                  itemCount: bookingController.kamarList.length,
-                                  padding: const EdgeInsets.only(top: 8),
-                                  scrollDirection: Axis.vertical,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final int count =
-                                        bookingController.kamarList.length > 10
-                                            ? 10
-                                            : bookingController
-                                                .kamarList.length;
-                                    final Animation<double> animation =
-                                        Tween<double>(begin: 0.0, end: 1.0)
-                                            .animate(CurvedAnimation(
-                                                parent: animationController!,
-                                                curve: Interval(
-                                                    (1 / count) * index, 1.0,
-                                                    curve:
-                                                        Curves.fastOutSlowIn)));
-                                    animationController?.forward();
-                                    return HotelListView(
-                                      callback: () {
-                                        Navigator.push<dynamic>(
-                                          context,
-                                          MaterialPageRoute<dynamic>(
-                                              builder: (BuildContext context) =>
-                                                  Detail(
-                                                      property:
-                                                          bookingController
-                                                                  .kamarList[
-                                                              index]),
-                                              fullscreenDialog: true),
+                            color:
+                                HotelAppTheme.buildLightTheme().backgroundColor,
+                            child: bookingController.kamarList.isEmpty
+                                ? Center(child: Text('Data tidak ditemukan'))
+                                : Obx(() {
+                                    return ListView.builder(
+                                      itemCount:
+                                          bookingController.kamarList.length,
+                                      padding: const EdgeInsets.only(top: 8),
+                                      scrollDirection: Axis.vertical,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final int count =
+                                            bookingController.kamarList.length >
+                                                    10
+                                                ? 10
+                                                : bookingController
+                                                    .kamarList.length;
+                                        final Animation<double> animation =
+                                            Tween<double>(begin: 0.0, end: 1.0)
+                                                .animate(CurvedAnimation(
+                                                    parent:
+                                                        animationController!,
+                                                    curve: Interval(
+                                                        (1 / count) * index,
+                                                        1.0,
+                                                        curve: Curves
+                                                            .fastOutSlowIn)));
+                                        animationController?.forward();
+                                        return HotelListView(
+                                          callback: () {
+                                            Navigator.push<dynamic>(
+                                              context,
+                                              MaterialPageRoute<dynamic>(
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      Detail(
+                                                          property:
+                                                              bookingController
+                                                                      .kamarList[
+                                                                  index]),
+                                                  fullscreenDialog: true),
+                                            );
+                                          },
+                                          hotelData: bookingController
+                                              .kamarList[index],
+                                          animation: animation,
+                                          animationController:
+                                              animationController!,
                                         );
                                       },
-                                      hotelData:
-                                          bookingController.kamarList[index],
-                                      animation: animation,
-                                      animationController: animationController!,
                                     );
-                                  },
-                                ),
-                        ),
+                                  })),
                       ),
                     )
                   ],
@@ -455,47 +462,6 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                     ),
                   ),
                 ),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      Navigator.push<dynamic>(
-                        context,
-                        MaterialPageRoute<dynamic>(
-                            builder: (BuildContext context) => FiltersScreen(),
-                            fullscreenDialog: true),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            'Filter',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.sort,
-                                color: HotelAppTheme.buildLightTheme()
-                                    .primaryColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -526,6 +492,9 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
             startDate = startData;
             endDate = endData;
           });
+          bookingController.getKamarList(date: startDate.toString());
+          print(startDate.toString());
+
           bookingController.startDate.value = DateTime(
               startDate.year, startDate.month, startDate.day, 0, 0, 0, 0, 0);
           bookingController.endDate.value = DateTime(

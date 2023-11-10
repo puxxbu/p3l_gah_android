@@ -96,52 +96,59 @@ class _AddKamarScreenState extends State<AddKamarScreen>
                           ];
                         },
                         body: Container(
-                          color:
-                              HotelAppTheme.buildLightTheme().backgroundColor,
-                          child: bookingController.kamarList.isEmpty
-                              ? Center(child: Text('Data tidak ditemukan'))
-                              : ListView.builder(
-                                  itemCount: bookingController.kamarList.length,
-                                  padding: const EdgeInsets.only(top: 8),
-                                  scrollDirection: Axis.vertical,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final int count =
-                                        bookingController.kamarList.length > 10
-                                            ? 10
-                                            : bookingController
-                                                .kamarList.length;
-                                    final Animation<double> animation =
-                                        Tween<double>(begin: 0.0, end: 1.0)
-                                            .animate(CurvedAnimation(
-                                                parent: animationController!,
-                                                curve: Interval(
-                                                    (1 / count) * index, 1.0,
-                                                    curve:
-                                                        Curves.fastOutSlowIn)));
-                                    animationController?.forward();
-                                    return HotelListView(
-                                      callback: () {
-                                        Navigator.push<dynamic>(
-                                          context,
-                                          MaterialPageRoute<dynamic>(
-                                              builder: (BuildContext context) =>
-                                                  Detail(
-                                                      property:
-                                                          bookingController
-                                                                  .kamarList[
-                                                              index]),
-                                              fullscreenDialog: true),
+                            color:
+                                HotelAppTheme.buildLightTheme().backgroundColor,
+                            child: bookingController.kamarList.isEmpty
+                                ? Center(child: Text('Data tidak ditemukan'))
+                                : Obx(() {
+                                    return ListView.builder(
+                                      itemCount:
+                                          bookingController.kamarList.length,
+                                      padding: const EdgeInsets.only(top: 8),
+                                      scrollDirection: Axis.vertical,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final int count =
+                                            bookingController.kamarList.length >
+                                                    10
+                                                ? 10
+                                                : bookingController
+                                                    .kamarList.length;
+                                        final Animation<double> animation =
+                                            Tween<double>(begin: 0.0, end: 1.0)
+                                                .animate(CurvedAnimation(
+                                                    parent:
+                                                        animationController!,
+                                                    curve: Interval(
+                                                        (1 / count) * index,
+                                                        1.0,
+                                                        curve: Curves
+                                                            .fastOutSlowIn)));
+                                        animationController?.forward();
+                                        return HotelListView(
+                                          callback: () {
+                                            Navigator.push<dynamic>(
+                                              context,
+                                              MaterialPageRoute<dynamic>(
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      Detail(
+                                                          property:
+                                                              bookingController
+                                                                      .kamarList[
+                                                                  index]),
+                                                  fullscreenDialog: true),
+                                            );
+                                          },
+                                          hotelData: bookingController
+                                              .kamarList[index],
+                                          animation: animation,
+                                          animationController:
+                                              animationController!,
                                         );
                                       },
-                                      hotelData:
-                                          bookingController.kamarList[index],
-                                      animation: animation,
-                                      animationController: animationController!,
                                     );
-                                  },
-                                ),
-                        ),
+                                  })),
                       ),
                     )
                   ],

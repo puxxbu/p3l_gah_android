@@ -6,7 +6,10 @@ import 'package:p3l_gah_android/model/customer.dart';
 import 'package:http/http.dart' as http;
 import 'package:p3l_gah_android/model/fasilitas.dart';
 
+import '../../model/booking_kamar.dart';
 import '../../model/kamar.dart';
+
+const API_URL = "10.0.2.2:3000";
 
 class BookingService extends GetConnect {
   var client = http.Client();
@@ -14,7 +17,7 @@ class BookingService extends GetConnect {
   Future<List<BookingHistory>> fetchBookingHistory(
       String page, String id, String size, String token) async {
     final response = await get(
-      'http://10.0.2.2:3000/api/customer/$id/booking-history?page=$page&size=$size',
+      'http://$API_URL/api/customer/$id/booking-history?page=$page&size=$size',
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
@@ -36,7 +39,7 @@ class BookingService extends GetConnect {
 
   Future<BookingResponse> getDetailBooking(String id, String token) async {
     final response = await get(
-      'http://10.0.2.2:3000/api/customer/booking/$id',
+      'http://$API_URL/api/customer/booking/$id',
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
@@ -53,9 +56,8 @@ class BookingService extends GetConnect {
   }
 
   Future<ListKamarResponse> getListKamar(
-      String token, String searchParams) async {
-    final baseUrl =
-        'http://10.0.2.2:3000/api/booking/kamar?tanggal_check_in=2024-09-12';
+      String token, String searchParams, String dateParams) async {
+    final baseUrl = 'http://$API_URL/api/booking/kamar';
     final headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -64,8 +66,9 @@ class BookingService extends GetConnect {
     };
 
     final url = Uri.parse(searchParams.isEmpty
-        ? baseUrl
-        : '$baseUrl?kamar_attribute=$searchParams');
+        ? baseUrl + (dateParams.isEmpty ? "" : "?tanggal_check_in=$dateParams")
+        : '$baseUrl?kamar_attribute=$searchParams' +
+            (dateParams.isEmpty ? "" : "&tanggal_check_in=$dateParams"));
 
     final response = await http.get(url, headers: headers);
 
@@ -80,7 +83,7 @@ class BookingService extends GetConnect {
   }
 
   Future<ListFasilitasResponse> getListFasilitas(String token) async {
-    final baseUrl = 'http://10.0.2.2:3000/api/fasilitas?size=100';
+    final baseUrl = 'http://$API_URL/api/fasilitas?size=100';
     final headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -104,12 +107,13 @@ class BookingService extends GetConnect {
 
   Future<dynamic> updateCustomer(
       int idCustomer, String token, CustomerEdit data) async {
-    final url = 'http://10.0.2.2:3000/api/customer';
+    final url = 'http://$API_URL/api/customer';
 
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': "Bearer $token",
+      'Authorization':
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNtIiwiaWF0IjoxNjk4NzU0ODU5LCJleHAiOjE3MDEzNDY4NTl9.46MklXr0lciK4Y7bNaJIBrURDmZHDUrCaYB0oBZfyfs",
     };
 
     final body = {
@@ -133,9 +137,51 @@ class BookingService extends GetConnect {
     return response;
   }
 
+  Future<dynamic> postBookingKamar(CreateBookingData data, String token) async {
+    final url = 'http://$API_URL/api/booking';
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': "Bearer $token",
+    };
+
+    final body = {
+      'booking': {
+        "id_customer": data.idCustomer,
+        "tanggal_booking": data.tanggalBooking,
+        "tanggal_check_in": data.tanggalCheckIn,
+        "tanggal_check_out": data.tanggalCheckOut,
+        "tamu_dewasa": data.tamuDewasa,
+        "tamu_anak": data.tamuAnak,
+        "tanggal_pembayaran": data.tanggalPembayaran,
+        "jenis_booking": data.jenisBooking,
+        "status_booking": data.statusBooking,
+        "no_rekening": data.noRekening,
+        "catatan_tambahan": data.catatanTambahan,
+      },
+      'detail_booking': data.detailBookingKamar?.map((detail) {
+        return {
+          "id_jenis_kamar": detail.idJenisKamar,
+          "jumlah": detail.jumlah,
+          "sub_total": detail.subTotal,
+        };
+      }).toList(),
+    };
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: jsonEncode(body),
+    );
+
+    print(response.statusCode.toString() + " Status Code");
+    return response;
+  }
+
   Future<dynamic> updatePassword(
       String token, String newPassword, String oldPassword) async {
-    final url = 'http://10.0.2.2:3000/api/users/password';
+    final url = 'http://$API_URL/api/users/password';
 
     final headers = {
       'Content-Type': 'application/json',

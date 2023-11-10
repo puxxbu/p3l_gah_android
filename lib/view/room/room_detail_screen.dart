@@ -325,6 +325,7 @@ class Detail extends StatelessWidget {
           } else {
             // Property belum ada di selectedKamar, tambahkan property ke selectedKamar
             bookingController.selectedKamar.add(property);
+            bookingController.selectedKamarCount[property.idJenisKamar!] = 0;
             bookingController.bookCheckIn.value =
                 bookingController.startDate.value;
             bookingController.bookCheckOut.value =

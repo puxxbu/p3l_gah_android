@@ -9,6 +9,13 @@ extension ExtString on String {
     return DateFormat('dd MMMM yyyy').format(DateTime.parse(this));
   }
 
+  String formatDate2() {
+    final parts = this.split(' ');
+    final tanggal = parts[0];
+    final waktu = parts[1].split('.')[0];
+    return '$tanggal $waktu';
+  }
+
   bool get isValidEmail {
     final emailRegExp = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     return emailRegExp.hasMatch(this);
