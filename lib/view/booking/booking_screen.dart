@@ -13,6 +13,7 @@ import 'package:p3l_gah_android/view/home/home_screen.dart';
 
 import '../../theme/hotel_app_theme.dart';
 import 'add_kamar_screen.dart';
+import 'component/konfirmasi_booking_dialog.dart';
 
 class OrderKamarScreen extends StatefulWidget {
   @override
@@ -663,7 +664,19 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
 
                             print(data.toJson());
 
-                            bookingController.createBookKamar(data: data);
+                            // bookingController.createBookKamar(data: data);
+
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return InvoiceDialog(
+                                  invoiceNumber: 'INV-001',
+                                  productName: 'Product A',
+                                  price: 9.99,
+                                  quantity: 5,
+                                );
+                              },
+                            );
                           }
 
                           // Navigator.push(
