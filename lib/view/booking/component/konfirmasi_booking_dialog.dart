@@ -40,6 +40,10 @@ class InvoiceDialog extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
           child: Text('Close'),
         ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text('Yes'),
+        ),
       ],
     );
   }

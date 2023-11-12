@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'dart:core';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -11,6 +13,7 @@ import 'package:p3l_gah_android/view/booking/booking_fasilitas_screen.dart';
 import 'package:p3l_gah_android/view/booking/component/list_item_kamar.dart';
 import 'package:p3l_gah_android/view/home/home_screen.dart';
 
+import '../../component/input_text_field.dart';
 import '../../theme/hotel_app_theme.dart';
 import 'add_kamar_screen.dart';
 import 'component/konfirmasi_booking_dialog.dart';
@@ -24,6 +27,14 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
   int selectedRoomCount = 0;
 
   int maksimalCount = 5;
+
+  final _formKey = GlobalKey<FormState>();
+
+  bool validate() {
+    return _formKey.currentState?.validate() ?? false;
+  }
+
+  TextEditingController noRekeningController = TextEditingController();
 
   void incrementAnakCount() {
     setState(() {
@@ -132,12 +143,14 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
             clipBehavior: Clip.none,
             children: [
               Positioned(
-                right: 0.0,
-                top: 10.0,
+                right: -30,
+                top: 30.0,
                 child: Opacity(
-                  opacity: 0.3,
+                  opacity: 0.1,
                   child: Image.asset(
-                    "assets/washing_machine_illustration.png",
+                    "assets/hotel-bg.png",
+                    width: 200.0, // Mengatur lebar gambar
+                    height: 200, // Mengatur tinggi gambar
                   ),
                 ),
               ),
@@ -326,6 +339,32 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                     color: Color.fromRGBO(74, 77, 84, 1)),
                               ),
                             ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Form(
+                        key: _formKey,
+                        child: Container(
+                          color: Colors.white,
+                          padding: const EdgeInsets.only(top: 12),
+                          child: InputTextField(
+                            title: 'Nomor Rekening',
+                            textEditingController: noRekeningController,
+                            validation: (String? value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value == " ") {
+                                return "Nomor Rekening tidak boleh kosong";
+                              } else if (value.isNumeric == false) {
+                                return "Nomor Rekening harus angka";
+                              } else if (value.length != 16) {
+                                return "Nomor Rekening harus terdiri dari 16 digit";
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ),
@@ -610,15 +649,17 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                               .forEach((key, value) {
                             print('Key: $key, Value: $value');
                           });
-
+                          bool isFormValid =
+                              _formKey.currentState?.validate() ?? false;
                           if ((bookingController.jumlahAnakCount.value == 0 &&
                                   bookingController.jumlahDewasaCount.value ==
                                       0) ||
                               bookingController.selectedKamar.isEmpty ||
                               bookingController.selectedKamarCount.isEmpty ||
-                              isAnyValueZeroOrNull) {
+                              isAnyValueZeroOrNull ||
+                              !isFormValid) {
                             Fluttertoast.showToast(
-                                msg: "Jumlah tamu tidak boleh kosong");
+                                msg: "Masih ada kesalahan/kekosongan input");
                           } else {
                             CreateBookingData data = CreateBookingData(
                               idCustomer:

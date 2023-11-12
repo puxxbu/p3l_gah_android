@@ -39,6 +39,7 @@ class BookingController extends GetxController {
   Rxn<DateTime> bookCheckOut = Rxn<DateTime>(DateTime.now());
   Rxn<int> jumlahAnakCount = Rxn<int>(0);
   Rxn<int> jumlahDewasaCount = Rxn<int>(0);
+  Rxn<int> noRekening = Rxn<int>(0);
 
   RxList<FasilitasData> fasilitasList =
       List<FasilitasData>.empty(growable: true).obs;
