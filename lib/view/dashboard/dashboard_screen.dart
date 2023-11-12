@@ -8,7 +8,7 @@ import 'package:p3l_gah_android/view/home/home_screen.dart';
 import '../../controller/dashboard_controller.dart';
 import '../account/account_screen.dart';
 import '../booking/booking_screen.dart';
-import '../booking/detail_booking_screen.dart';
+import '../booking/detail_pemesanan_screen.dart';
 import '../room/room_detail_screen.dart';
 import '../../model/property_data.dart';
 
@@ -25,7 +25,7 @@ class DashboardScreen extends StatelessWidget {
             index: controller.tabIndex,
             children: [
               HotelHomeScreen(),
-              SingleOrder(),
+              DetailPemesananScreen(),
               OrderKamarScreen(),
               AccountScreen()
             ],

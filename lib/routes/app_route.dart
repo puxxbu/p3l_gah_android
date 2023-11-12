@@ -11,4 +11,5 @@ class AppRoute {
   static const String bookingFasilitas = '/booking-fasilitas';
   static const String orderKamar = '/order-kamar';
   static const String addKamar = '/add-kamar';
+  static const String detailOrder = '/detail-order';
 }

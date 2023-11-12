@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:p3l_gah_android/controller/booking_controller.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
+import 'package:p3l_gah_android/view/booking/component/list_item_fasilitas.dart';
 
 import '../../theme/hotel_app_theme.dart';
 
@@ -105,6 +106,8 @@ class _BookingFasilitasScreenState extends State<BookingFasilitasScreen> {
   void initState() {
     super.initState();
     bookingController.getFasilitasList();
+    print(bookingController.fasilitasList.length.toString() +
+        "PANJANG FASILTIAS");
   }
 
   @override
@@ -241,21 +244,29 @@ class _BookingFasilitasScreenState extends State<BookingFasilitasScreen> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    // ListView.builder(
-                    //   physics:
-                    //       NeverScrollableScrollPhysics(), // Mencegah scrolling
-                    //   shrinkWrap:
-                    //       true, // Mengatur ukuran ListView sesuai dengan jumlah item yang ada
-                    //   itemCount: bookingController.fasilitasList.length,
-                    //   itemBuilder: (context, index) {
-                    //     final item = bookingController.fasilitasList[index];
-                    //     return CustomListItem(
-                    //       idFasilitas: item.idFasilitas ?? 0,
-                    //       namaLayanan: item.namaLayanan ?? '',
-                    //       harga: item.harga ?? 0,
-                    //     );
-                    //   },
-                    // ),
+                    Obx(() {
+                      return ListView.builder(
+                        physics:
+                            NeverScrollableScrollPhysics(), // Mencegah scrolling
+                        shrinkWrap:
+                            true, // Mengatur ukuran ListView sesuai dengan jumlah item yang ada
+                        itemCount: bookingController.fasilitasList.length,
+                        itemBuilder: (context, index) {
+                          final item = bookingController.fasilitasList[index];
+                          return CustomListFasilitas(
+                            idJenisFasilitas: bookingController
+                                    .fasilitasList[index].idFasilitas ??
+                                0,
+                            namaFasilitas: bookingController
+                                    .fasilitasList[index].namaLayanan ??
+                                " ",
+                            harga:
+                                bookingController.fasilitasList[index].harga ??
+                                    0,
+                          );
+                        },
+                      );
+                    }),
                     SizedBox(
                       height: 20.0,
                     ),

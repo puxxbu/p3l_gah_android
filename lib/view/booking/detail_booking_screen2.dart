@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../theme/hotel_app_theme.dart';
 
-class SingleOrder extends StatelessWidget {
+class SingleOrder2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

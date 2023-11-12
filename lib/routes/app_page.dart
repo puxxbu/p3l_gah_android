@@ -10,6 +10,7 @@ import 'package:p3l_gah_android/view/account/book/book_history_screen.dart';
 import 'package:p3l_gah_android/view/booking/add_kamar_screen.dart';
 import 'package:p3l_gah_android/view/booking/booking_fasilitas_screen.dart';
 import 'package:p3l_gah_android/view/booking/booking_screen.dart';
+import 'package:p3l_gah_android/view/booking/detail_pemesanan_screen.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_binding.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_screen.dart';
 import 'package:p3l_gah_android/view/home/home_screen.dart';
@@ -66,6 +67,10 @@ class AppPage {
     GetPage(
         name: AppRoute.addKamar,
         page: () => AddKamarScreen(),
+        binding: DashboardBinding()),
+    GetPage(
+        name: AppRoute.detailOrder,
+        page: () => DetailPemesananScreen(),
         binding: DashboardBinding()),
   ];
 }

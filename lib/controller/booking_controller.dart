@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:p3l_gah_android/model/booking_kamar.dart';
@@ -33,6 +34,10 @@ class BookingController extends GetxController {
   RxMap<int, int> selectedMap = Map<int, int>().obs;
   RxMap<int, int> selectedKamarCount = Map<int, int>().obs;
 
+  RxList<Fasilitas> selectedFasilitas =
+      List<Fasilitas>.empty(growable: true).obs;
+  RxMap<int, int> selectedFasilitasCount = Map<int, int>().obs;
+
   Rxn<DateTime> startDate = Rxn<DateTime>();
   Rxn<DateTime> endDate = Rxn<DateTime>();
   Rxn<DateTime> bookCheckIn = Rxn<DateTime>(DateTime.now());
@@ -40,6 +45,9 @@ class BookingController extends GetxController {
   Rxn<int> jumlahAnakCount = Rxn<int>(0);
   Rxn<int> jumlahDewasaCount = Rxn<int>(0);
   Rxn<int> noRekening = Rxn<int>(0);
+  Rxn<CreateBookingData> createBookingData = Rxn<CreateBookingData>();
+  RxList<DetailBookingLayanan> detailLayananList =
+      List<DetailBookingLayanan>.empty(growable: true).obs;
 
   RxList<FasilitasData> fasilitasList =
       List<FasilitasData>.empty(growable: true).obs;
@@ -100,31 +108,48 @@ class BookingController extends GetxController {
 
   void getFasilitasList() async {
     try {
-      isKamarLoading(true);
+      EasyLoading.show(
+        status: 'Loading...',
+        dismissOnTap: false,
+      );
       var token = authController.user.value?.data?.token;
       var result = await _bookingService.getListFasilitas(token.toString());
-      if (result != null) {
-        fasilitasList.assignAll(result.data!);
-      }
+      fasilitasList.assignAll(result.data!);
+    } catch (e) {
+      debugPrint(e.toString() + 'ini error');
+      EasyLoading.showError('Something wrong. Try again!');
     } finally {
-      isKamarLoading(false);
-      print(kamarList.length);
+      EasyLoading.dismiss();
     }
   }
 
-  void createBookKamar({required CreateBookingData data}) async {
+  void createBookKamar(
+      {required CreateBookingData data,
+      List<DetailBookingLayanan>? detailBookingLayanan}) async {
     try {
       EasyLoading.show(
         status: 'Loading...',
         dismissOnTap: false,
       );
       var token = authController.user.value?.data?.token;
-      var result = await _bookingService.postBookingKamar(data, token!);
+      var result = await _bookingService.postBookingKamar(
+          data, token!, detailBookingLayanan);
       if (result.statusCode == 200) {
         Map<String, dynamic> responseBody = jsonDecode(result.body);
         BookingCreatedResponse response =
             BookingCreatedResponse.fromJson(responseBody);
         EasyLoading.showSuccess("Booking Berhasil ${response.data?.idBooking}");
+        selectedFasilitasCount.clear();
+        selectedFasilitas.clear();
+        selectedKamarCount.clear();
+        selectedKamar.clear();
+        selectedList.clear();
+        jumlahDewasaCount.value = 0;
+        jumlahAnakCount.value = 0;
+        bookCheckIn.value = DateTime.now();
+        bookCheckOut.value = DateTime.now();
+        createBookingData.value = null;
+        detailLayananList.clear();
       } else {
         String error = json.decode(result.body)['errors'];
         EasyLoading.showError('Ada kesalahan : $error');

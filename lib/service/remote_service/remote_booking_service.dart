@@ -87,8 +87,7 @@ class BookingService extends GetConnect {
     final headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
-      "Authorization":
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNtIiwiaWF0IjoxNjk4NzU0ODU5LCJleHAiOjE3MDEzNDY4NTl9.46MklXr0lciK4Y7bNaJIBrURDmZHDUrCaYB0oBZfyfs"
+      "Authorization": "Bearer $token"
     };
 
     final url = Uri.parse(baseUrl);
@@ -137,7 +136,8 @@ class BookingService extends GetConnect {
     return response;
   }
 
-  Future<dynamic> postBookingKamar(CreateBookingData data, String token) async {
+  Future<dynamic> postBookingKamar(CreateBookingData data, String token,
+      List<DetailBookingLayanan>? detailBookingLayanan) async {
     final url = 'http://$API_URL/api/booking';
 
     final headers = {
@@ -145,6 +145,8 @@ class BookingService extends GetConnect {
       'Accept': 'application/json',
       'Authorization': "Bearer $token",
     };
+
+    if (data.catatanTambahan!.isEmpty) data.catatanTambahan = " ";
 
     final body = {
       'booking': {
@@ -167,7 +169,27 @@ class BookingService extends GetConnect {
           "sub_total": detail.subTotal,
         };
       }).toList(),
+      // 'fasilitas': detailBookingLayanan?.map((detail) {
+      //   return {
+      //     "id_fasilitas": detail.idFasilitas,
+      //     "jumlah": detail.jumlah,
+      //     "sub_total": detail.subTotal,
+      //   };
+      // }).toList(),
     };
+
+    // print("PANJANG ${detailBookingLayanan?.length}");
+    if (detailBookingLayanan != null) {
+      body['fasilitas'] = detailBookingLayanan.map((detail) {
+        return {
+          "id_fasilitas": detail.idFasilitas,
+          "jumlah": detail.jumlah,
+          "sub_total": detail.subTotal,
+        };
+      }).toList();
+    }
+
+    // print("Body ${jsonEncode(body)}");
 
     final response = await http.post(
       Uri.parse(url),

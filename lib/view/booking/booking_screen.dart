@@ -11,6 +11,7 @@ import 'package:p3l_gah_android/model/booking_kamar.dart';
 import 'package:p3l_gah_android/util/string_extention.dart';
 import 'package:p3l_gah_android/view/booking/booking_fasilitas_screen.dart';
 import 'package:p3l_gah_android/view/booking/component/list_item_kamar.dart';
+import 'package:p3l_gah_android/view/booking/detail_pemesanan_screen.dart';
 import 'package:p3l_gah_android/view/home/home_screen.dart';
 
 import '../../component/input_text_field.dart';
@@ -121,8 +122,11 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                     bookingController.selectedKamarCount.clear();
                     bookingController.selectedKamar.clear();
                     bookingController.selectedList.clear();
+                    bookingController.jumlahDewasaCount.value = 0;
+                    bookingController.jumlahAnakCount.value = 0;
                     bookingController.bookCheckIn.value = DateTime.now();
                     bookingController.bookCheckOut.value = DateTime.now();
+                    bookingController.createBookingData.value = null;
 
                     Navigator.of(context).pop(); // Tutup dialog
                     Navigator.of(context)
@@ -349,22 +353,43 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                         key: _formKey,
                         child: Container(
                           color: Colors.white,
-                          padding: const EdgeInsets.only(top: 12),
-                          child: InputTextField(
-                            title: 'Nomor Rekening',
-                            textEditingController: noRekeningController,
-                            validation: (String? value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  value == " ") {
-                                return "Nomor Rekening tidak boleh kosong";
-                              } else if (value.isNumeric == false) {
-                                return "Nomor Rekening harus angka";
-                              } else if (value.length != 16) {
-                                return "Nomor Rekening harus terdiri dari 16 digit";
-                              }
-                              return null;
-                            },
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4),
+                                child: Text(
+                                  "Nomor Rekening",
+                                  textAlign: TextAlign.left,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline6
+                                      ?.copyWith(
+                                        color:
+                                            const Color.fromRGBO(74, 77, 84, 1),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                ),
+                              ),
+                              InputTextField(
+                                title: '',
+                                textEditingController: noRekeningController,
+                                validation: (String? value) {
+                                  if (value == null ||
+                                      value.isEmpty ||
+                                      value == " ") {
+                                    return "Nomor Rekening tidak boleh kosong";
+                                  } else if (value.isNumeric == false) {
+                                    return "Nomor Rekening harus angka";
+                                  } else if (value.length != 8) {
+                                    return "Nomor Rekening harus terdiri dari 8 digit";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -563,6 +588,46 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                   },
                                 )),
                             const SizedBox(
+                              height: 20.0,
+                            ),
+                            const Text(
+                              "Fasilitas:",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromRGBO(143, 148, 162, 1),
+                              ),
+                            ),
+                            Obx(() {
+                              if (!bookingController
+                                  .selectedFasilitasCount.isEmpty) {
+                                List<Widget> widgetList = bookingController
+                                    .fasilitasList
+                                    .map((element) {
+                                  if (bookingController.selectedFasilitasCount[
+                                          element.idFasilitas] !=
+                                      null) {
+                                    return getItemRow(
+                                      bookingController.selectedFasilitasCount[
+                                              element.idFasilitas]
+                                          .toString(),
+                                      element.namaLayanan.toString(),
+                                      "Rp ${element.harga! * (bookingController.selectedFasilitasCount[element.idFasilitas] ?? 0)}",
+                                    );
+                                  } else {
+                                    return const SizedBox();
+                                  }
+                                }).toList();
+
+                                return widgetList.isNotEmpty
+                                    ? Column(
+                                        children: widgetList,
+                                      )
+                                    : const SizedBox();
+                              } else {
+                                return const SizedBox();
+                              }
+                            }),
+                            const SizedBox(
                               height: 30.0,
                             ),
                             const Text(
@@ -680,7 +745,7 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                               tanggalPembayaran: DateTime.now().toString(),
                               jenisBooking: "Personal",
                               statusBooking: "pending",
-                              noRekening: "123456789",
+                              noRekening: noRekeningController.value.text,
                               catatanTambahan:
                                   bookingController.selectedList.join(", "),
                               detailBookingKamar:
@@ -703,20 +768,29 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                               }).toList(),
                             );
 
+                            bookingController.createBookingData.value = data;
+
                             print(data.toJson());
 
                             // bookingController.createBookKamar(data: data);
 
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return InvoiceDialog(
-                                  invoiceNumber: 'INV-001',
-                                  productName: 'Product A',
-                                  price: 9.99,
-                                  quantity: 5,
-                                );
-                              },
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (BuildContext context) {
+                            //     return InvoiceDialog(
+                            //       invoiceNumber: 'INV-001',
+                            //       productName: 'Product A',
+                            //       price: 9.99,
+                            //       quantity: 5,
+                            //     );
+                            //   },
+                            // );
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailPemesananScreen()),
                             );
                           }
 
