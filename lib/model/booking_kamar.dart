@@ -115,6 +115,151 @@ class CreateBookingData {
   }
 }
 
+class Pegawai2 {
+  int? idPegawai;
+  int? idAkun;
+  String? namaPegawai;
+
+  Pegawai2({this.idPegawai, this.idAkun, this.namaPegawai});
+
+  Pegawai2.fromJson(Map<String, dynamic> json) {
+    idPegawai = json['id_pegawai'];
+    idAkun = json['id_akun'];
+    namaPegawai = json['nama_pegawai'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id_pegawai'] = this.idPegawai;
+    data['id_akun'] = this.idAkun;
+    data['nama_pegawai'] = this.namaPegawai;
+    return data;
+  }
+}
+
+class DetailBookingKamar {
+  int? idDetailBookingKamar;
+  String? idBooking;
+  int? idJenisKamar;
+  int? jumlah;
+  int? subTotal;
+  List<DetailKetersediaanKamar>? detailKetersediaanKamar;
+
+  DetailBookingKamar(
+      {this.idDetailBookingKamar,
+      this.idBooking,
+      this.idJenisKamar,
+      this.jumlah,
+      this.subTotal,
+      this.detailKetersediaanKamar});
+
+  DetailBookingKamar.fromJson(Map<String, dynamic> json) {
+    idDetailBookingKamar = json['id_detail_booking_kamar'];
+    idBooking = json['id_booking'];
+    idJenisKamar = json['id_jenis_kamar'];
+    jumlah = json['jumlah'];
+    subTotal = json['sub_total'];
+    if (json['detail_ketersediaan_kamar'] != null) {
+      detailKetersediaanKamar = <DetailKetersediaanKamar>[];
+      json['detail_ketersediaan_kamar'].forEach((v) {
+        detailKetersediaanKamar!.add(new DetailKetersediaanKamar.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id_detail_booking_kamar'] = this.idDetailBookingKamar;
+    data['id_booking'] = this.idBooking;
+    data['id_jenis_kamar'] = this.idJenisKamar;
+    data['jumlah'] = this.jumlah;
+    data['sub_total'] = this.subTotal;
+    if (this.detailKetersediaanKamar != null) {
+      data['detail_ketersediaan_kamar'] =
+          this.detailKetersediaanKamar!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class DetailKetersediaanKamar {
+  Kamar? kamar;
+
+  DetailKetersediaanKamar({this.kamar});
+
+  DetailKetersediaanKamar.fromJson(Map<String, dynamic> json) {
+    kamar = json['kamar'] != null ? new Kamar.fromJson(json['kamar']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.kamar != null) {
+      data['kamar'] = this.kamar!.toJson();
+    }
+    return data;
+  }
+}
+
+class Kamar {
+  JenisKamar? jenisKamar;
+  int? nomorKamar;
+
+  Kamar({this.jenisKamar, this.nomorKamar});
+
+  Kamar.fromJson(Map<String, dynamic> json) {
+    jenisKamar = json['jenis_kamar'] != null
+        ? new JenisKamar.fromJson(json['jenis_kamar'])
+        : null;
+    nomorKamar = json['nomor_kamar'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.jenisKamar != null) {
+      data['jenis_kamar'] = this.jenisKamar!.toJson();
+    }
+    data['nomor_kamar'] = this.nomorKamar;
+    return data;
+  }
+}
+
+class JenisKamar {
+  int? idJenisKamar;
+  String? jenisKamar;
+  String? jenisBed;
+  int? kapasitas;
+  int? jumlahKasur;
+  int? baseHarga;
+
+  JenisKamar(
+      {this.idJenisKamar,
+      this.jenisKamar,
+      this.jenisBed,
+      this.kapasitas,
+      this.jumlahKasur,
+      this.baseHarga});
+
+  JenisKamar.fromJson(Map<String, dynamic> json) {
+    idJenisKamar = json['id_jenis_kamar'];
+    jenisKamar = json['jenis_kamar'];
+    jenisBed = json['jenis_bed'];
+    kapasitas = json['kapasitas'];
+    jumlahKasur = json['jumlah_kasur'];
+    baseHarga = json['base_harga'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id_jenis_kamar'] = this.idJenisKamar;
+    data['jenis_kamar'] = this.jenisKamar;
+    data['jenis_bed'] = this.jenisBed;
+    data['kapasitas'] = this.kapasitas;
+    data['jumlah_kasur'] = this.jumlahKasur;
+    data['base_harga'] = this.baseHarga;
+    return data;
+  }
+}
+
 class DetailBookingLayanan {
   int? idDetailBookingLayanan;
   int? idFasilitas;
@@ -148,61 +293,6 @@ class DetailBookingLayanan {
     data['jumlah'] = this.jumlah;
     data['sub_total'] = this.subTotal;
     data['tanggal'] = this.tanggal;
-    return data;
-  }
-}
-
-class Pegawai2 {
-  int? idPegawai;
-  int? idAkun;
-  String? namaPegawai;
-
-  Pegawai2({this.idPegawai, this.idAkun, this.namaPegawai});
-
-  Pegawai2.fromJson(Map<String, dynamic> json) {
-    idPegawai = json['id_pegawai'];
-    idAkun = json['id_akun'];
-    namaPegawai = json['nama_pegawai'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id_pegawai'] = this.idPegawai;
-    data['id_akun'] = this.idAkun;
-    data['nama_pegawai'] = this.namaPegawai;
-    return data;
-  }
-}
-
-class DetailBookingKamar {
-  int? idDetailBookingKamar;
-  String? idBooking;
-  int? idJenisKamar;
-  int? jumlah;
-  int? subTotal;
-
-  DetailBookingKamar(
-      {this.idDetailBookingKamar,
-      this.idBooking,
-      this.idJenisKamar,
-      this.jumlah,
-      this.subTotal});
-
-  DetailBookingKamar.fromJson(Map<String, dynamic> json) {
-    idDetailBookingKamar = json['id_detail_booking_kamar'];
-    idBooking = json['id_booking'];
-    idJenisKamar = json['id_jenis_kamar'];
-    jumlah = json['jumlah'];
-    subTotal = json['sub_total'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id_detail_booking_kamar'] = this.idDetailBookingKamar;
-    data['id_booking'] = this.idBooking;
-    data['id_jenis_kamar'] = this.idJenisKamar;
-    data['jumlah'] = this.jumlah;
-    data['sub_total'] = this.subTotal;
     return data;
   }
 }

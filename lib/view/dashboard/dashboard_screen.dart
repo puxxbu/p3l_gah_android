@@ -26,7 +26,7 @@ class DashboardScreen extends StatelessWidget {
             children: [
               HotelHomeScreen(),
               DetailPemesananScreen(),
-              OrderKamarScreen(),
+              AccountScreen(),
               AccountScreen()
             ],
           ),

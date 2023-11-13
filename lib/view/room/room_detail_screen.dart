@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:p3l_gah_android/model/kamar.dart';
 import 'package:p3l_gah_android/util/string_extention.dart';
 
 import '../../model/property_data.dart';
+import '../../routes/app_route.dart';
 import '../booking/booking_screen.dart';
 
 class Detail extends StatelessWidget {
@@ -107,7 +109,7 @@ class Detail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${property.jenisKamar} (${property.jenisBed.toString().capitalize()})",
+                        "${property.jenisKamar} (${property.jenisBed.toString()})",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 32,
@@ -331,14 +333,16 @@ class Detail extends StatelessWidget {
             bookingController.bookCheckOut.value =
                 bookingController.endDate.value;
 
+            Get.offAllNamed(AppRoute.orderKamar);
+
             // Navigasi ke halaman OrderKamarScreen
-            Navigator.push<dynamic>(
-              context,
-              MaterialPageRoute<dynamic>(
-                builder: (BuildContext context) => OrderKamarScreen(),
-                fullscreenDialog: true,
-              ),
-            );
+            // Navigator.push<dynamic>(
+            //   context,
+            //   MaterialPageRoute<dynamic>(
+            //     builder: (BuildContext context) => OrderKamarScreen(),
+            //     fullscreenDialog: true,
+            //   ),
+            // );
           }
         },
         label: const Text('Booking',

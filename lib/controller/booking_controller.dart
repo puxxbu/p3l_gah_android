@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:p3l_gah_android/model/booking_kamar.dart';
 import 'package:p3l_gah_android/model/kamar.dart';
 import 'package:p3l_gah_android/service/remote_service/remote_booking_service.dart';
+import 'package:p3l_gah_android/view/booking/tanda_terima_screen.dart';
 
 import '../model/booking.dart';
 import '../model/customer.dart';
@@ -51,6 +53,8 @@ class BookingController extends GetxController {
 
   RxList<FasilitasData> fasilitasList =
       List<FasilitasData>.empty(growable: true).obs;
+
+  Rxn<BookingCreatedResponse> latestBooking = Rxn<BookingCreatedResponse>();
 
   var hasMore = true.obs;
   var bookingHistory = <BookingHistory>[].obs;
@@ -138,7 +142,19 @@ class BookingController extends GetxController {
         Map<String, dynamic> responseBody = jsonDecode(result.body);
         BookingCreatedResponse response =
             BookingCreatedResponse.fromJson(responseBody);
+        latestBooking.value = response;
         EasyLoading.showSuccess("Booking Berhasil ${response.data?.idBooking}");
+
+        // Navigator.push(
+        //   Get.context!,
+        //   MaterialPageRoute(builder: (context) => TandaTerimaScreen()),
+        // );
+
+        Navigator.pushReplacement(
+          Get.context!,
+          MaterialPageRoute(builder: (context) => TandaTerimaScreen()),
+        );
+
         selectedFasilitasCount.clear();
         selectedFasilitas.clear();
         selectedKamarCount.clear();

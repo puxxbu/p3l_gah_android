@@ -16,6 +16,7 @@ import 'package:p3l_gah_android/view/home/home_screen.dart';
 
 import '../../component/input_text_field.dart';
 import '../../theme/hotel_app_theme.dart';
+import '../dashboard/dashboard_screen.dart';
 import 'add_kamar_screen.dart';
 import 'component/konfirmasi_booking_dialog.dart';
 
@@ -129,8 +130,7 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                     bookingController.createBookingData.value = null;
 
                     Navigator.of(context).pop(); // Tutup dialog
-                    Navigator.of(context)
-                        .pop(); // Kembali ke halaman sebelumnya
+                    Get.offAllNamed('/');
                   },
                 ),
               ],
