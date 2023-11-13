@@ -53,19 +53,19 @@ class DashboardScreen extends StatelessWidget {
             BottomNavigationBarItem(
               label: "",
               icon: Icon(
-                CupertinoIcons.home,
+                Icons.library_books,
               ),
             ),
             BottomNavigationBarItem(
               label: "",
               icon: Icon(
-                CupertinoIcons.home,
+                Icons.history,
               ),
             ),
             BottomNavigationBarItem(
               label: "",
               icon: Icon(
-                CupertinoIcons.home,
+                Icons.person,
               ),
             ),
           ],

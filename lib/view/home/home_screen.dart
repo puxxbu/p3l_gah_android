@@ -536,27 +536,29 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
             SizedBox(
               width: 15.0,
             ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: "Selamat Datang,\n",
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: Color.fromRGBO(152, 156, 173, 1),
+            Obx(() {
+              return RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Selamat Datang,\n",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Color.fromRGBO(152, 156, 173, 1),
+                      ),
                     ),
-                  ),
-                  TextSpan(
-                    text: "Jennifer Lee",
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                      color: HotelAppTheme.buildLightTheme().primaryColor,
+                    TextSpan(
+                      text: "${bookingController.customer.value?.nama}",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                        color: HotelAppTheme.buildLightTheme().primaryColor,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
+                  ],
+                ),
+              );
+            }),
             Spacer(),
           ],
         ),
