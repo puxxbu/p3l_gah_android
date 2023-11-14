@@ -43,7 +43,7 @@ class AppPage {
         binding: DashboardBinding()),
     GetPage(
         name: AppRoute.bookingDetail,
-        page: () => const DetailBookingScreen(),
+        page: () => DetailBookingScreen(),
         binding: DashboardBinding()),
     GetPage(
         name: AppRoute.profileEdit,
