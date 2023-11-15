@@ -7,6 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
+import 'package:p3l_gah_android/model/booking_history.dart';
 import 'package:p3l_gah_android/model/booking_kamar.dart';
 import 'package:p3l_gah_android/model/kamar.dart';
 import 'package:p3l_gah_android/service/remote_service/remote_booking_service.dart';
@@ -58,7 +59,7 @@ class BookingController extends GetxController {
 
   var hasMore = true.obs;
   var bookingHistory = <BookingHistory>[].obs;
-  Rxn<BookingData> detailBooking = Rxn<BookingData>();
+  Rxn<DataDetailBooking> detailBooking = Rxn<DataDetailBooking>();
 
   void onInit() async {
     await _localAuthService.init();
@@ -169,6 +170,7 @@ class BookingController extends GetxController {
       } else {
         String error = json.decode(result.body)['errors'];
         EasyLoading.showError('Ada kesalahan : $error');
+        print('Ada kesalahan : $error');
       }
     } catch (e) {
       debugPrint(e.toString() + 'ini error');
@@ -182,7 +184,7 @@ class BookingController extends GetxController {
     try {
       var token = authController.user.value?.data?.token;
       // print("Refresh" + id.toString());
-      BookingResponse result = await _bookingService.getDetailBooking(
+      BookingHistoryDetailResponse result = await _bookingService.getDetailBooking(
           id.toString(), token.toString());
       detailBooking.value = result.data;
     } catch (e) {

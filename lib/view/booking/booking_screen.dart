@@ -744,7 +744,7 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                               tamuAnak: bookingController.jumlahAnakCount.value,
                               tanggalPembayaran: DateTime.now().toString(),
                               jenisBooking: "Personal",
-                              statusBooking: "pending",
+                              statusBooking: "Belum Dibayar",
                               noRekening: noRekeningController.value.text,
                               catatanTambahan:
                                   bookingController.selectedList.join(", "),

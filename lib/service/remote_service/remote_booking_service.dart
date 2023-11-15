@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:p3l_gah_android/model/booking.dart';
+import 'package:p3l_gah_android/model/booking_history.dart';
+import 'package:p3l_gah_android/model/booking_history.dart';
 import 'package:p3l_gah_android/model/customer.dart';
 import 'package:http/http.dart' as http;
 import 'package:p3l_gah_android/model/fasilitas.dart';
@@ -37,7 +39,7 @@ class BookingService extends GetConnect {
     }
   }
 
-  Future<BookingResponse> getDetailBooking(String id, String token) async {
+  Future<BookingHistoryDetailResponse> getDetailBooking(String id, String token) async {
     final response = await get(
       'http://$API_URL/api/customer/booking/$id',
       headers: {
@@ -49,7 +51,7 @@ class BookingService extends GetConnect {
     print(response.statusCode.toString() + " Status Code $id");
 
     if (response.statusCode == 200) {
-      return BookingResponse.fromJson(response.body);
+      return BookingHistoryDetailResponse.fromJson(response.body);
     } else {
       throw Exception('Failed to load booking history');
     }

@@ -1,10 +1,10 @@
-class BookingHIstoryDetailResponse {
-  Data? data;
+class BookingHistoryDetailResponse {
+  DataDetailBooking? data;
 
-  BookingHIstoryDetailResponse({this.data});
+  BookingHistoryDetailResponse({this.data});
 
-  BookingHIstoryDetailResponse.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+  BookingHistoryDetailResponse.fromJson(Map<String, dynamic> json) {
+    data = json['data'] != null ? new DataDetailBooking.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -16,9 +16,9 @@ class BookingHIstoryDetailResponse {
   }
 }
 
-class Data {
+class DataDetailBooking {
   String? idBooking;
-  Customer? customer;
+  CustomerData? customer;
   Pegawai2? pegawai1;
   Pegawai2? pegawai2;
   String? noRekening;
@@ -28,10 +28,10 @@ class Data {
   int? tamuDewasa;
   int? tamuAnak;
   String? tanggalPembayaran;
-  List<DetailBookingKamar>? detailBookingKamar;
-  List<DetailBookingLayanan>? detailBookingLayanan;
+  List<DetailBookingKamarHistory>? detailBookingKamar;
+  List<DetailBookingLayananHistory>? detailBookingLayanan;
 
-  Data({
+  DataDetailBooking({
     this.idBooking,
     this.customer,
     this.pegawai1,
@@ -47,10 +47,10 @@ class Data {
     this.detailBookingLayanan,
   });
 
-  Data.fromJson(Map<String, dynamic> json) {
+  DataDetailBooking.fromJson(Map<String, dynamic> json) {
     idBooking = json['id_booking'];
     customer = json['customer'] != null
-        ? new Customer.fromJson(json['customer'])
+        ? new CustomerData.fromJson(json['customer'])
         : null;
     pegawai1 = json['pegawai_1'];
     pegawai2 = json['pegawai_2'] != null
@@ -64,15 +64,15 @@ class Data {
     tamuAnak = json['tamu_anak'];
     tanggalPembayaran = json['tanggal_pembayaran'];
     if (json['detail_booking_kamar'] != null) {
-      detailBookingKamar = <DetailBookingKamar>[];
+      detailBookingKamar = <DetailBookingKamarHistory>[];
       json['detail_booking_kamar'].forEach((v) {
-        detailBookingKamar!.add(new DetailBookingKamar.fromJson(v));
+        detailBookingKamar!.add(new DetailBookingKamarHistory.fromJson(v));
       });
     }
     if (json['detail_booking_layanan'] != null) {
-      detailBookingLayanan = <DetailBookingLayanan>[];
+      detailBookingLayanan = <DetailBookingLayananHistory>[];
       json['detail_booking_layanan'].forEach((v) {
-        detailBookingLayanan!.add(new DetailBookingLayanan.fromJson(v));
+        detailBookingLayanan!.add(new DetailBookingLayananHistory.fromJson(v));
       });
     }
   }
@@ -107,7 +107,7 @@ class Data {
   }
 }
 
-class Customer {
+class CustomerData {
   int? idCustomer;
   int? idAkun;
   String? jenisCustomer;
@@ -119,7 +119,7 @@ class Customer {
   String? tanggalDibuat;
   Null? namaInstitusi;
 
-  Customer(
+  CustomerData(
       {this.idCustomer,
       this.idAkun,
       this.jenisCustomer,
@@ -131,7 +131,7 @@ class Customer {
       this.tanggalDibuat,
       this.namaInstitusi});
 
-  Customer.fromJson(Map<String, dynamic> json) {
+  CustomerData.fromJson(Map<String, dynamic> json) {
     idCustomer = json['id_customer'];
     idAkun = json['id_akun'];
     jenisCustomer = json['jenis_customer'];
@@ -182,7 +182,7 @@ class Pegawai2 {
   }
 }
 
-class DetailBookingKamar {
+class DetailBookingKamarHistory {
   int? idDetailBookingKamar;
   String? idBooking;
   JenisKamar? jenisKamar;
@@ -190,7 +190,7 @@ class DetailBookingKamar {
   int? subTotal;
   List<DetailKetersediaanKamar>? detailKetersediaanKamar;
 
-  DetailBookingKamar(
+  DetailBookingKamarHistory(
       {this.idDetailBookingKamar,
       this.idBooking,
       this.jenisKamar,
@@ -198,7 +198,7 @@ class DetailBookingKamar {
       this.subTotal,
       this.detailKetersediaanKamar});
 
-  DetailBookingKamar.fromJson(Map<String, dynamic> json) {
+  DetailBookingKamarHistory.fromJson(Map<String, dynamic> json) {
     idDetailBookingKamar = json['id_detail_booking_kamar'];
     idBooking = json['id_booking'];
     jenisKamar = json['jenis_kamar'] != null
@@ -309,16 +309,16 @@ class Kamar {
   }
 }
 
-class DetailBookingLayanan {
+class DetailBookingLayananHistory {
   Layanan? layanan;
   int? jumlah;
   int? subTotal;
   String? tanggal;
 
-  DetailBookingLayanan(
+  DetailBookingLayananHistory(
       {this.layanan, this.jumlah, this.subTotal, this.tanggal});
 
-  DetailBookingLayanan.fromJson(Map<String, dynamic> json) {
+  DetailBookingLayananHistory.fromJson(Map<String, dynamic> json) {
     layanan =
         json['layanan'] != null ? new Layanan.fromJson(json['layanan']) : null;
     jumlah = json['jumlah'];
