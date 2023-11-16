@@ -1,3 +1,4 @@
+import 'package:alice/alice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,7 @@ import 'package:p3l_gah_android/theme/app_theme.dart';
 
 import 'package:hive_flutter/adapters.dart';
 
+Alice alice = Alice(showNotification: true, showInspectorOnShake: true);
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           getPages: AppPage.list,
           initialRoute: AppRoute.splashScreen,
+          navigatorKey: alice.getNavigatorKey(),
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           builder: EasyLoading.init(),

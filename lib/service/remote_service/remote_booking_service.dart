@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:p3l_gah_android/main.dart';
 import 'package:p3l_gah_android/model/booking.dart';
 import 'package:p3l_gah_android/model/booking_history.dart';
 import 'package:p3l_gah_android/model/booking_history.dart';
@@ -11,25 +12,25 @@ import 'package:p3l_gah_android/model/fasilitas.dart';
 import '../../model/booking_kamar.dart';
 import '../../model/kamar.dart';
 
-const API_URL = "10.0.2.2:3000";
+const API_URL = "20.2.72.17";
 
 class BookingService extends GetConnect {
   var client = http.Client();
 
-  Future<List<BookingHistory>> fetchBookingHistory(
+  Future<dynamic> fetchBookingHistory(
       String page, String id, String size, String token) async {
-    final response = await get(
-      'http://$API_URL/api/customer/$id/booking-history?page=$page&size=$size',
+    final response = await client.get(
+      Uri.parse(
+          'http://$API_URL/api/customer/$id/booking-history?page=$page&size=$size'),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
       },
     );
-
-    print(response.statusCode.toString() + " Status Code");
+    alice.onHttpResponse(response);
     print(response.body);
     if (response.statusCode == 200) {
-      final List<dynamic> responseData = response.body['data'];
+      final List<dynamic> responseData = jsonDecode(response.body)['data'];
       print(responseData);
       return responseData
           .map<BookingHistory>((json) => BookingHistory.fromJson(json))
@@ -39,7 +40,8 @@ class BookingService extends GetConnect {
     }
   }
 
-  Future<BookingHistoryDetailResponse> getDetailBooking(String id, String token) async {
+  Future<BookingHistoryDetailResponse> getDetailBooking(
+      String id, String token) async {
     final response = await get(
       'http://$API_URL/api/customer/booking/$id',
       headers: {
@@ -73,6 +75,8 @@ class BookingService extends GetConnect {
             (dateParams.isEmpty ? "" : "&tanggal_check_in=$dateParams"));
 
     final response = await http.get(url, headers: headers);
+
+    alice.onHttpResponse(response);
 
     print(response.statusCode.toString() + " Status Code");
 
