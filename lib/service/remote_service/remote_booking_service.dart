@@ -12,7 +12,7 @@ import 'package:p3l_gah_android/model/fasilitas.dart';
 import '../../model/booking_kamar.dart';
 import '../../model/kamar.dart';
 
-const API_URL = "20.2.72.17";
+const API_URL = "10.0.2.2:3000";
 
 class BookingService extends GetConnect {
   var client = http.Client();
