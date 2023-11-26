@@ -96,12 +96,13 @@ class BookingController extends GetxController {
     await getHistoryBooking();
   }
 
-  void getKamarList({String keyword = '', String date = ''}) async {
+  void getKamarList(
+      {String keyword = '', String startDate = '', String endDate = ''}) async {
     try {
       isKamarLoading(true);
       var token = authController.user.value?.data?.token;
-      var result =
-          await _bookingService.getListKamar(token.toString(), keyword, date);
+      var result = await _bookingService.getListKamar(
+          token.toString(), keyword, startDate, endDate);
       if (result != null) {
         kamarList.assignAll(result.data!);
       }
@@ -184,8 +185,8 @@ class BookingController extends GetxController {
     try {
       var token = authController.user.value?.data?.token;
       // print("Refresh" + id.toString());
-      BookingHistoryDetailResponse result = await _bookingService.getDetailBooking(
-          id.toString(), token.toString());
+      BookingHistoryDetailResponse result = await _bookingService
+          .getDetailBooking(id.toString(), token.toString());
       detailBooking.value = result.data;
     } catch (e) {
       print(e.toString() + " Error");

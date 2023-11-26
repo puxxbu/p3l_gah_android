@@ -390,7 +390,10 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                           controller:
                               bookingController.searchTextEditController,
                           onSubmitted: (val) {
-                            bookingController.getKamarList(keyword: val);
+                            bookingController.getKamarList(
+                                keyword: val,
+                                startDate: startDate.toString(),
+                                endDate: endDate.toString());
                             // dashboardController.updateIndex(1);
                           },
                           onChanged: (val) {
@@ -499,7 +502,8 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
             startDate = startData;
             endDate = endData;
           });
-          bookingController.getKamarList(date: startDate.toString());
+          bookingController.getKamarList(
+              startDate: startDate.toString(), endDate: endDate.toString());
           print(startDate.toString());
 
           bookingController.startDate.value = DateTime(

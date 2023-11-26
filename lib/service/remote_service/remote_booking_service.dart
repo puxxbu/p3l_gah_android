@@ -59,8 +59,8 @@ class BookingService extends GetConnect {
     }
   }
 
-  Future<ListKamarResponse> getListKamar(
-      String token, String searchParams, String dateParams) async {
+  Future<ListKamarResponse> getListKamar(String token, String searchParams,
+      String startDate, String endDate) async {
     final baseUrl = 'http://$API_URL/api/booking/kamar';
     final headers = {
       "Content-Type": "application/json",
@@ -70,9 +70,11 @@ class BookingService extends GetConnect {
     };
 
     final url = Uri.parse(searchParams.isEmpty
-        ? baseUrl + (dateParams.isEmpty ? "" : "?tanggal_check_in=$dateParams")
-        : '$baseUrl?kamar_attribute=$searchParams' +
-            (dateParams.isEmpty ? "" : "&tanggal_check_in=$dateParams"));
+        ? baseUrl +
+            (startDate.isEmpty
+                ? ""
+                : "?tanggal_check_in=$startDate&tanggal_check_out=$endDate")
+        : '$baseUrl?kamar_attribute=$searchParams${startDate.isEmpty ? "" : "&tanggal_check_in=$startDate&tanggal_check_out=$endDate"}');
 
     final response = await http.get(url, headers: headers);
 

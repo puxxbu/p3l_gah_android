@@ -45,7 +45,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
         onRefresh: onRefresh,
         child: Obx(
           () => Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.only(top: 12.0, bottom: 12),
             child: ListView.builder(
                 controller: scrollController,
                 itemCount: bookingController.hasMore.value
@@ -53,13 +53,20 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                     : bookingController.bookingHistory.length,
                 itemBuilder: (context, index) {
                   if (index < bookingController.bookingHistory.length) {
-                    return buildAccountCard(
+                    return Container(
+                      margin: EdgeInsets.only(
+                          left: 12.0,
+                          right:
+                              12), // Memberikan margin bawah sebesar 16.0 pada setiap buildAccountCard
+                      child: buildAccountCard(
                         dataBooking: bookingController.bookingHistory[index],
                         onClick: () {
                           Get.toNamed('/booking/detail',
                               arguments: bookingController
                                   .bookingHistory[index].idBooking);
-                        });
+                        },
+                      ),
+                    );
                   } else {
                     return const Padding(
                       padding: EdgeInsets.all(15),
