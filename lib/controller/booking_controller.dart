@@ -8,7 +8,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:p3l_gah_android/model/booking_history.dart';
-import 'package:p3l_gah_android/model/booking_kamar.dart';
+import 'package:p3l_gah_android/model/booking_kamar.dart' as BookingKamar;
 import 'package:p3l_gah_android/model/kamar.dart';
 import 'package:p3l_gah_android/service/remote_service/remote_booking_service.dart';
 import 'package:p3l_gah_android/view/booking/tanda_terima_screen.dart';
@@ -48,14 +48,17 @@ class BookingController extends GetxController {
   Rxn<int> jumlahAnakCount = Rxn<int>(0);
   Rxn<int> jumlahDewasaCount = Rxn<int>(0);
   Rxn<int> noRekening = Rxn<int>(0);
-  Rxn<CreateBookingData> createBookingData = Rxn<CreateBookingData>();
-  RxList<DetailBookingLayanan> detailLayananList =
-      List<DetailBookingLayanan>.empty(growable: true).obs;
+  Rxn<BookingKamar.CreateBookingData> createBookingData =
+      Rxn<BookingKamar.CreateBookingData>();
+  RxList<BookingKamar.DetailBookingLayanan> detailLayananList =
+      List<BookingKamar.DetailBookingLayanan>.empty(growable: true).obs;
 
   RxList<FasilitasData> fasilitasList =
       List<FasilitasData>.empty(growable: true).obs;
 
-  Rxn<BookingCreatedResponse> latestBooking = Rxn<BookingCreatedResponse>();
+  Rxn<BookingKamar.BookingCreatedResponse> latestBooking =
+      Rxn<BookingKamar.BookingCreatedResponse>();
+  RxList<BookingKamar.Kamar> latestKamar = RxList<BookingKamar.Kamar>();
 
   var hasMore = true.obs;
   var bookingHistory = <BookingHistory>[].obs;
@@ -112,6 +115,21 @@ class BookingController extends GetxController {
     }
   }
 
+  void initLatestKamar() {
+    if (bookingController.latestBooking.value?.data?.detailBookingKamar !=
+        null) {
+      bookingController.latestKamar.clear();
+      bookingController.latestBooking.value?.data?.detailBookingKamar!
+          .forEach((element) {
+        element.detailKetersediaanKamar!.forEach((detail) {
+          print(detail.kamar?.jenisKamar?.jenisKamar);
+
+          bookingController.latestKamar.add(detail.kamar!);
+        });
+      });
+    }
+  }
+
   void getFasilitasList() async {
     try {
       EasyLoading.show(
@@ -130,8 +148,8 @@ class BookingController extends GetxController {
   }
 
   void createBookKamar(
-      {required CreateBookingData data,
-      List<DetailBookingLayanan>? detailBookingLayanan}) async {
+      {required BookingKamar.CreateBookingData data,
+      List<BookingKamar.DetailBookingLayanan>? detailBookingLayanan}) async {
     try {
       EasyLoading.show(
         status: 'Loading...',
@@ -142,8 +160,8 @@ class BookingController extends GetxController {
           data, token!, detailBookingLayanan);
       if (result.statusCode == 200) {
         Map<String, dynamic> responseBody = jsonDecode(result.body);
-        BookingCreatedResponse response =
-            BookingCreatedResponse.fromJson(responseBody);
+        BookingKamar.BookingCreatedResponse response =
+            BookingKamar.BookingCreatedResponse.fromJson(responseBody);
         latestBooking.value = response;
         EasyLoading.showSuccess("Booking Berhasil ${response.data?.idBooking}");
 

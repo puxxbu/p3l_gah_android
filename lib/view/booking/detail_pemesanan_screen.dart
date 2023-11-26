@@ -249,6 +249,11 @@ class DetailPemesananScreen extends StatelessWidget {
                                     (bookingController.selectedKamarCount[
                                             item.idJenisKamar] ??
                                         0);
+                              } else {
+                                subtotal += item.baseHarga! *
+                                    (bookingController.selectedKamarCount[
+                                            item.idJenisKamar] ??
+                                        0);
                               }
                             }
 
@@ -273,6 +278,11 @@ class DetailPemesananScreen extends StatelessWidget {
                               if (item.tarif != null &&
                                   item.tarif!.isNotEmpty) {
                                 subtotal += item.tarif![0].harga! *
+                                    (bookingController.selectedKamarCount[
+                                            item.idJenisKamar] ??
+                                        0);
+                              } else {
+                                subtotal += item.baseHarga! *
                                     (bookingController.selectedKamarCount[
                                             item.idJenisKamar] ??
                                         0);

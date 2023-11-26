@@ -167,7 +167,6 @@ class BookingService extends GetConnect {
         "tanggal_pembayaran": data.tanggalPembayaran,
         "jenis_booking": data.jenisBooking,
         "status_booking": data.statusBooking,
-        "no_rekening": data.noRekening,
         "catatan_tambahan": data.catatanTambahan,
       },
       'detail_booking': data.detailBookingKamar?.map((detail) {

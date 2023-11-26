@@ -11,7 +11,18 @@ import 'package:p3l_gah_android/view/dashboard/dashboard_screen.dart';
 import '../../controller/controllers.dart';
 import '../../theme/hotel_app_theme.dart';
 
-class TandaTerimaScreen extends StatelessWidget {
+class TandaTerimaScreen extends StatefulWidget {
+  @override
+  State<TandaTerimaScreen> createState() => _TandaTerimaScreenState();
+}
+
+class _TandaTerimaScreenState extends State<TandaTerimaScreen> {
+  @override
+  void initState() {
+    bookingController.initLatestKamar();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,27 +43,27 @@ class TandaTerimaScreen extends StatelessWidget {
             ),
             SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: kToolbarHeight,
                     ),
                     GestureDetector(
                       onTap: () {
                         Navigator.pushReplacement(context, MaterialPageRoute(
                           builder: (context) {
-                            return DashboardScreen();
+                            return const DashboardScreen();
                           },
                         ));
                       },
-                      child: Icon(
+                      child: const Icon(
                         CupertinoIcons.back,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20.0,
                     ),
                     RichText(
@@ -69,7 +80,7 @@ class TandaTerimaScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40.0,
                     ),
                     Container(
@@ -157,8 +168,9 @@ class TandaTerimaScreen extends StatelessWidget {
                               color: Color.fromRGBO(74, 77, 84, 1),
                             ),
                           ),
+
                           const SizedBox(
-                            height: 10.0,
+                            height: 20.0,
                           ),
                           Obx(() => ListView.builder(
                                 physics:
@@ -190,6 +202,23 @@ class TandaTerimaScreen extends StatelessWidget {
                           const SizedBox(
                             height: 30.0,
                           ),
+
+                          Obx(() => ListView.builder(
+                                physics:
+                                    const NeverScrollableScrollPhysics(), // Mencegah scrolling
+                                shrinkWrap:
+                                    true, // Mengatur ukuran ListView sesuai dengan jumlah item yang ada
+                                itemCount: bookingController.latestKamar.length,
+                                itemBuilder: (context, index) {
+                                  final item =
+                                      bookingController.latestKamar[index];
+                                  return getKamarRow(
+                                    item.jenisKamar?.jenisKamar ?? "",
+                                    item.jenisKamar?.jenisBed ?? "",
+                                    item.nomorKamar.toString() ?? "",
+                                  );
+                                },
+                              )),
                           const SizedBox(
                             height: 20.0,
                           ),
@@ -275,8 +304,8 @@ class TandaTerimaScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10.0),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                   ],
                 ),
               ),
@@ -290,18 +319,18 @@ class TandaTerimaScreen extends StatelessWidget {
 
 Widget getTotalRow(String title, String amount) {
   return Padding(
-    padding: EdgeInsets.only(bottom: 8.0),
+    padding: const EdgeInsets.only(bottom: 8.0),
     child: Row(
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color.fromRGBO(19, 22, 33, 1),
             fontSize: 17.0,
             fontWeight: FontWeight.w600,
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Text(
           amount,
           style: TextStyle(
@@ -317,21 +346,21 @@ Widget getTotalRow(String title, String amount) {
 
 Widget getSubtotalRow(String title, String price) {
   return Padding(
-    padding: EdgeInsets.only(bottom: 8.0),
+    padding: const EdgeInsets.only(bottom: 8.0),
     child: Row(
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color.fromRGBO(74, 77, 84, 1),
             fontSize: 15.0,
             fontWeight: FontWeight.w600,
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Text(
           price,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color.fromRGBO(74, 77, 84, 1),
             fontSize: 15.0,
           ),
@@ -343,12 +372,12 @@ Widget getSubtotalRow(String title, String price) {
 
 Widget getItemRow(String count, String item, String price) {
   return Padding(
-    padding: EdgeInsets.only(bottom: 8.0),
+    padding: const EdgeInsets.only(bottom: 8.0),
     child: Row(
       children: [
         Text(
           count,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color.fromRGBO(74, 77, 84, 1),
             fontSize: 15.0,
             fontWeight: FontWeight.w600,
@@ -357,7 +386,7 @@ Widget getItemRow(String count, String item, String price) {
         Expanded(
           child: Text(
             " x $item",
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromRGBO(143, 148, 162, 1),
               fontSize: 15.0,
             ),
@@ -365,7 +394,41 @@ Widget getItemRow(String count, String item, String price) {
         ),
         Text(
           price,
-          style: TextStyle(
+          style: const TextStyle(
+            color: Color.fromRGBO(74, 77, 84, 1),
+            fontSize: 15.0,
+          ),
+        )
+      ],
+    ),
+  );
+}
+
+Widget getKamarRow(String jenisKamar, String jenisBed, String noKamar) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 8.0),
+    child: Row(
+      children: [
+        Text(
+          jenisKamar,
+          style: const TextStyle(
+            color: Color.fromRGBO(74, 77, 84, 1),
+            fontSize: 15.0,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            " ($jenisBed)",
+            style: const TextStyle(
+              color: Color.fromRGBO(143, 148, 162, 1),
+              fontSize: 15.0,
+            ),
+          ),
+        ),
+        Text(
+          "Kamar $noKamar",
+          style: const TextStyle(
             color: Color.fromRGBO(74, 77, 84, 1),
             fontSize: 15.0,
           ),

@@ -349,50 +349,50 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      Form(
-                        key: _formKey,
-                        child: Container(
-                          color: Colors.white,
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 4),
-                                child: Text(
-                                  "Nomor Rekening",
-                                  textAlign: TextAlign.left,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6
-                                      ?.copyWith(
-                                        color:
-                                            const Color.fromRGBO(74, 77, 84, 1),
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                ),
-                              ),
-                              InputTextField(
-                                title: '',
-                                textEditingController: noRekeningController,
-                                validation: (String? value) {
-                                  if (value == null ||
-                                      value.isEmpty ||
-                                      value == " ") {
-                                    return "Nomor Rekening tidak boleh kosong";
-                                  } else if (value.isNumeric == false) {
-                                    return "Nomor Rekening harus angka";
-                                  } else if (value.length != 8) {
-                                    return "Nomor Rekening harus terdiri dari 8 digit";
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      // Form(
+                      //   key: _formKey,
+                      //   child: Container(
+                      //     color: Colors.white,
+                      //     padding: const EdgeInsets.only(top: 4),
+                      //     child: Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         Padding(
+                      //           padding: const EdgeInsets.only(left: 4),
+                      //           child: Text(
+                      //             "Nomor Rekening",
+                      //             textAlign: TextAlign.left,
+                      //             style: Theme.of(context)
+                      //                 .textTheme
+                      //                 .headline6
+                      //                 ?.copyWith(
+                      //                   color:
+                      //                       const Color.fromRGBO(74, 77, 84, 1),
+                      //                   fontSize: 16.0,
+                      //                   fontWeight: FontWeight.w800,
+                      //                 ),
+                      //           ),
+                      //         ),
+                      //         InputTextField(
+                      //           title: '',
+                      //           textEditingController: noRekeningController,
+                      //           validation: (String? value) {
+                      //             if (value == null ||
+                      //                 value.isEmpty ||
+                      //                 value == " ") {
+                      //               return "Nomor Rekening tidak boleh kosong";
+                      //             } else if (value.isNumeric == false) {
+                      //               return "Nomor Rekening harus angka";
+                      //             } else if (value.length != 8) {
+                      //               return "Nomor Rekening harus terdiri dari 8 digit";
+                      //             }
+                      //             return null;
+                      //           },
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 20.0,
                       ),
@@ -665,6 +665,11 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                       (bookingController.selectedKamarCount[
                                               item.idJenisKamar] ??
                                           0);
+                                } else {
+                                  subtotal += item.baseHarga! *
+                                      (bookingController.selectedKamarCount[
+                                              item.idJenisKamar] ??
+                                          0);
                                 }
                               }
 
@@ -691,6 +696,11 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                 if (item.tarif != null &&
                                     item.tarif!.isNotEmpty) {
                                   subtotal += item.tarif![0].harga! *
+                                      (bookingController.selectedKamarCount[
+                                              item.idJenisKamar] ??
+                                          0);
+                                } else {
+                                  subtotal += item.baseHarga! *
                                       (bookingController.selectedKamarCount[
                                               item.idJenisKamar] ??
                                           0);
@@ -721,8 +731,7 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                       0) ||
                               bookingController.selectedKamar.isEmpty ||
                               bookingController.selectedKamarCount.isEmpty ||
-                              isAnyValueZeroOrNull ||
-                              !isFormValid) {
+                              isAnyValueZeroOrNull) {
                             Fluttertoast.showToast(
                                 msg: "Masih ada kesalahan/kekosongan input");
                           } else {
@@ -745,7 +754,6 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                               tanggalPembayaran: DateTime.now().toString(),
                               jenisBooking: "Personal",
                               statusBooking: "Belum Dibayar",
-                              noRekening: noRekeningController.value.text,
                               catatanTambahan:
                                   bookingController.selectedList.join(", "),
                               detailBookingKamar:
