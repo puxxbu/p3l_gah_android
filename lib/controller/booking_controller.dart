@@ -10,6 +10,7 @@ import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:p3l_gah_android/model/booking_history.dart';
 import 'package:p3l_gah_android/model/booking_kamar.dart' as BookingKamar;
 import 'package:p3l_gah_android/model/kamar.dart';
+import 'package:p3l_gah_android/model/laporan_dua.dart' as LaporanDua;
 import 'package:p3l_gah_android/model/laporan_satu.dart' as LaporanSatu;
 import 'package:p3l_gah_android/service/remote_service/remote_booking_service.dart';
 import 'package:p3l_gah_android/service/remote_service/remote_laporan_service.dart';
@@ -66,6 +67,8 @@ class BookingController extends GetxController {
 
   Rxn<LaporanSatu.LaporanSatuResponse> laporanSatu =
       Rxn<LaporanSatu.LaporanSatuResponse>();
+  Rxn<LaporanDua.LaporanDuaResponse> laporanDua =
+      Rxn<LaporanDua.LaporanDuaResponse>();
 
   var hasMore = true.obs;
   var bookingHistory = <BookingHistory>[].obs;
@@ -226,6 +229,21 @@ class BookingController extends GetxController {
       LaporanSatu.LaporanSatuResponse result =
           await _laporanService.getLaporanSatu(token.toString(), tahun);
       laporanSatu.value = result;
+    } catch (e) {
+      print(e.toString() + " Error");
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future getLaporanDua(int tahun) async {
+    try {
+      isLoading(true);
+      var token = authController.user.value?.data?.token;
+      // print("Refresh" + id.toString());
+      LaporanDua.LaporanDuaResponse result =
+          await _laporanService.getLaporanDua(token.toString(), tahun);
+      laporanDua.value = result;
     } catch (e) {
       print(e.toString() + " Error");
     } finally {

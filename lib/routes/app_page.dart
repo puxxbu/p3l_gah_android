@@ -16,6 +16,7 @@ import 'package:p3l_gah_android/view/booking/tanda_terima_screen.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_binding.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_screen.dart';
 import 'package:p3l_gah_android/view/home/home_screen.dart';
+import 'package:p3l_gah_android/view/laporan/laporan_dua_screen.dart';
 import 'package:p3l_gah_android/view/laporan/laporan_satu_screen.dart';
 import 'package:p3l_gah_android/view/splash_screen/splash_screen.dart';
 
@@ -34,6 +35,10 @@ class AppPage {
     GetPage(
         name: AppRoute.laporanSatu,
         page: () => LaporanSatuScreen(),
+        binding: DashboardBinding()),
+    GetPage(
+        name: AppRoute.laporanDua,
+        page: () => LaporanDuaScreen(),
         binding: DashboardBinding()),
     GetPage(
         name: AppRoute.home,

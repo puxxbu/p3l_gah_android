@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:p3l_gah_android/view/laporan/laporan_dua_screen.dart';
 import 'package:p3l_gah_android/view/laporan/laporan_satu_screen.dart';
 
 class ExampleTabBar extends StatefulWidget {
@@ -37,12 +38,12 @@ class _ExampleTabBarState extends State<ExampleTabBar>
                 Text("Laporan Dua"),
               ],
             ),
-            title: const Text('Tabs Demo'),
+            title: const Text('Laporan'),
           ),
           body: TabBarView(
             children: [
               LaporanSatuScreen(),
-              Icon(Icons.directions_transit),
+              LaporanDuaScreen(),
             ],
           ),
         ),

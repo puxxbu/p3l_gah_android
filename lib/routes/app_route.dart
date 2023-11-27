@@ -15,4 +15,5 @@ class AppRoute {
   static const String detailOrder = '/detail-order';
   static const String orderReceipt = '/receipt-order';
   static const String laporanSatu = '/laporan-satu';
+  static const String laporanDua = '/laporan-dua';
 }

@@ -149,7 +149,7 @@ class LaporanSatuScreenState extends State<LaporanSatuScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  _createPdf();
+                  _createPdf(selectedYear);
                 },
                 child: Text('Cetak PDF'),
               ),
@@ -159,126 +159,13 @@ class LaporanSatuScreenState extends State<LaporanSatuScreen> {
   }
 }
 
-// void generatePDF() async {
-//   final pdf = pw.Document();
-//   final font = await rootBundle.load('assets/roboto-medium.ttf');
-//   final ttf = pw.Font.ttf(font);
-//
-//   pdf.addPage(
-//     pw.Page(build: (context) {
-//       return pw.Center(
-//         child: pw.Text('Dart is awesome',
-//             style: pw.TextStyle(font: ttf, fontSize: 40)),
-//       );
-//     }),
-//   );
-//
-//   // Dapatkan direktori penyimpanan eksternal
-//   final externalDir = await getExternalStorageDirectory();
-//   final path = '${externalDir?.path}/pdf.pdf';
-//   final output = File(path);
-//
-//   // Simpan dokumen PDF ke file
-//   final bytes = await pdf.save();
-//   await output.writeAsBytes(bytes);
-// }
-
-// Future<void> generatePDF() async {
-//   final pdf = pw.Document();
-//
-//   // Buat tabel PDF
-//   final table = pw.Table(
-//     border: pw.TableBorder.all(),
-//     children: [
-//       pw.TableRow(
-//         children: [
-//           pw.Container(
-//             child: pw.Center(child: pw.Text('No')),
-//           ),
-//           pdfWidgets.Container(
-//             child: pdfWidgets.Center(child: pdfWidgets.Text('Bulan')),
-//           ),
-//           pdfWidgets.Container(
-//             child: pdfWidgets.Center(child: pdfWidgets.Text('Jumlah')),
-//           ),
-//         ],
-//       ),
-//       if (bookingController.laporanSatu.value?.data?.laporan != null)
-//         for (int index = 0;
-//             index < bookingController.laporanSatu.value!.data!.laporan!.length;
-//             index++)
-//           pdfWidgets.TableRow(
-//             children: [
-//               pdfWidgets.Container(
-//                 child: pdfWidgets.Center(
-//                   child: pdfWidgets.Text(
-//                     (index + 1).toString(),
-//                   ),
-//                 ),
-//               ),
-//               pdfWidgets.Container(
-//                 child: pdfWidgets.Center(
-//                   child: pdfWidgets.Text(
-//                     bookingController.laporanSatu.value!.data!.laporan![index]
-//                             .namaBulan ??
-//                         '',
-//                   ),
-//                 ),
-//               ),
-//               pdfWidgets.Container(
-//                 child: pdfWidgets.Center(
-//                   child: pdfWidgets.Text(
-//                     bookingController.laporanSatu.value!.data!.laporan![index]
-//                             .customerBaru
-//                             .toString() ??
-//                         '',
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//       pdfWidgets.TableRow(
-//         children: [
-//           pdfWidgets.Container(
-//             child: pdfWidgets.Center(child: pdfWidgets.Text('')),
-//           ),
-//           pdfWidgets.Container(
-//             child: pdfWidgets.Center(child: pdfWidgets.Text('')),
-//           ),
-//           pdfWidgets.Container(
-//             child: pdfWidgets.Center(
-//               child: pdfWidgets.Text(
-//                 bookingController.laporanSatu.value?.data?.total.toString() ??
-//                     '',
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     ],
-//   );
-//
-//   // Tambahkan tabel ke dokumen PDF
-//   pdf.addPage(
-//     pdfWidgets.Page(
-//       build: (context) => pdfWidgets.Container(child: table),
-//     ),
-//   );
-//
-//   // Simpan dokumen PDF ke file
-//   final output = await getTemporaryDirectory();
-//   final file = File('${output.path}/data.pdf');
-//   await file.writeAsBytes(await pdf.save());
-//
-//   // Buka file PDF menggunakan aplikasi PDF viewer di perangkat
-//   // OpenFile.open(file.path);
-// }
-
-void _createPdf() async {
+void _createPdf(int selectedYear) async {
   final doc = pw.Document();
 
   /// for using an image from assets
-  // final image = await imageFromAssetBundle('assets/image.png');
+  final imageBytes = (await rootBundle.load('assets/hotel/logo-hotel.png'))
+      .buffer
+      .asUint8List();
 
   final table = pw.Table(
     border: pw.TableBorder.all(),
@@ -356,8 +243,39 @@ void _createPdf() async {
       pageFormat: PdfPageFormat.a4,
       build: (pw.Context context) {
         return pw.Center(
-          child: table,
-        ); // Center
+            child: pw.Column(
+          children: [
+            pw.Image(
+              pw.MemoryImage(imageBytes),
+              width: 200,
+              height: 200,
+            ),
+            pw.SizedBox(
+              height: 16,
+            ),
+            pw.Text(
+              'Laporan Customer Baru',
+              style: pw.TextStyle(
+                fontSize: 24,
+                fontWeight: pw.FontWeight.bold,
+              ),
+            ),
+            pw.SizedBox(
+              height: 16,
+            ),
+            pw.Text(
+              selectedYear.toString(),
+              style: pw.TextStyle(
+                fontSize: 24,
+                fontWeight: pw.FontWeight.bold,
+              ),
+            ),
+            pw.SizedBox(
+              height: 16,
+            ),
+            table,
+          ],
+        )); // Center
       },
     ),
   ); // Page
