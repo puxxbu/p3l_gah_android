@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:intl/intl.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:p3l_gah_android/model/booking_kamar.dart';
 import 'package:p3l_gah_android/util/string_extention.dart';
@@ -74,20 +75,15 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                           const SizedBox(
                             height: kToolbarHeight,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(
-                                builder: (context) {
-                                  return const DashboardScreen();
-                                },
-                              ));
-                            },
-                            child: const Icon(
-                              CupertinoIcons.back,
-                              color: Colors.white,
-                            ),
-                          ),
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     Navigator.pop(context);
+                          //   },
+                          //   child: const Icon(
+                          //     CupertinoIcons.back,
+                          //     color: Colors.white,
+                          //   ),
+                          // ),
                           const SizedBox(
                             height: 20.0,
                           ),
@@ -179,6 +175,7 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                                 const SizedBox(
                                   height: 6.0,
                                 ),
+
                                 Text(
                                   "Check-out : ${bookingController.latestBooking.value?.data?.tanggalCheckOut.toString().formatDate()}",
                                   style: const TextStyle(
@@ -200,7 +197,21 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                                 const SizedBox(
                                   height: 20.0,
                                 ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                const Text(
+                                  "JenisKamar:",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromRGBO(143, 148, 162, 1),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
                                 Obx(() => ListView.builder(
+                                      padding: EdgeInsets.zero,
                                       physics:
                                           const NeverScrollableScrollPhysics(), // Mencegah scrolling
                                       shrinkWrap:
@@ -234,11 +245,21 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                                         }
                                       },
                                     )),
-                                const SizedBox(
-                                  height: 30.0,
+                                SizedBox(
+                                  height: 10.0,
                                 ),
-
+                                const Text(
+                                  "Kamar:",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromRGBO(143, 148, 162, 1),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
                                 Obx(() => ListView.builder(
+                                      padding: EdgeInsets.zero,
                                       physics:
                                           const NeverScrollableScrollPhysics(), // Mencegah scrolling
                                       shrinkWrap:
@@ -329,6 +350,11 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                                 ),
                                 Obx(() {
                                   double total = 0.0;
+                                  final data = bookingController
+                                      .latestBooking.value?.data;
+                                  NumberFormat currencyFormat =
+                                      NumberFormat.currency(
+                                          locale: 'id_ID', symbol: 'Rp');
                                   for (var item in bookingController
                                           .latestBooking
                                           .value
@@ -338,7 +364,23 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                                     total += item.subTotal ?? 0;
                                   }
 
-                                  return getTotalRow("Total", "Rp ${total}");
+                                  if (data?.invoice?.isNotEmpty ?? false) {
+                                    return Column(
+                                      children: [
+                                        getTotalRow(
+                                            "Total",
+                                            currencyFormat.format(data
+                                                ?.invoice?[0].totalPembayaran)),
+                                        getTotalRow(
+                                            "Pajak",
+                                            currencyFormat.format(
+                                                data?.invoice?[0].totalPajak)),
+                                      ],
+                                    );
+                                  }
+
+                                  return getTotalRow("Total",
+                                      "${currencyFormat.format(total)}");
                                 }),
                               ],
                             ),

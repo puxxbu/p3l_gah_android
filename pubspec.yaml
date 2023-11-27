@@ -35,7 +35,10 @@ dependencies:
   flutter_screenutil: ^5.9.0
   fluttertoast: ^8.2.2
   alice: ^0.4.1
-  fl_chart: ^0.65.0
+  fl_chart: ^0.64.0
+  pdf: ^3.10.6
+  path_provider: ^2.1.1
+  printing: ^5.11.1
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +51,10 @@ dev_dependencies:
 
 
 flutter:
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/roboto-medium.ttf
 
 
   uses-material-design: true

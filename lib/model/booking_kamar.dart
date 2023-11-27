@@ -35,6 +35,7 @@ class CreateBookingData {
   String? catatanTambahan;
   List<DetailBookingKamar>? detailBookingKamar;
   List<DetailBookingLayanan>? detailBookingLayanan;
+  List<Invoice>? invoice;
 
   CreateBookingData(
       {this.idBooking,
@@ -52,7 +53,8 @@ class CreateBookingData {
       this.pegawai2,
       this.catatanTambahan,
       this.detailBookingKamar,
-      this.detailBookingLayanan});
+      this.detailBookingLayanan,
+      this.invoice});
 
   CreateBookingData.fromJson(Map<String, dynamic> json) {
     idBooking = json['id_booking'];
@@ -83,6 +85,12 @@ class CreateBookingData {
         detailBookingLayanan!.add(new DetailBookingLayanan.fromJson(v));
       });
     }
+    if (json['invoice'] != null) {
+      invoice = <Invoice>[];
+      json['invoice'].forEach((v) {
+        invoice!.add(new Invoice.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -110,6 +118,9 @@ class CreateBookingData {
     if (this.detailBookingLayanan != null) {
       data['detail_booking_layanan'] =
           this.detailBookingLayanan!.map((v) => v.toJson()).toList();
+    }
+    if (this.invoice != null) {
+      data['invoice'] = this.invoice!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -322,6 +333,43 @@ class Layanan {
     data['id_fasilitas'] = this.idFasilitas;
     data['nama_layanan'] = this.namaLayanan;
     data['harga'] = this.harga;
+    return data;
+  }
+}
+
+class Invoice {
+  String? idInvoice;
+  String? idBooking;
+  String? tanggalPelunasan;
+  int? totalPajak;
+  int? jumlahJaminan;
+  int? totalPembayaran;
+
+  Invoice(
+      {this.idInvoice,
+      this.idBooking,
+      this.tanggalPelunasan,
+      this.totalPajak,
+      this.jumlahJaminan,
+      this.totalPembayaran});
+
+  Invoice.fromJson(Map<String, dynamic> json) {
+    idInvoice = json['id_invoice'];
+    idBooking = json['id_booking'];
+    tanggalPelunasan = json['tanggal_pelunasan'];
+    totalPajak = json['total_pajak'];
+    jumlahJaminan = json['jumlah_jaminan'];
+    totalPembayaran = json['total_pembayaran'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id_invoice'] = this.idInvoice;
+    data['id_booking'] = this.idBooking;
+    data['tanggal_pelunasan'] = this.tanggalPelunasan;
+    data['total_pajak'] = this.totalPajak;
+    data['jumlah_jaminan'] = this.jumlahJaminan;
+    data['total_pembayaran'] = this.totalPembayaran;
     return data;
   }
 }

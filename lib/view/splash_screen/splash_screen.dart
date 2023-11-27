@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:p3l_gah_android/view/account/auth/sign_in_screen.dart';
+import 'package:p3l_gah_android/view/admin/admin_dashboard_screen.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,10 +24,17 @@ class _SplashScreenState extends State<SplashScreen> {
           MaterialPageRoute(builder: (context) => SignInScreen()),
         );
       } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => DashboardScreen()),
-        );
+        if (authController.user.value?.data?.role?.namaRole != 'Customer') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => AdminDashboardScreen()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => DashboardScreen()),
+          );
+        }
       }
     });
   }

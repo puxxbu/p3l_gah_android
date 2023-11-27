@@ -7,6 +7,7 @@ import 'package:p3l_gah_android/view/account/auth/customer_edit_screen.dart';
 import 'package:p3l_gah_android/view/account/auth/edit_password_screen.dart';
 import 'package:p3l_gah_android/view/account/auth/sign_in_screen.dart';
 import 'package:p3l_gah_android/view/account/book/book_history_screen.dart';
+import 'package:p3l_gah_android/view/admin/admin_dashboard_screen.dart';
 import 'package:p3l_gah_android/view/booking/add_kamar_screen.dart';
 import 'package:p3l_gah_android/view/booking/booking_fasilitas_screen.dart';
 import 'package:p3l_gah_android/view/booking/booking_screen.dart';
@@ -15,6 +16,7 @@ import 'package:p3l_gah_android/view/booking/tanda_terima_screen.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_binding.dart';
 import 'package:p3l_gah_android/view/dashboard/dashboard_screen.dart';
 import 'package:p3l_gah_android/view/home/home_screen.dart';
+import 'package:p3l_gah_android/view/laporan/laporan_satu_screen.dart';
 import 'package:p3l_gah_android/view/splash_screen/splash_screen.dart';
 
 import '../view/account/book/book_detail_screen.dart';
@@ -24,6 +26,14 @@ class AppPage {
     GetPage(
         name: AppRoute.dashboard,
         page: () => const DashboardScreen(),
+        binding: DashboardBinding()),
+    GetPage(
+        name: AppRoute.dashboardAdmin,
+        page: () => const AdminDashboardScreen(),
+        binding: DashboardBinding()),
+    GetPage(
+        name: AppRoute.laporanSatu,
+        page: () => LaporanSatuScreen(),
         binding: DashboardBinding()),
     GetPage(
         name: AppRoute.home,

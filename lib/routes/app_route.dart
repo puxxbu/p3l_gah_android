@@ -1,5 +1,6 @@
 class AppRoute {
   static const String dashboard = '/';
+  static const String dashboardAdmin = '/dashboard-admin';
   static const String splashScreen = '/splash-screen';
   static const String home = '/home';
   static const String login = '/login';
@@ -13,4 +14,5 @@ class AppRoute {
   static const String addKamar = '/add-kamar';
   static const String detailOrder = '/detail-order';
   static const String orderReceipt = '/receipt-order';
+  static const String laporanSatu = '/laporan-satu';
 }

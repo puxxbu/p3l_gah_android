@@ -10,7 +10,9 @@ import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:p3l_gah_android/model/booking_history.dart';
 import 'package:p3l_gah_android/model/booking_kamar.dart' as BookingKamar;
 import 'package:p3l_gah_android/model/kamar.dart';
+import 'package:p3l_gah_android/model/laporan_satu.dart' as LaporanSatu;
 import 'package:p3l_gah_android/service/remote_service/remote_booking_service.dart';
+import 'package:p3l_gah_android/service/remote_service/remote_laporan_service.dart';
 import 'package:p3l_gah_android/view/booking/tanda_terima_screen.dart';
 
 import '../model/booking.dart';
@@ -22,6 +24,7 @@ import '../service/local_service/local_auth_service.dart';
 class BookingController extends GetxController {
   static BookingController instance = Get.find();
   final BookingService _bookingService = BookingService();
+  final LaporanService _laporanService = LaporanService();
   Rxn<Customer> customer = Rxn<Customer>();
   int _page = 1;
   int _size = 20;
@@ -31,6 +34,7 @@ class BookingController extends GetxController {
   RxList<Data> kamarList = List<Data>.empty(growable: true).obs;
   RxList<Data> selectedKamar = List<Data>.empty(growable: true).obs;
   RxBool isKamarLoading = false.obs;
+  RxBool isLoading = false.obs;
 
   final LocalAuthService _localAuthService = LocalAuthService();
   RxList<String> selectedList = List<String>.empty(growable: true).obs;
@@ -59,6 +63,9 @@ class BookingController extends GetxController {
   Rxn<BookingKamar.BookingCreatedResponse> latestBooking =
       Rxn<BookingKamar.BookingCreatedResponse>();
   RxList<BookingKamar.Kamar> latestKamar = RxList<BookingKamar.Kamar>();
+
+  Rxn<LaporanSatu.LaporanSatuResponse> laporanSatu =
+      Rxn<LaporanSatu.LaporanSatuResponse>();
 
   var hasMore = true.obs;
   var bookingHistory = <BookingHistory>[].obs;
@@ -208,6 +215,21 @@ class BookingController extends GetxController {
       latestBooking.value = result;
     } catch (e) {
       print(e.toString() + " Error");
+    }
+  }
+
+  Future getLaporanSatu(int tahun) async {
+    try {
+      isLoading(true);
+      var token = authController.user.value?.data?.token;
+      // print("Refresh" + id.toString());
+      LaporanSatu.LaporanSatuResponse result =
+          await _laporanService.getLaporanSatu(token.toString(), tahun);
+      laporanSatu.value = result;
+    } catch (e) {
+      print(e.toString() + " Error");
+    } finally {
+      isLoading(false);
     }
   }
 }
