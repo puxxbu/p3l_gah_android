@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:p3l_gah_android/model/fasilitas.dart';
 
 import '../../model/booking_kamar.dart';
+
 import '../../model/kamar.dart';
 
 const API_URL = "10.0.2.2:3000";
@@ -40,7 +41,7 @@ class BookingService extends GetConnect {
     }
   }
 
-  Future<BookingHistoryDetailResponse> getDetailBooking(
+  Future<BookingCreatedResponse> getDetailBooking(
       String id, String token) async {
     final response = await get(
       'http://$API_URL/api/customer/booking/$id',
@@ -53,7 +54,7 @@ class BookingService extends GetConnect {
     print(response.statusCode.toString() + " Status Code $id");
 
     if (response.statusCode == 200) {
-      return BookingHistoryDetailResponse.fromJson(response.body);
+      return BookingCreatedResponse.fromJson(response.body);
     } else {
       throw Exception('Failed to load booking history');
     }

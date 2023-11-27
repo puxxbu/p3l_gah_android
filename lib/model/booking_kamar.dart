@@ -264,6 +264,7 @@ class DetailBookingLayanan {
   int? idDetailBookingLayanan;
   int? idFasilitas;
   String? idBooking;
+  Layanan? layanan;
   int? jumlah;
   int? subTotal;
   String? tanggal;
@@ -272,6 +273,7 @@ class DetailBookingLayanan {
       {this.idDetailBookingLayanan,
       this.idFasilitas,
       this.idBooking,
+      this.layanan,
       this.jumlah,
       this.subTotal,
       this.tanggal});
@@ -279,6 +281,8 @@ class DetailBookingLayanan {
   DetailBookingLayanan.fromJson(Map<String, dynamic> json) {
     idDetailBookingLayanan = json['id_detail_booking_layanan'];
     idFasilitas = json['id_fasilitas'];
+    layanan =
+        json['layanan'] != null ? new Layanan.fromJson(json['layanan']) : null;
     idBooking = json['id_booking'];
     jumlah = json['jumlah'];
     subTotal = json['sub_total'];
@@ -288,11 +292,36 @@ class DetailBookingLayanan {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id_detail_booking_layanan'] = this.idDetailBookingLayanan;
+    if (this.layanan != null) {
+      data['layanan'] = this.layanan!.toJson();
+    }
     data['id_fasilitas'] = this.idFasilitas;
     data['id_booking'] = this.idBooking;
     data['jumlah'] = this.jumlah;
     data['sub_total'] = this.subTotal;
     data['tanggal'] = this.tanggal;
+    return data;
+  }
+}
+
+class Layanan {
+  int? idFasilitas;
+  String? namaLayanan;
+  int? harga;
+
+  Layanan({this.idFasilitas, this.namaLayanan, this.harga});
+
+  Layanan.fromJson(Map<String, dynamic> json) {
+    idFasilitas = json['id_fasilitas'];
+    namaLayanan = json['nama_layanan'];
+    harga = json['harga'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id_fasilitas'] = this.idFasilitas;
+    data['nama_layanan'] = this.namaLayanan;
+    data['harga'] = this.harga;
     return data;
   }
 }

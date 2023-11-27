@@ -27,9 +27,8 @@ class DashboardScreen extends StatelessWidget {
             index: controller.tabIndex,
             children: [
               HotelHomeScreen(),
-              TandaTerimaScreen(),
-              BookingHistoryScreen(),
-              AccountScreen()
+              const BookingHistoryScreen(),
+              const AccountScreen()
             ],
           ),
         ),
@@ -37,10 +36,10 @@ class DashboardScreen extends StatelessWidget {
           showSelectedLabels: false,
           showUnselectedLabels: false,
           unselectedLabelStyle: const TextStyle(fontSize: 11),
-          unselectedIconTheme: IconThemeData(
+          unselectedIconTheme: const IconThemeData(
             color: Color.fromRGBO(202, 205, 219, 1),
           ),
-          selectedIconTheme: IconThemeData(
+          selectedIconTheme: const IconThemeData(
             color: Color.fromRGBO(255, 99, 128, 1.0),
           ),
           currentIndex: controller.tabIndex,
@@ -51,12 +50,6 @@ class DashboardScreen extends StatelessWidget {
             BottomNavigationBarItem(
               label: "",
               icon: Icon(CupertinoIcons.home),
-            ),
-            BottomNavigationBarItem(
-              label: "",
-              icon: Icon(
-                Icons.library_books,
-              ),
             ),
             BottomNavigationBarItem(
               label: "",

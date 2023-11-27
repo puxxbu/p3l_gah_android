@@ -199,13 +199,13 @@ class BookingController extends GetxController {
     }
   }
 
-  Future getDetailBooking(String id) async {
+  Future getDetailBookingById(String id) async {
     try {
       var token = authController.user.value?.data?.token;
       // print("Refresh" + id.toString());
-      BookingHistoryDetailResponse result = await _bookingService
+      BookingKamar.BookingCreatedResponse result = await _bookingService
           .getDetailBooking(id.toString(), token.toString());
-      detailBooking.value = result.data;
+      latestBooking.value = result;
     } catch (e) {
       print(e.toString() + " Error");
     }
