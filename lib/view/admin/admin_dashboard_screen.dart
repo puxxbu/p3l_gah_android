@@ -27,11 +27,7 @@ class AdminDashboardScreen extends StatelessWidget {
         body: SafeArea(
           child: IndexedStack(
             index: controller.tabIndex,
-            children: [
-              ExampleTabBar(),
-              const AccountScreen(),
-              const AccountScreen()
-            ],
+            children: [ExampleTabBar(), const AccountScreen()],
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -52,12 +48,6 @@ class AdminDashboardScreen extends StatelessWidget {
             BottomNavigationBarItem(
               label: "",
               icon: Icon(CupertinoIcons.chart_bar_circle_fill),
-            ),
-            BottomNavigationBarItem(
-              label: "",
-              icon: Icon(
-                Icons.history,
-              ),
             ),
             BottomNavigationBarItem(
               label: "",
