@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -147,6 +148,16 @@ class LaporanSatuScreenState extends State<LaporanSatuScreen> {
               SizedBox(
                 height: 16,
               ),
+              Text(
+                'Dicetak pada tanggal ${DateFormat('dd MMMM yyyy').format(DateTime.now())}',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
               ElevatedButton(
                 onPressed: () {
                   _createPdf(selectedYear);
@@ -274,6 +285,16 @@ void _createPdf(int selectedYear) async {
               height: 16,
             ),
             table,
+            pw.SizedBox(
+              height: 16,
+            ),
+            pw.Text(
+              'Dicetak pada tanggal ${DateFormat('dd MMMM yyyy').format(DateTime.now())}',
+              style: pw.TextStyle(
+                fontSize: 16,
+                fontWeight: pw.FontWeight.normal,
+              ),
+            ),
           ],
         )); // Center
       },

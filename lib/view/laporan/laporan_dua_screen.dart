@@ -184,6 +184,16 @@ class LaporanDuaScreenState extends State<LaporanDuaScreen> {
               SizedBox(
                 height: 16,
               ),
+              Text(
+                'Dicetak pada tanggal ${DateFormat('dd MMMM yyyy').format(DateTime.now())}',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
               ElevatedButton(
                 onPressed: () {
                   _createPdf(selectedYear);
@@ -335,6 +345,16 @@ void _createPdf(int selectedYear) async {
               height: 16,
             ),
             table,
+            pw.SizedBox(
+              height: 16,
+            ),
+            pw.Text(
+              'Dicetak pada tanggal ${DateFormat('dd MMMM yyyy').format(DateTime.now())}',
+              style: pw.TextStyle(
+                fontSize: 16,
+                fontWeight: pw.FontWeight.normal,
+              ),
+            ),
           ],
         )); // Center
       },
