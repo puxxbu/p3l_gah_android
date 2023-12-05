@@ -67,6 +67,7 @@ class AuthController extends GetxController {
         String token = json.decode(result.body)['data']['token'];
         print(token);
         var userResult = await RemoteAuthService().getProfile(token: token);
+        print(userResult.body);
         if (userResult.statusCode == 200) {
           user.value = userFromJson(userResult.body);
           print(userFromJson(userResult.body).data?.role!.namaRole.toString() ??

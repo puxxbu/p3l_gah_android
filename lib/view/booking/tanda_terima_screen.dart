@@ -32,12 +32,14 @@ class _TandaTerimaScreenState extends State<TandaTerimaScreen> {
           clipBehavior: Clip.none,
           children: [
             Positioned(
-              right: 0.0,
-              top: 10.0,
+              right: -30,
+              top: 30.0,
               child: Opacity(
-                opacity: 0.3,
+                opacity: 0.1,
                 child: Image.asset(
-                  "assets/washing_machine_illustration.png",
+                  "assets/hotel-bg.png",
+                  width: 200.0, // Mengatur lebar gambar
+                  height: 200, // Mengatur tinggi gambar
                 ),
               ),
             ),

@@ -19,13 +19,13 @@ class EditPasswordScreen extends StatefulWidget {
 
 class _EditPasswordScreenState extends State<EditPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmController = TextEditingController();
+  TextEditingController oldPassword = TextEditingController();
+  TextEditingController newPassword = TextEditingController();
 
   @override
   void dispose() {
-    passwordController.dispose();
-    confirmController.dispose();
+    oldPassword.dispose();
+    newPassword.dispose();
 
     super.dispose();
   }
@@ -55,7 +55,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
                   InputTextField(
                     title: 'Password',
                     obsecureText: true,
-                    textEditingController: passwordController,
+                    textEditingController: oldPassword,
                     validation: (String? value) {
                       List<String> _validation = [];
                       if (value == null || value.isEmpty) {
@@ -77,7 +77,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
                   InputTextField(
                     title: 'New Password',
                     obsecureText: true,
-                    textEditingController: confirmController,
+                    textEditingController: newPassword,
                     validation: (String? value) {
                       if (value == null || value.isEmpty) {
                         return "Field ini tidak boleh kosong";
@@ -92,12 +92,12 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
                     onClick: () {
                       if (_formKey.currentState!.validate()) {
                         authController.changePassword(
-                            newPassword: passwordController.text,
-                            oldPassword: confirmController.text,
+                            newPassword: newPassword.text,
+                            oldPassword: oldPassword.text,
                             callback: (bool success, String message) {
                               if (success) {
-                                passwordController.clear();
-                                confirmController.clear();
+                                oldPassword.clear();
+                                newPassword.clear();
                                 Navigator.of(context).pop();
                               } else {
                                 EasyLoading.showError("Password gagal diubah");

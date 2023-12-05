@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:p3l_gah_android/model/registerData.dart';
 
+import '../../main.dart';
+
 class RemoteAuthService {
   var client = http.Client();
 
@@ -24,11 +26,14 @@ class RemoteAuthService {
         "alamat": userData.alamat
       }
     };
+
     var response = await client.post(
       Uri.parse('http://10.0.2.2:3000/api/users'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(body),
     );
+
+    alice.onHttpResponse(response);
     return response;
   }
 
@@ -58,6 +63,8 @@ class RemoteAuthService {
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(body),
     );
+
+    alice.onHttpResponse(response);
     return response;
   }
 
@@ -71,6 +78,7 @@ class RemoteAuthService {
         "Authorization": "Bearer $token"
       },
     );
+    alice.onHttpResponse(response);
     return response;
   }
 

@@ -7,6 +7,7 @@ import 'package:p3l_gah_android/util/string_extention.dart';
 
 import '../../../component/input_outline_button.dart';
 import '../../../controller/controllers.dart';
+import '../../../theme/hotel_app_theme.dart';
 
 class BookingHistoryScreen extends StatefulWidget {
   const BookingHistoryScreen({super.key});
@@ -41,11 +42,12 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
 
     scrollController.addListener(onScroll);
     return Scaffold(
+      backgroundColor: HotelAppTheme.buildLightTheme().primaryColor,
       body: RefreshIndicator(
         onRefresh: onRefresh,
         child: Obx(
           () => Padding(
-            padding: const EdgeInsets.only(top: 12.0, bottom: 12),
+            padding: const EdgeInsets.only(top: 2.0, bottom: 2),
             child: ListView.builder(
                 controller: scrollController,
                 itemCount: bookingController.hasMore.value
@@ -134,11 +136,21 @@ Widget buildAccountCard(
                       fontWeight: FontWeight.w400, fontSize: 14),
                 ),
                 const SizedBox(height: 5),
-                Text(
-                  "Status : ${dataBooking.statusBooking}",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 16),
-                  textAlign: TextAlign.left,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  decoration: BoxDecoration(
+                    color: _getStatusColor(dataBooking.statusBooking),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    "Status: ${dataBooking.statusBooking}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
                 ),
               ],
             ),
@@ -148,4 +160,25 @@ Widget buildAccountCard(
       ),
     ),
   );
+}
+
+Color _getStatusColor(String status) {
+  switch (status) {
+    case 'Check Out':
+      return Colors.orange;
+    case 'Check In':
+      return Colors.blue;
+    case 'Booked':
+      return Colors.teal;
+    case 'Jaminan Sudah Dibayar':
+      return Colors.green;
+    case 'Jaminan Sudah Dibayar':
+      return Colors.green;
+    case 'Dibatalkan (Uang Kembali)':
+      return Colors.red;
+    case 'Dibatalkan':
+      return Colors.red;
+    default:
+      return Colors.transparent;
+  }
 }

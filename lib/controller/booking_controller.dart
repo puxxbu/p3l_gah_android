@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:p3l_gah_android/controller/controllers.dart';
 import 'package:p3l_gah_android/model/booking_history.dart';
 import 'package:p3l_gah_android/model/booking_kamar.dart' as BookingKamar;
@@ -64,6 +65,7 @@ class BookingController extends GetxController {
   Rxn<BookingKamar.BookingCreatedResponse> latestBooking =
       Rxn<BookingKamar.BookingCreatedResponse>();
   RxList<BookingKamar.Kamar> latestKamar = RxList<BookingKamar.Kamar>();
+  RxInt jumlahMalam = 0.obs;
 
   Rxn<LaporanSatu.LaporanSatuResponse> laporanSatu =
       Rxn<LaporanSatu.LaporanSatuResponse>();
@@ -137,6 +139,31 @@ class BookingController extends GetxController {
           bookingController.latestKamar.add(detail.kamar!);
         });
       });
+    }
+  }
+
+  void initJumlahMalam() {
+    final dataBooking = latestBooking.value?.data;
+    final checkinDateString = dataBooking?.tanggalCheckIn;
+    final checkoutDateString = dataBooking?.tanggalCheckOut;
+
+    if (checkinDateString != null && checkoutDateString != null) {
+      // Mengubah format tanggal check-in
+      final checkinDate = DateTime.parse(checkinDateString).toLocal();
+      final formattedCheckinDateString =
+          DateFormat("yyyy-MM-dd").format(checkinDate);
+
+      // Mengubah format tanggal check-out
+      final checkoutDate = DateTime.parse(checkoutDateString).toLocal();
+      final formattedCheckoutDateString =
+          DateFormat("yyyy-MM-dd").format(checkoutDate);
+
+      final difference = checkoutDate.difference(checkinDate);
+      jumlahMalam.value = difference.inDays;
+
+      // Gunakan formattedCheckinDateString dan formattedCheckoutDateString sesuai kebutuhan Anda
+    } else {
+      jumlahMalam.value = 0;
     }
   }
 
@@ -216,6 +243,7 @@ class BookingController extends GetxController {
       BookingKamar.BookingCreatedResponse result = await _bookingService
           .getDetailBooking(id.toString(), token.toString());
       latestBooking.value = result;
+      initJumlahMalam();
     } catch (e) {
       print(e.toString() + " Error");
     }

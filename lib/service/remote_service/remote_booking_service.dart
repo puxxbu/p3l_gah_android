@@ -43,18 +43,29 @@ class BookingService extends GetConnect {
 
   Future<BookingCreatedResponse> getDetailBooking(
       String id, String token) async {
-    final response = await get(
-      'http://$API_URL/api/customer/booking/$id',
+    // final response = await get(
+    //   'http://$API_URL/api/customer/booking/$id',
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": "Bearer $token"
+    //   },
+    // );
+
+    final response = await client.get(
+      Uri.parse('http://$API_URL/api/customer/booking/$id'),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
       },
     );
 
+    alice.onHttpResponse(response);
+
     print(response.statusCode.toString() + " Status Code $id");
 
     if (response.statusCode == 200) {
-      return BookingCreatedResponse.fromJson(response.body);
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      return BookingCreatedResponse.fromJson(responseBody);
     } else {
       throw Exception('Failed to load booking history');
     }
@@ -213,6 +224,7 @@ class BookingService extends GetConnect {
       String token, String newPassword, String oldPassword) async {
     final url = 'http://$API_URL/api/users/password';
 
+    var client = http.Client();
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -221,7 +233,9 @@ class BookingService extends GetConnect {
 
     final body = {"oldPassword": oldPassword, "newPassword": newPassword};
 
-    final response = await put(url, body, headers: headers);
+    final response = await client.put(Uri.parse(url),
+        body: jsonEncode(body), headers: headers);
+    alice.onHttpResponse(response);
 
     return response;
   }

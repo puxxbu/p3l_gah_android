@@ -25,6 +25,7 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
   @override
   void initState() {
     _initData = _initializeData();
+    bookingController.initJumlahMalam();
     super.initState();
   }
 
@@ -35,6 +36,8 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final dataBooking = bookingController.latestBooking.value?.data;
+
     return Scaffold(
       backgroundColor: HotelAppTheme.buildLightTheme().primaryColor,
       body: FutureBuilder<void>(
@@ -57,12 +60,14 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                 clipBehavior: Clip.none,
                 children: [
                   Positioned(
-                    right: 0.0,
-                    top: 10.0,
+                    right: -30,
+                    top: 30.0,
                     child: Opacity(
-                      opacity: 0.3,
+                      opacity: 0.1,
                       child: Image.asset(
-                        "assets/washing_machine_illustration.png",
+                        "assets/hotel-bg.png",
+                        width: 200.0, // Mengatur lebar gambar
+                        height: 200, // Mengatur tinggi gambar
                       ),
                     ),
                   ),
@@ -98,6 +103,7 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                                       ?.copyWith(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,
+                                        fontSize: 24.0,
                                       ),
                                 ),
                               ],
@@ -128,18 +134,27 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                                       ?.copyWith(
                                         color:
                                             const Color.fromRGBO(74, 77, 84, 1),
-                                        fontSize: 16.0,
+                                        fontSize: 18.0,
                                         fontWeight: FontWeight.w800,
                                       ),
                                 ),
                                 const SizedBox(
-                                  height: 6.0,
+                                  height: 12.0,
                                 ),
+                                if (bookingController.latestBooking.value?.data
+                                            ?.statusBooking ==
+                                        "Check In" ||
+                                    bookingController.latestBooking.value?.data
+                                            ?.statusBooking ==
+                                        "Check Out")
+                                  getDetailPegawai(),
+
                                 Text(
-                                  "ID Booking : ${bookingController.latestBooking.value?.data?.idBooking}",
-                                  style: const TextStyle(
+                                  "ID Booking: ${bookingController.latestBooking.value?.data?.idBooking}",
+                                  style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: Color.fromRGBO(74, 77, 84, 1),
+                                    fontSize: 16,
                                   ),
                                 ),
                                 const SizedBox(
@@ -193,15 +208,62 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                                     color: Color.fromRGBO(74, 77, 84, 1),
                                   ),
                                 ),
+                                const SizedBox(
+                                  height: 6.0,
+                                ),
+                                Obx(() => Text(
+                                      "Jumlah Malam: ${bookingController.jumlahMalam.toString()}",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16,
+                                      ),
+                                    )),
+
+                                const SizedBox(
+                                  height: 12.0,
+                                ),
+
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 6),
+                                  decoration: BoxDecoration(
+                                    color: _getStatusColor(
+                                        dataBooking?.statusBooking ?? ""),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    "Status: ${dataBooking?.statusBooking}",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
 
                                 const SizedBox(
                                   height: 20.0,
                                 ),
+
+                                getItemRow(
+                                    bookingController
+                                            .latestBooking.value?.data?.tamuAnak
+                                            .toString() ??
+                                        "",
+                                    "Tamu Dewasa",
+                                    ""),
+                                getItemRow(
+                                    bookingController
+                                            .latestBooking.value?.data?.tamuAnak
+                                            .toString() ??
+                                        "",
+                                    "Tamu Anak",
+                                    ""),
                                 SizedBox(
                                   height: 10.0,
                                 ),
                                 const Text(
-                                  "JenisKamar:",
+                                  "Jenis Kamar:",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: Color.fromRGBO(143, 148, 162, 1),
@@ -235,11 +297,18 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                                                 ?.detailBookingKamar!
                                                 .isNotEmpty ??
                                             false) {
-                                          return getItemRow(
+                                          return getJenisKamarRow(
                                             item!.jumlah.toString(),
-                                            "${item.detailKetersediaanKamar?[0].kamar?.jenisKamar?.jenisKamar} (${item.detailKetersediaanKamar?[0].kamar?.jenisKamar?.jenisBed})",
-                                            "Rp ${item.subTotal ?? 0}",
+                                            "${item.detailKetersediaanKamar?[0].kamar?.jenisKamar?.jenisKamar}",
+                                            "${item.detailKetersediaanKamar?[0].kamar?.jenisKamar?.jenisBed}",
+                                            item.subTotal ?? 0,
                                           );
+
+                                          //   getItemRow(
+                                          //   item!.jumlah.toString(),
+                                          //   "${item.detailKetersediaanKamar?[0].kamar?.jenisKamar?.jenisKamar} (${item.detailKetersediaanKamar?[0].kamar?.jenisKamar?.jenisBed})",
+                                          //   "Rp ${item.subTotal ?? 0}",
+                                          // );
                                         } else {
                                           return const SizedBox();
                                         }
@@ -428,6 +497,42 @@ Widget getTotalRow(String title, String amount) {
   );
 }
 
+Widget getDetailPegawai() {
+  final dataBooking = bookingController.latestBooking.value?.data;
+
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 8.0),
+    child: Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (dataBooking?.tanggalPembayaran != null)
+          Text(
+            "Tanggal Pembayaran: ${dataBooking?.tanggalPembayaran.toString().formatDate() ?? ""}",
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Color.fromRGBO(74, 77, 84, 1),
+            ),
+          ),
+        const SizedBox(
+          height: 6.0,
+        ),
+        Text(
+          "Front Office : ${dataBooking?.pegawai2?.namaPegawai}",
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Color.fromRGBO(74, 77, 84, 1),
+          ),
+        ),
+        Divider(
+          color: Color.fromRGBO(74, 77, 84, 1),
+          thickness: 1,
+        ),
+      ],
+    ),
+  );
+}
+
 Widget getSubtotalRow(String title, String price) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 8.0),
@@ -488,6 +593,69 @@ Widget getItemRow(String count, String item, String price) {
   );
 }
 
+Widget getJenisKamarRow(
+    String jumlahKamar, String jenisKamar, String jenisBed, int subTotal) {
+  final hargaPerMalam =
+      subTotal / bookingController.jumlahMalam.value / int.parse(jumlahKamar);
+  return Column(
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Row(
+          children: [
+            Text(
+              jumlahKamar,
+              style: const TextStyle(
+                color: Color.fromRGBO(74, 77, 84, 1),
+                fontSize: 15.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Expanded(
+              child: Text(
+                " x $jenisKamar ($jenisBed)",
+                style: const TextStyle(
+                  color: Color.fromRGBO(143, 148, 162, 1),
+                  fontSize: 15.0,
+                ),
+              ),
+            ),
+            Text(
+              "Rp $subTotal",
+              style: const TextStyle(
+                color: Color.fromRGBO(74, 77, 84, 1),
+                fontSize: 15.0,
+              ),
+            )
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Row(
+          children: [
+            Text(
+              "Harga kamar per malam ",
+              style: const TextStyle(
+                color: Color.fromRGBO(143, 148, 162, 1),
+                fontSize: 15.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              "Rp ${hargaPerMalam.toStringAsFixed(0)}",
+              style: const TextStyle(
+                color: Color.fromRGBO(74, 77, 84, 1),
+                fontSize: 15.0,
+              ),
+            )
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
 Widget getKamarRow(String jenisKamar, String jenisBed, String noKamar) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 8.0),
@@ -520,4 +688,25 @@ Widget getKamarRow(String jenisKamar, String jenisBed, String noKamar) {
       ],
     ),
   );
+}
+
+Color _getStatusColor(String status) {
+  switch (status) {
+    case 'Check Out':
+      return Colors.orange;
+    case 'Check In':
+      return Colors.blue;
+    case 'Booked':
+      return Colors.teal;
+    case 'Jaminan Sudah Dibayar':
+      return Colors.green;
+    case 'Jaminan Sudah Dibayar':
+      return Colors.green;
+    case 'Dibatalkan (Uang Kembali)':
+      return Colors.red;
+    case 'Dibatalkan':
+      return Colors.red;
+    default:
+      return Colors.transparent;
+  }
 }
