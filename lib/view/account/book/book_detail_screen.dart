@@ -13,6 +13,7 @@ import 'package:p3l_gah_android/view/dashboard/dashboard_screen.dart';
 
 import '../../../controller/controllers.dart';
 import '../../../theme/hotel_app_theme.dart';
+import '../../modal/modal_pembayaran.dart';
 
 class DetailBookingScreen extends StatefulWidget {
   @override
@@ -460,49 +461,115 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                             ),
                           ),
                           const SizedBox(height: 10.0),
-                          ElevatedButton(
-                            onPressed: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => AddKamarScreen()),
-                              // );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(16.0),
-                              backgroundColor:
-                                  const Color.fromRGBO(245, 247, 249, 1),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ), // Warna latar belakang tombol
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) => AddKamarScreen()),
-                                // );
-                              },
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.add,
-                                    color: Color.fromRGBO(74, 77, 84, 1),
-                                  ), // Ikonya di sini, ganti dengan ikon yang Anda inginkan
-                                  SizedBox(
-                                      width: 8.0), // Jarak antara ikon dan teks
-                                  Text(
-                                    'Tambah Kamar',
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        color: Color.fromRGBO(74, 77, 84, 1)),
+                          Obx(() {
+                            final data =
+                                bookingController.latestBooking.value?.data;
+                            if (data?.statusBooking == "Booked") {
+                              return ElevatedButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CustomModal();
+                                    },
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.all(16.0),
+                                  backgroundColor: Colors.green,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ), // Warna latar belakang tombol
+                                ),
+                                child: InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return CustomModal();
+                                      },
+                                    );
+                                  },
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.payment,
+                                        color: Colors.white,
+                                      ), // Ikonya di sini, ganti dengan ikon yang Anda inginkan
+                                      SizedBox(
+                                          width:
+                                              8.0), // Jarak antara ikon dan teks
+                                      Text(
+                                        'Lakukan Pembayaran',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: Colors.white),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
+                                ),
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          }),
+
+                          const SizedBox(height: 10.0),
+                          Obx(() {
+                            final data =
+                                bookingController.latestBooking.value?.data;
+                            if (data?.statusBooking == "Check In" ||
+                                data?.statusBooking == "Booked" ||
+                                data?.statusBooking ==
+                                    "Jaminan Sudah Dibayar") {
+                              return ElevatedButton(
+                                onPressed: () {
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => AddKamarScreen()),
+                                  // );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.all(16.0),
+                                  backgroundColor: Colors.red,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ), // Warna latar belakang tombol
+                                ),
+                                child: InkWell(
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //       builder: (context) => AddKamarScreen()),
+                                    // );
+                                  },
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.cancel,
+                                        color: Colors.white,
+                                      ), // Ikonya di sini, ganti dengan ikon yang Anda inginkan
+                                      SizedBox(
+                                          width:
+                                              8.0), // Jarak antara ikon dan teks
+                                      Text(
+                                        'Cancel Booking',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          }),
                           const SizedBox(height: 10.0),
                         ],
                       ),
