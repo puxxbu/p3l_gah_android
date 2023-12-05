@@ -223,23 +223,28 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                                   height: 12.0,
                                 ),
 
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 6),
-                                  decoration: BoxDecoration(
-                                    color: _getStatusColor(
-                                        dataBooking?.statusBooking ?? ""),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    "Status: ${dataBooking?.statusBooking}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
+                                Obx(() => Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 6),
+                                      decoration: BoxDecoration(
+                                        color: _getStatusColor(bookingController
+                                                .latestBooking
+                                                .value
+                                                ?.data
+                                                ?.statusBooking ??
+                                            ""),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(
+                                        "Status: ${bookingController.latestBooking.value?.data?.statusBooking}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    )),
 
                                 const SizedBox(
                                   height: 20.0,
@@ -455,6 +460,49 @@ class _DetailBookingScreenState extends State<DetailBookingScreen> {
                             ),
                           ),
                           const SizedBox(height: 10.0),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => AddKamarScreen()),
+                              // );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(16.0),
+                              backgroundColor:
+                                  const Color.fromRGBO(245, 247, 249, 1),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ), // Warna latar belakang tombol
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) => AddKamarScreen()),
+                                // );
+                              },
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    color: Color.fromRGBO(74, 77, 84, 1),
+                                  ), // Ikonya di sini, ganti dengan ikon yang Anda inginkan
+                                  SizedBox(
+                                      width: 8.0), // Jarak antara ikon dan teks
+                                  Text(
+                                    'Tambah Kamar',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: Color.fromRGBO(74, 77, 84, 1)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: 10.0),
                         ],
                       ),

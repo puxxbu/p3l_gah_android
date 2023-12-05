@@ -91,12 +91,19 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
   @override
   void initState() {
     super.initState();
+
     print(bookingController.selectedKamar.length);
     print(bookingController.bookCheckIn.value);
   }
 
   @override
   Widget build(BuildContext context) {
+    final jumlahMalam = bookingController.bookCheckOut.value != null &&
+            bookingController.bookCheckIn.value != null
+        ? bookingController.bookCheckOut.value!
+            .difference(bookingController.bookCheckIn.value!)
+            .inDays
+        : 0;
     return WillPopScope(
       onWillPop: () async {
         showDialog(
@@ -664,17 +671,19 @@ class _OrderKamarScreenState extends State<OrderKamarScreen> {
                                   subtotal += item.tarif![0].harga! *
                                       (bookingController.selectedKamarCount[
                                               item.idJenisKamar] ??
-                                          0);
+                                          0) *
+                                      jumlahMalam;
                                 } else {
                                   subtotal += item.baseHarga! *
                                       (bookingController.selectedKamarCount[
                                               item.idJenisKamar] ??
-                                          0);
+                                          0) *
+                                      jumlahMalam;
                                 }
                               }
 
-                              return getSubtotalRow(
-                                  "Subtotal per malam", "Rp $subtotal");
+                              return getSubtotalRow("Subtotal per malam",
+                                  "Rp ${subtotal / jumlahMalam} ");
                             }),
                             const SizedBox(
                               height: 10.0,
